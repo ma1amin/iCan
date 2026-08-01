@@ -107,13 +107,12 @@ const Select = ({
         aria-invalid={!!error}
         aria-describedby={error ? `${name}-error` : undefined}
       >
-        {placeholder && (
-          <option value="" disabled>
-            {placeholder}
-          </option>
-        )}
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option 
+            key={option.value} 
+            value={option.value}
+            disabled={option.disabled || (option.value === '' && !placeholder)}
+          >
             {option.label}
           </option>
         ))}

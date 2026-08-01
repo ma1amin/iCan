@@ -51,7 +51,7 @@ const InteractionForm = ({ interaction, contactId, onClose, onSave, onDelete, de
   };
 
   const validate = () => {
-    if (!form.contactId) {
+    if (!form.contactId || form.contactId === '') {
       alert('Contact is required');
       return false;
     }
@@ -88,7 +88,10 @@ const InteractionForm = ({ interaction, contactId, onClose, onSave, onDelete, de
   const typeOptions = INTERACTION_TYPES.map(type => ({ value: type, label: INTERACTION_TYPE_LABELS[type] }));
   const directionOptions = INTERACTION_DIRECTIONS.map(dir => ({ value: dir, label: dir.charAt(0).toUpperCase() + dir.slice(1) }));
   const outcomeOptions = INTERACTION_OUTCOMES.map(outcome => ({ value: outcome, label: INTERACTION_OUTCOME_LABELS[outcome] }));
-  const contactOptions = contacts.map(c => ({ value: c.id, label: c.name }));
+  const contactOptions = [
+    { value: '', label: 'Select a contact', disabled: true },
+    ...contacts.map(c => ({ value: c.id, label: c.name }))
+  ];
   const appointmentOptions = [
     { value: '', label: 'No Appointment' },
     ...appointments.map(a => ({ value: a.id, label: a.title }))

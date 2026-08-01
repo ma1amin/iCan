@@ -76,7 +76,7 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
       alert('Deal name is required');
       return false;
     }
-    if (!form.contactId) {
+    if (!form.contactId || form.contactId === '') {
       alert('Contact is required');
       return false;
     }
@@ -128,7 +128,10 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
 
   const stageOptions = DEAL_STAGES.map(stage => ({ value: stage, label: DEAL_STAGE_LABELS[stage] }));
   const currencyOptions = CURRENCIES.map(currency => ({ value: currency, label: currency }));
-  const contactOptions = contacts.map(c => ({ value: c.id, label: c.name }));
+  const contactOptions = [
+    { value: '', label: 'Select a contact', disabled: true },
+    ...contacts.map(c => ({ value: c.id, label: c.name }))
+  ];
 
   return (
     <Modal
