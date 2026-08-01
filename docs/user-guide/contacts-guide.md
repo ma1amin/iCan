@@ -2,6 +2,24 @@
 
 Learn how to effectively manage your professional contacts using iCan's comprehensive contact management system.
 
+## Current Implementation Status
+
+### ✅ Available Features
+- **Contact CRUD Operations**: Create, read, update, and delete contacts
+- **Search and Filtering**: Real-time search across contact fields
+- **Bulk Import**: CSV import with validation
+- **Export**: Export to CSV and JSON formats
+- **Contact Detail View**: View all contact information with activity timeline
+- **Tags and Notes**: Add custom tags and detailed notes
+- **Stage Management**: Track relationship progress through stages
+
+### 🚧 Coming Soon
+- Company grouping and management
+- Quick actions (call, email from contact view)
+- Advanced saved filters
+- Contact enrichment
+- Merge duplicate contacts
+
 ## Contact Fields
 
 Each contact in iCan includes the following information:
@@ -17,63 +35,66 @@ Each contact in iCan includes the following information:
 ### Professional Details
 - **Source**: How you connected (LinkedIn, WhatsApp, Other)
 - **Stage**: Current relationship stage
-- **Tags**: Custom tags for categorization
-- **Last Contact Date**: Most recent interaction date
+- **Tags**: Custom tags for categorization (comma-separated)
 
 ### Additional Information
 - **Notes**: Free-form notes about the contact
-- **Relationship Strength**: Calculated based on interaction frequency
 
 ## Creating Contacts
 
 ### Single Contact Creation
 
-1. Click "Add Contact" button in the top navigation
-2. Fill in the required fields (at minimum: Name)
-3. Add optional information as available
-4. Select initial stage and source
-5. Click "Save"
+1. Navigate to Contacts view
+2. Click "Add Contact" button in the top navigation
+3. Fill in the required fields (at minimum: Name)
+4. Add optional information as available
+5. Select initial stage and source
+6. Click "Create Contact"
 
 ### Bulk Import
 
 Import multiple contacts at once using CSV format:
 
-1. Click "Bulk Import" in the top navigation
-2. Format your data: `Name, Phone, Company, Source`
+1. Click "Import" button in the Contacts view
+2. Format your data: `Name, Phone, Email, Company, Location, Industry, Source, Stage, Tags, Notes`
 3. Example format:
    ```
-   John Smith, +1234567890, Tech Corp, LinkedIn
-   Jane Doe, +0987654321, Startup Inc, WhatsApp
+   John Smith, +1234567890, john@example.com, Tech Corp, San Francisco, Technology, LinkedIn, New, VIP, Senior developer
+   Jane Doe, +0987654321, jane@example.com, Startup Inc, New York, Finance, WhatsApp, Contacted, Lead, Investor
    ```
-4. Paste your data and click "Import"
+4. Paste your data into the text area
+5. Click "Import" to process
+6. Review any validation errors and correct if needed
+7. Valid contacts will be automatically added
 
 ## Managing Contacts
 
 ### Viewing Contacts
 
 **List View**: Shows all contacts in a searchable list with key information
-- Search by name, company, phone, or email
-- Filter by source or stage
-- Sort by various criteria
+- **Search**: Search by name, company, phone, or email in real-time
+- **Filter by Source**: Filter contacts by LinkedIn, WhatsApp, or Other
+- **Filter by Stage**: Filter by relationship stage (New, Contacted, Meeting, etc.)
+- **Live Count**: See total contacts and filtered results count
 
 **Detail View**: Comprehensive view of single contact including:
-- All contact information
-- Activity timeline
-- Related appointments
-- Related tasks
-- Interaction history
+- All contact information (email, phone, company, location, industry)
+- Current stage and source with color-coded badges
+- Tags displayed as chips
+- Activity timeline (appointments, interactions, tasks)
+- Quick access to edit and delete actions
 
 ### Editing Contacts
 
-1. Click on any contact to open detail view
-2. Click the "Edit" button
+1. Click on any contact in the list to open detail view
+2. Click the "Edit Contact" button
 3. Modify any fields as needed
-4. Click "Save" to update
+4. Click "Save Changes" to update
 
 ### Deleting Contacts
 
 1. Open contact detail view
-2. Click "Delete" button
+2. Click "Delete Contact" button
 3. Confirm deletion
 4. **Note**: This action cannot be undone
 
@@ -88,93 +109,56 @@ Contacts progress through these stages:
 5. **Collaborating**: Formal relationship established
 6. **Archived**: Relationship inactive or concluded
 
-## Company Management
+## Contact Sources
 
-### Grouping by Company
+Track where contacts came from:
 
-Contacts are automatically grouped by company name. To view:
+- **LinkedIn**: Connections from LinkedIn platform
+- **WhatsApp**: Contacts from WhatsApp
+- **Other**: Any other source
 
-1. Navigate to "Companies" in the sidebar
-2. Browse contacts organized by company
-3. Add company-level notes for context
-
-### Company Notes
-
-Add notes that apply to all contacts at a company:
-
-1. Open Companies view
-2. Click on a company
-3. Click "Edit Note" button
-4. Add company-specific information
-5. Click "Save"
-
-## Contact Actions
-
-### Quick Actions
-
-From any contact, you can quickly:
-
-- **Call**: Initiate phone call (if phone number available)
-- **Email**: Send email (if email available)
-- **Schedule**: Create new appointment
-- **Task**: Create follow-up task
-- **Log**: Record interaction
-
-### Activity Timeline
-
-Each contact has an activity timeline showing:
-- All interactions (calls, emails, meetings)
-- Scheduled appointments
-- Related tasks
-- Stage changes
-- Notes updates
-
-## Advanced Features
-
-### Tags and Categories
+## Tags and Categorization
 
 Use tags to categorize contacts:
-- Click "Add Tag" in contact detail
-- Create custom tags (e.g., "VIP", "Prospect", "Partner")
-- Filter contacts by tags
+- Add tags in the contact form (comma-separated)
+- Examples: "VIP", "Lead", "Partner", "Investor", "Developer"
+- Tags are displayed as colored chips in the detail view
 
-### Search and Filter
+## Export and Import
 
-**Advanced Search**:
-- Search across all contact fields
-- Use boolean operators (AND, OR)
-- Filter by date ranges
-- Combine multiple criteria
+### Export Contacts
 
-**Saved Filters**:
-- Save frequently used search combinations
-- Quick access to filtered views
-
-### Export and Import
-
-**Export Contacts**:
 1. Go to Contacts view
-2. Click "Export" button
-3. Choose format (CSV, JSON)
-4. Download file
+2. Click "Export CSV" or "Export JSON" button
+3. File will download automatically with timestamp
+4. Format includes all contact fields
 
-**Import Contacts**:
-1. Click "Import" button
-2. Select file or paste data
-3. Map fields if needed
-4. Review and confirm
+### Import Contacts
+
+1. Click "Import" button in Contacts view
+2. Paste CSV data with headers
+3. System validates each contact
+4. Shows errors for invalid entries
+5. Valid contacts are imported automatically
+
+**CSV Format Requirements**:
+- First row must be headers
+- Fields: Name, Phone, Email, Company, Location, Industry, Source, Stage, Tags, Notes
+- Name is the only required field
+- Tags should be separated by semicolons
 
 ## Best Practices
 
 1. **Keep Information Current**: Regularly update contact details
-2. **Log Interactions**: Record every interaction for accurate history
-3. **Use Stages Appropriately**: Update stages as relationships progress
-4. **Add Context**: Use notes to remember important details
+2. **Use Stages Appropriately**: Update stages as relationships progress
+3. **Add Context**: Use notes to remember important details
+4. **Tag Strategically**: Use tags for meaningful categorization
 5. **Regular Review**: Review contact list monthly for cleanup
+6. **Backup Data**: Export contacts regularly for backup
 
 ## Integration with Other Features
 
-Contacts integrate with all iCan features:
+Contacts integrate with all iCan features (coming soon):
 
 - **Calendar**: Schedule appointments directly from contacts
 - **Interactions**: Log interactions linked to specific contacts
@@ -184,9 +168,9 @@ Contacts integrate with all iCan features:
 
 ## Troubleshooting
 
-**Duplicate Contacts**: Use the merge feature to combine duplicates
-**Missing Information**: Use contact enrichment to find missing details
-**Import Issues**: Check CSV format and field mapping
-**Sync Problems**: Ensure stable internet connection for cloud features
+**Import Fails**: Check CSV format and ensure headers match exactly
+**Validation Errors**: Review error messages for specific field issues
+**Contact Not Saving**: Ensure name field is filled (required field)
+**Search Not Working**: Clear filters and try again
 
 For more help, see the [Troubleshooting Guide](../troubleshooting.md).

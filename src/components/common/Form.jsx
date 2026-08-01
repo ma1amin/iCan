@@ -13,13 +13,15 @@ const Input = ({
   required = false,
   fullWidth = false,
   icon,
-  name
+  name,
+  className
 }) => {
   const inputClasses = [
     'form-input',
     error && 'form-input-error',
     disabled && 'form-input-disabled',
-    fullWidth && 'form-input-full-width'
+    fullWidth && 'form-input-full-width',
+    className
   ].filter(Boolean).join(' ');
 
   return (
@@ -30,8 +32,24 @@ const Input = ({
           {required && <span className="form-required">*</span>}
         </label>
       )}
-      <div className="form-input-wrapper">
-        {icon && <span className="form-input-icon">{icon}</span>}
+      {icon && (
+        <div className="form-input-wrapper">
+          <span className="form-input-icon">{typeof icon === 'string' ? icon : icon}</span>
+          <input
+            type={type}
+            name={name}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder={placeholder}
+            disabled={disabled}
+            className={inputClasses}
+            aria-invalid={!!error}
+            aria-describedby={error ? `${name}-error` : undefined}
+            style={{ paddingLeft: '36px' }}
+          />
+        </div>
+      )}
+      {!icon && (
         <input
           type={type}
           name={name}
@@ -43,7 +61,7 @@ const Input = ({
           aria-invalid={!!error}
           aria-describedby={error ? `${name}-error` : undefined}
         />
-      </div>
+      )}
       {error && (
         <span id={`${name}-error`} className="form-error" role="alert">
           {error}
@@ -120,13 +138,15 @@ const Textarea = ({
   required = false,
   fullWidth = false,
   resize = 'vertical',
-  name
+  name,
+  className
 }) => {
   const textareaClasses = [
     'form-textarea',
     error && 'form-input-error',
     disabled && 'form-input-disabled',
-    fullWidth && 'form-input-full-width'
+    fullWidth && 'form-input-full-width',
+    className
   ].filter(Boolean).join(' ');
 
   const resizeStyle = {
@@ -201,7 +221,8 @@ Input.propTypes = {
   required: PropTypes.bool,
   fullWidth: PropTypes.bool,
   icon: PropTypes.node,
-  name: PropTypes.string
+  name: PropTypes.string,
+  className: PropTypes.string
 };
 
 Select.propTypes = {
@@ -233,7 +254,8 @@ Textarea.propTypes = {
   required: PropTypes.bool,
   fullWidth: PropTypes.bool,
   resize: PropTypes.oneOf(['none', 'vertical', 'horizontal', 'both']),
-  name: PropTypes.string
+  name: PropTypes.string,
+  className: PropTypes.string
 };
 
 Checkbox.propTypes = {

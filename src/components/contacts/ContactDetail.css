@@ -1,0 +1,172 @@
+.contact-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.contact-detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-detail-section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #E6E9F0;
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #1B1F2B;
+}
+
+.contact-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.contact-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contact-detail-item.full-width {
+  grid-column: span 2;
+}
+
+.contact-detail-item label {
+  font-size: 12px;
+  color: #8B92A8;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.contact-detail-value {
+  font-size: 14px;
+  color: #E6E9F0;
+  word-break: break-word;
+}
+
+.contact-detail-badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.contact-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.contact-tag {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: #1B2130;
+  color: #8B92A8;
+}
+
+.contact-notes {
+  white-space: pre-wrap;
+  line-height: 1.5;
+  background: #0E1119;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #1B1F2B;
+}
+
+/* Activity Timeline */
+.activity-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #8B92A8;
+  font-size: 14px;
+}
+
+.activity-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activity-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  background: #0E1119;
+  border-radius: 8px;
+  border: 1px solid #1B1F2B;
+  transition: border-color 0.15s ease;
+}
+
+.activity-item:hover {
+  border-color: #2C3348;
+}
+
+.activity-icon {
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.activity-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #E6E9F0;
+  margin-bottom: 4px;
+}
+
+.activity-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #8B92A8;
+}
+
+.activity-date {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.activity-type {
+  text-transform: capitalize;
+}
+
+/* Actions */
+.contact-detail-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 20px;
+  border-top: 1px solid #1B1F2B;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contact-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-detail-item.full-width {
+    grid-column: span 1;
+  }
+
+  .contact-detail-actions {
+    flex-direction: column;
+  }
+
+  .contact-detail-actions .btn {
+    width: 100%;
+  }
+}
