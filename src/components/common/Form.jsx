@@ -1,0 +1,248 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import './Form.css';
+
+const Input = ({
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = 'text',
+  disabled = false,
+  error,
+  required = false,
+  fullWidth = false,
+  icon,
+  name
+}) => {
+  const inputClasses = [
+    'form-input',
+    error && 'form-input-error',
+    disabled && 'form-input-disabled',
+    fullWidth && 'form-input-full-width'
+  ].filter(Boolean).join(' ');
+
+  return (
+    <div className="form-field">
+      {label && (
+        <label className="form-label">
+          {label}
+          {required && <span className="form-required">*</span>}
+        </label>
+      )}
+      <div className="form-input-wrapper">
+        {icon && <span className="form-input-icon">{icon}</span>}
+        <input
+          type={type}
+          name={name}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          disabled={disabled}
+          className={inputClasses}
+          aria-invalid={!!error}
+          aria-describedby={error ? `${name}-error` : undefined}
+        />
+      </div>
+      {error && (
+        <span id={`${name}-error`} className="form-error" role="alert">
+          {error}
+        </span>
+      )}
+    </div>
+  );
+};
+
+const Select = ({
+  label,
+  value,
+  onChange,
+  options,
+  placeholder,
+  disabled = false,
+  error,
+  required = false,
+  fullWidth = false,
+  name
+}) => {
+  const selectClasses = [
+    'form-select',
+    error && 'form-input-error',
+    disabled && 'form-input-disabled',
+    fullWidth && 'form-input-full-width'
+  ].filter(Boolean).join(' ');
+
+  return (
+    <div className="form-field">
+      {label && (
+        <label className="form-label">
+          {label}
+          {required && <span className="form-required">*</span>}
+        </label>
+      )}
+      <select
+        name={name}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        disabled={disabled}
+        className={selectClasses}
+        aria-invalid={!!error}
+        aria-describedby={error ? `${name}-error` : undefined}
+      >
+        {placeholder && (
+          <option value="" disabled>
+            {placeholder}
+          </option>
+        )}
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      {error && (
+        <span id={`${name}-error`} className="form-error" role="alert">
+          {error}
+        </span>
+      )}
+    </div>
+  );
+};
+
+const Textarea = ({
+  label,
+  value,
+  onChange,
+  placeholder,
+  rows = 4,
+  disabled = false,
+  error,
+  required = false,
+  fullWidth = false,
+  resize = 'vertical',
+  name
+}) => {
+  const textareaClasses = [
+    'form-textarea',
+    error && 'form-input-error',
+    disabled && 'form-input-disabled',
+    fullWidth && 'form-input-full-width'
+  ].filter(Boolean).join(' ');
+
+  const resizeStyle = {
+    resize: resize === 'none' ? 'none' : resize
+  };
+
+  return (
+    <div className="form-field">
+      {label && (
+        <label className="form-label">
+          {label}
+          {required && <span className="form-required">*</span>}
+        </label>
+      )}
+      <textarea
+        name={name}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        rows={rows}
+        disabled={disabled}
+        className={textareaClasses}
+        style={resizeStyle}
+        aria-invalid={!!error}
+        aria-describedby={error ? `${name}-error` : undefined}
+      />
+      {error && (
+        <span id={`${name}-error`} className="form-error" role="alert">
+          {error}
+        </span>
+      )}
+    </div>
+  );
+};
+
+const Checkbox = ({
+  label,
+  checked,
+  onChange,
+  disabled = false,
+  error,
+  name
+}) => {
+  return (
+    <div className="form-field form-field-checkbox">
+      <label className="form-checkbox-label">
+        <input
+          type="checkbox"
+          name={name}
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          disabled={disabled}
+          className="form-checkbox"
+          aria-invalid={!!error}
+        />
+        <span className="form-checkbox-text">{label}</span>
+      </label>
+      {error && <span className="form-error">{error}</span>}
+    </div>
+  );
+};
+
+// PropTypes
+Input.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  type: PropTypes.oneOf(['text', 'email', 'phone', 'date', 'datetime', 'number']),
+  disabled: PropTypes.bool,
+  error: PropTypes.string,
+  required: PropTypes.bool,
+  fullWidth: PropTypes.bool,
+  icon: PropTypes.node,
+  name: PropTypes.string
+};
+
+Select.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
+  error: PropTypes.string,
+  required: PropTypes.bool,
+  fullWidth: PropTypes.bool,
+  name: PropTypes.string
+};
+
+Textarea.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  rows: PropTypes.number,
+  disabled: PropTypes.bool,
+  error: PropTypes.string,
+  required: PropTypes.bool,
+  fullWidth: PropTypes.bool,
+  resize: PropTypes.oneOf(['none', 'vertical', 'horizontal', 'both']),
+  name: PropTypes.string
+};
+
+Checkbox.propTypes = {
+  label: PropTypes.string.isRequired,
+  checked: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  error: PropTypes.string,
+  name: PropTypes.string
+};
+
+export { Input, Select, Textarea, Checkbox };
