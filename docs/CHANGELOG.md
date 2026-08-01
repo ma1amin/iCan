@@ -2,6 +2,83 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [1.4.0] - 2026-08-01
+
+### Added - Pipeline & Negotiations System
+- **DealForm Modal**: Comprehensive deal creation/editing form
+  - Deal name and company fields
+  - Contact selection with dropdown
+  - Stage selection (Prospecting, Qualification, Proposal, Negotiation, Closing, Won, Lost)
+  - Deal value with currency selection (USD, EUR, GBP, JPY, etc.)
+  - Probability tracking with auto-suggestions based on stage
+  - Expected close date tracking
+  - Source tracking
+  - Competitor tracking (comma-separated names)
+  - Next steps management (line-separated actions)
+  - Tags support (comma-separated)
+  - Description field
+  - Form validation for required fields
+  - Delete functionality for existing deals
+
+- **PipelineView**: Sales pipeline view with stage columns
+  - Seven columns for different deal stages
+  - Color-coded column headers by stage
+  - Deal cards with key information (name, value, contact, company)
+  - Probability display on deal cards
+  - Expected close date with relative formatting
+  - Overdue deals highlighted in red
+  - Competitor display (up to 2 with overflow indicator)
+  - Tags display (up to 3 with overflow indicator)
+  - Stage count per column
+  - Stage total value per column
+  - Status change via dropdown on deal cards
+  - Click to edit/view deal details
+  - Empty state for columns without deals
+
+- **DealsView**: Main deals view with search and filtering
+  - Deal statistics dashboard (total deals, pipeline value, won deals, won value, avg probability)
+  - Real-time search across name, description, company, and tags
+  - Filter by contact
+  - Filter by stage
+  - Filter by currency
+  - Live count of total and filtered deals
+  - Currency formatting for all values
+
+- **Integration Features**:
+  - Full AppContext integration for deal CRUD operations
+  - Automatic data persistence with LocalStorage
+  - Contact integration with dropdown selection
+  - Probability auto-adjustment based on stage changes
+  - Activity timeline updates in contact detail view
+
+### Enhanced - Components
+- **PipelineView**: Replaced placeholder with full implementation
+- **DealsView**: Replaced placeholder with full implementation
+- **Deal CSS**: Comprehensive styling for pipeline and forms
+- **Responsive Design**: Mobile-friendly pipeline layout
+
+### Updated - Documentation
+- **README.md**: Updated with pipeline and negotiations features
+- **Platform Overview**: Updated current status and roadmap
+- **CHANGELOG.md**: Added version 1.4.0
+
+### Technical Improvements
+- Pipeline board with column-based deal organization
+- Stage change via dropdown on deal cards
+- Probability auto-suggestions based on stage
+- Currency formatting with multiple currency support
+- Multi-filter support (contact, stage, currency, search)
+- Deal statistics calculation
+- Sales funnel visualization with stage totals
+
+### Project Structure
+- Added `src/components/negotiations/DealForm.jsx`
+- Added `src/components/negotiations/DealForm.css`
+- Added `src/components/negotiations/PipelineView.jsx`
+- Added `src/components/negotiations/PipelineView.css`
+- Enhanced `src/components/negotiations/DealsView.jsx` (replaced placeholder)
+- Enhanced `src/components/negotiations/DealsView.css` (replaced placeholder)
+
 ## [1.3.0] - 2026-08-01
 
 ### Added - Task Management System

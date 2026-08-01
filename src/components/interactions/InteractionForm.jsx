@@ -7,11 +7,11 @@ import Button from '../common/Button';
 import { INTERACTION_TYPES, INTERACTION_DIRECTIONS, INTERACTION_OUTCOMES, INTERACTION_TYPE_LABELS, INTERACTION_OUTCOME_LABELS } from '../../types/interactions';
 import './InteractionForm.css';
 
-const InteractionForm = ({ interaction, contactId, onClose, onSave, onDelete }) => {
+const InteractionForm = ({ interaction, contactId, onClose, onSave, onDelete, defaultType }) => {
   const { contacts, appointments } = useAppContext();
   const [form, setForm] = useState({
     contactId: '',
-    type: 'call',
+    type: defaultType || 'call',
     direction: 'outbound',
     subject: '',
     content: '',

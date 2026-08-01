@@ -62,6 +62,22 @@ The name "iCan" represents the four core pillars of the platform:
   - Status change via dropdown on task cards
   - Task statistics dashboard (total, in progress, done, overdue)
 
+- ✅ Pipeline & Negotiations System
+  - Pipeline view with seven stages (Prospecting, Qualification, Proposal, Negotiation, Closing, Won, Lost)
+  - Deal creation and editing with comprehensive form
+  - Deal value tracking with multiple currencies (USD, EUR, GBP, etc.)
+  - Probability tracking with auto-suggestions based on stage
+  - Expected close date tracking with overdue indicators
+  - Competitor tracking
+  - Next steps management
+  - Search and filter by name, contact, stage, and currency
+  - Link deals to contacts
+  - Deal tags for organization
+  - Sales funnel visualization with stage totals
+  - Deal statistics dashboard (total deals, pipeline value, won deals, won value, avg probability)
+  - Stage change via dropdown on deal cards
+  - Color-coded stage columns
+
 - ✅ Dashboard
   - Real-time statistics for contacts, appointments, tasks, and deals
   - I-C-A-N focused metrics
@@ -77,7 +93,6 @@ The name "iCan" represents the four core pillars of the platform:
   - Layout components (AppShell, Sidebar, Header)
 
 **In Development:**
-- 🚧 Pipeline & Negotiations (placeholder view)
 - 🚧 Companies view (placeholder view)
 
 ## Planned Features
@@ -233,13 +248,15 @@ Data is saved automatically on any state change and loaded on application initia
 - Link tasks to contacts, appointments, interactions, and deals
 - Task statistics dashboard
 
-### Phase 5: Pipeline & Negotiations (Next)
+### Phase 5: Pipeline & Negotiations ✅ (Complete)
 - Deal pipeline with stages
 - Deal value tracking
 - Probability scoring
 - Sales funnel visualization
+- Competitor tracking
+- Deal statistics dashboard
 
-### Phase 6: Companies View
+### Phase 6: Companies View (Next)
 - Company grouping
 - Company-level notes
 - Company analytics

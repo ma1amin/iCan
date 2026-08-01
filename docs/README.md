@@ -45,12 +45,25 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Estimated time tracking
   - Status change via dropdown on task cards
   - Task statistics dashboard
+- **Pipeline & Negotiations**: Deal tracking with sales pipeline
+  - Pipeline view with seven stages (Prospecting, Qualification, Proposal, Negotiation, Closing, Won, Lost)
+  - Deal creation and editing with comprehensive form
+  - Deal value tracking with multiple currencies
+  - Probability tracking with auto-suggestions based on stage
+  - Expected close date tracking
+  - Competitor tracking
+  - Next steps management
+  - Search and filter by name, contact, stage, and currency
+  - Link deals to contacts
+  - Deal tags for organization
+  - Sales funnel visualization with stage totals
+  - Deal statistics dashboard (total deals, pipeline value, won deals, won value, avg probability)
 - **Dashboard**: Real-time statistics for contacts, appointments, tasks, and deals
 - **Responsive Design**: Mobile-friendly interface with adaptive layouts
 - **Data Persistence**: LocalStorage for offline data persistence
 
 ### 🚧 In Progress / Coming Soon
-- **Enhanced Negotiation**: Deal tracking with values and probabilities
+- **Companies View**: Company grouping and management
 
 ## Getting Started
 
