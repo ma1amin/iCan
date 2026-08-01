@@ -6,7 +6,7 @@ import ContactsView from './components/contacts/ContactsView';
 import CalendarView from './components/calendar/CalendarView';
 import InteractionsView from './components/interactions/InteractionsView';
 import TasksView from './components/tasks/TasksView';
-import PipelineView from './components/negotiations/PipelineView';
+import DealsView from './components/negotiations/DealsView';
 import CompaniesView from './components/contacts/CompaniesView';
 
 function AppContent() {
@@ -26,7 +26,7 @@ function AppContent() {
     calendar: <CalendarView />,
     interactions: <InteractionsView />,
     tasks: <TasksView />,
-    pipeline: <PipelineView />,
+    pipeline: <DealsView />,
     companies: <CompaniesView />
   };
 
