@@ -52,6 +52,10 @@ export const AppProvider = ({ children }) => {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
           const parsed = JSON.parse(stored);
+          // Migration: Convert companies from object to array if needed
+          if (parsed.companies && !Array.isArray(parsed.companies)) {
+            parsed.companies = Object.values(parsed.companies);
+          }
           setState(prev => ({
             ...prev,
             ...parsed,
