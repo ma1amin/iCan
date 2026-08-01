@@ -4,6 +4,7 @@ import { emptyAppointment } from '../types/appointments';
 import { emptyInteraction } from '../types/interactions';
 import { emptyTask } from '../types/tasks';
 import { emptyDeal } from '../types/deals';
+import { emptyCompany } from '../types/companies';
 
 const AppContext = createContext(null);
 
@@ -34,7 +35,7 @@ const initialState = {
   interactions: [],
   tasks: [],
   deals: [],
-  companies: {},
+  companies: [],
   settings: defaultSettings,
   currentView: 'dashboard',
   loading: true,
@@ -210,6 +211,28 @@ export const AppProvider = ({ children }) => {
     }));
   }, []);
 
+  // Company actions
+  const addCompany = useCallback((company) => {
+    setState(prev => ({
+      ...prev,
+      companies: [...prev.companies, { ...company, id: company.id || Date.now().toString(36), createdAt: Date.now(), updatedAt: Date.now() }]
+    }));
+  }, []);
+
+  const updateCompany = useCallback((id, updates) => {
+    setState(prev => ({
+      ...prev,
+      companies: prev.companies.map(c => c.id === id ? { ...c, ...updates, updatedAt: Date.now() } : c)
+    }));
+  }, []);
+
+  const deleteCompany = useCallback((id) => {
+    setState(prev => ({
+      ...prev,
+      companies: prev.companies.filter(c => c.id !== id)
+    }));
+  }, []);
+
   // View management
   const setCurrentView = useCallback((view) => {
     setState(prev => ({ ...prev, currentView: view }));
@@ -245,6 +268,10 @@ export const AppProvider = ({ children }) => {
     addDeal,
     updateDeal,
     deleteDeal,
+    // Company actions
+    addCompany,
+    updateCompany,
+    deleteCompany,
     // View management
     setCurrentView,
     // Settings

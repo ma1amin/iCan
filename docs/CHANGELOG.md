@@ -2,6 +2,75 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [1.5.0] - 2026-08-01
+
+### Added - Companies View System
+- **CompanyForm Modal**: Comprehensive company creation/editing form
+  - Company name and industry fields
+  - Company size selection (Startup, Small, Medium, Large, Enterprise)
+  - Location and website tracking
+  - Founded year, annual revenue, and employee count
+  - Tags support (comma-separated)
+  - Description and notes fields
+  - Form validation for required fields
+  - Delete functionality for existing companies
+
+- **CompaniesView**: Main companies view with search and filtering
+  - Company cards with key information and stats
+  - Contact count per company
+  - Deal count per company
+  - Pipeline value per company
+  - Real-time search across name, description, location, and tags
+  - Filter by industry
+  - Filter by company size
+  - Live count of total and filtered companies
+  - Click to view company details
+
+- **CompanyDetail**: Detailed company information display
+  - Complete company information display
+  - Associated contacts list with details
+  - Associated deals list with values and probabilities
+  - Company overview with stats (contacts, deals, pipeline value)
+  - Currency formatting for pipeline values
+  - Industry and size labels
+  - Website link with external link
+  - Edit and delete functionality
+
+- **Integration Features**:
+  - Full AppContext integration for company CRUD operations
+  - Automatic data persistence with LocalStorage
+  - Contact association tracking
+  - Deal association tracking
+  - Company type definitions (sizes, industries, labels)
+
+### Enhanced - Components
+- **CompaniesView**: Replaced placeholder with full implementation
+- **Company CSS**: Comprehensive styling for companies views
+- **Responsive Design**: Mobile-friendly company cards and detail view
+
+### Updated - Documentation
+- **README.md**: Updated with companies view features
+- **Platform Overview**: Updated current status and roadmap
+- **CHANGELOG.md**: Added version 1.5.0
+
+### Technical Improvements
+- Company type definitions with sizes and industries
+- Company validation rules
+- Company association tracking with contacts and deals
+- Multi-filter support (industry, size, search)
+- Company statistics calculation
+- Enhanced contact detail with company activity
+
+### Project Structure
+- Added `src/types/companies.js` - Company type definitions
+- Added `src/components/contacts/CompanyForm.jsx`
+- Added `src/components/contacts/CompanyForm.css`
+- Added `src/components/contacts/CompanyDetail.jsx`
+- Added `src/components/contacts/CompanyDetail.css`
+- Enhanced `src/components/contacts/CompaniesView.jsx` (replaced placeholder)
+- Enhanced `src/components/contacts/CompaniesView.css` (replaced placeholder)
+- Enhanced `src/context/AppContext.jsx` (added company CRUD operations)
+
 ## [1.4.0] - 2026-08-01
 
 ### Added - Pipeline & Negotiations System

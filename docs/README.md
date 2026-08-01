@@ -58,12 +58,18 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Deal tags for organization
   - Sales funnel visualization with stage totals
   - Deal statistics dashboard (total deals, pipeline value, won deals, won value, avg probability)
+- **Companies View**: Company grouping and management
+  - Company creation and editing with comprehensive form
+  - Company information (name, industry, size, location, website, founded year, revenue, employee count)
+  - Company cards with key information and stats
+  - Company detail view with associated contacts and deals
+  - Search and filter by name, industry, and size
+  - Company tags for organization
+  - Company overview with contact count, deal count, and pipeline value
+  - Contact and deal association tracking
 - **Dashboard**: Real-time statistics for contacts, appointments, tasks, and deals
 - **Responsive Design**: Mobile-friendly interface with adaptive layouts
 - **Data Persistence**: LocalStorage for offline data persistence
-
-### 🚧 In Progress / Coming Soon
-- **Companies View**: Company grouping and management
 
 ## Getting Started
 

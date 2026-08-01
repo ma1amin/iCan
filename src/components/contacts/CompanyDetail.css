@@ -1,0 +1,181 @@
+.company-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.company-detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.company-detail-section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #E6E9F0;
+  margin: 0;
+}
+
+.company-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.company-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.company-detail-item.full-width {
+  grid-column: 1 / -1;
+}
+
+.company-detail-item label {
+  font-size: 12px;
+  color: #8B92A8;
+  font-weight: 500;
+}
+
+.company-detail-value {
+  font-size: 14px;
+  color: #E6E9F0;
+  line-height: 1.5;
+}
+
+.company-link {
+  color: #5B8DEF;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.company-link:hover {
+  text-decoration: underline;
+}
+
+.company-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.company-tag {
+  font-size: 12px;
+  color: #8B92A8;
+  background: #0E1119;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.company-description,
+.company-notes {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.company-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.company-stat-card {
+  background: #1B2130;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #E6E9F0;
+  margin-bottom: 4px;
+}
+
+.stat-value-green {
+  color: #34D399;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #8B92A8;
+  font-weight: 500;
+}
+
+.company-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.company-list-item {
+  background: #1B2130;
+  border-radius: 6px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.list-item-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #E6E9F0;
+}
+
+.list-item-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+  color: #8B92A8;
+}
+
+.list-item-value {
+  font-family: 'JetBrains Mono', monospace;
+  color: #34D399;
+  font-weight: 600;
+}
+
+.list-item-badge {
+  background: #5B8DEF22;
+  color: #5B8DEF;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.company-detail-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 20px;
+  border-top: 1px solid #1B1F2B;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .company-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .company-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .company-list-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .company-detail-actions {
+    flex-direction: column;
+  }
+}
