@@ -152,6 +152,18 @@
   border-top: 1px solid #1B1F2B;
 }
 
+/* Quick Log Buttons */
+.quick-log-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quick-log-buttons .btn {
+  flex: 1;
+  min-width: 120px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .contact-detail-grid {

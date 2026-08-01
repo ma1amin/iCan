@@ -1,23 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useAppContext } from '../../context/AppContext';
 import Modal from '../common/Modal';
 import Button from '../common/Button';
 import { SOURCE_META, STAGE_COLORS } from '../../types/contacts';
+import InteractionForm from '../interactions/InteractionForm';
 import './ContactDetail.css';
 
 const ContactDetail = ({ contact, onClose, onEdit, onDelete }) => {
-  const { appointments, interactions, tasks } = useAppContext();
+  const { appointments, interactions, tasks, addInteraction } = useAppContext();
 
   const contactAppointments = appointments.filter(a => a.contactId === contact.id);
   const contactInteractions = interactions.filter(i => i.contactId === contact.id);
   const contactTasks = tasks.filter(t => t.contactId === contact.id);
+
+  const [isInteractionFormOpen, setIsInteractionFormOpen] = useState(false);
+  const [interactionType, setInteractionType] = useState('call');
 
   const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this contact?')) {
       onDelete(contact.id);
       onClose();
     }
+  };
+
+  const handleQuickLog = (type) => {
+    setInteractionType(type);
+    setIsInteractionFormOpen(true);
+  };
+
+  const handleSaveInteraction = (interactionData) => {
+    addInteraction(interactionData);
+    setIsInteractionFormOpen(false);
+  };
+
+  const handleInteractionFormClose = () => {
+    setIsInteractionFormOpen(false);
   };
 
   const formatDate = (timestamp) => {
@@ -106,6 +124,25 @@ const ContactDetail = ({ contact, onClose, onEdit, onDelete }) => {
           </div>
         </div>
 
+        {/* Quick Actions */}
+        <div className="contact-detail-section">
+          <h3 className="contact-detail-section-title">Quick Log Interaction</h3>
+          <div className="quick-log-buttons">
+            <Button variant="ghost" onClick={() => handleQuickLog('call')} icon="📞">
+              Log Call
+            </Button>
+            <Button variant="ghost" onClick={() => handleQuickLog('email')} icon="📧">
+              Log Email
+            </Button>
+            <Button variant="ghost" onClick={() => handleQuickLog('message')} icon="💬">
+              Log Message
+            </Button>
+            <Button variant="ghost" onClick={() => handleQuickLog('meeting')} icon="👥">
+              Log Meeting
+            </Button>
+          </div>
+        </div>
+
         {/* Activity Timeline */}
         <div className="contact-detail-section">
           <h3 className="contact-detail-section-title">Activity Timeline</h3>
@@ -171,6 +208,16 @@ const ContactDetail = ({ contact, onClose, onEdit, onDelete }) => {
           </Button>
         </div>
       </div>
+
+      {isInteractionFormOpen && (
+        <InteractionForm
+          interaction={null}
+          contactId={contact.id}
+          defaultType={interactionType}
+          onClose={handleInteractionFormClose}
+          onSave={handleSaveInteraction}
+        />
+      )}
     </Modal>
   );
 };

@@ -2,6 +2,74 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [1.2.0] - 2026-08-01
+
+### Added - Interaction History System
+- **InteractionForm Modal**: Comprehensive interaction logging form
+  - Support for multiple interaction types (call, email, message, meeting, other)
+  - Contact selection with dropdown
+  - Direction tracking (inbound/outbound)
+  - Subject and notes fields
+  - Date and time with datetime-local input
+  - Duration tracking in minutes
+  - Outcome selection (follow-up required, completed, awaiting response, etc.)
+  - Link to related appointments
+  - Form validation for required fields
+  - Delete functionality for existing interactions
+
+- **InteractionsView**: Timeline-based interaction display
+  - Chronological interaction timeline (newest first)
+  - Real-time search across subject and notes
+  - Filter by contact
+  - Filter by interaction type
+  - Filter by outcome
+  - Color-coded interaction type icons
+  - Contact name display
+  - Date and time formatting
+  - Click to edit/view details
+  - Live count of total and filtered interactions
+
+- **Quick-Log Interface**: One-click interaction logging
+  - Quick-log buttons in ContactDetail view
+  - Log Call, Email, Message, Meeting buttons
+  - Pre-populated contact information
+  - Pre-set interaction type based on button
+  - Efficient logging for common interactions
+
+- **Integration Features**:
+  - Full AppContext integration for interaction CRUD operations
+  - Automatic data persistence with LocalStorage
+  - Contact integration with dropdown selection
+  - Appointment linking for meeting interactions
+  - Activity timeline updates in contact detail view
+  - Interaction type color coding
+
+### Enhanced - Components
+- **ContactDetail**: Added quick-log buttons section
+- **InteractionsView**: Replaced placeholder with full implementation
+- **Interaction CSS**: Comprehensive styling for timeline and forms
+
+### Updated - Documentation
+- **README.md**: Updated with interaction history features
+- **Platform Overview**: Updated current status and roadmap
+- **CHANGELOG.md**: Added version 1.2.0 changes
+- **Interactions Guide**: Created comprehensive usage guide
+
+### Technical Improvements
+- Interaction type icons and color coding
+- Chronological sorting of interactions
+- Multi-filter support (contact, type, outcome, search)
+- Enhanced contact detail with quick actions
+- Form validation for interactions
+
+### Project Structure
+- Added `src/components/interactions/InteractionForm.jsx`
+- Added `src/components/interactions/InteractionForm.css`
+- Enhanced `src/components/interactions/InteractionsView.jsx` (replaced placeholder)
+- Enhanced `src/components/interactions/InteractionsView.css` (replaced placeholder)
+- Enhanced `src/components/contacts/ContactDetail.jsx` (added quick-log buttons)
+- Enhanced `src/components/contacts/ContactDetail.css` (added quick-log styling)
+
 ## [1.1.0] - 2026-08-01
 
 ### Added - Calendar & Appointments System
