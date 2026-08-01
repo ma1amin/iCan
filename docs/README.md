@@ -32,12 +32,24 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Outcome tracking for interactions
   - Link interactions to appointments
   - Direction tracking (inbound/outbound)
+- **Task Management**: Kanban-style task board with comprehensive features
+  - Kanban board with four columns (To Do, In Progress, Review, Done)
+  - Task creation and editing with validation
+  - Task categories (follow-up, research, meeting prep, administrative, development)
+  - Priority levels (low, medium, high) with color coding
+  - Due date tracking with overdue indicators
+  - Reminder system (15min, 1hour, 1day, 1week before)
+  - Search and filter by title, contact, status, priority, and category
+  - Link tasks to contacts, appointments, interactions, and deals
+  - Task tags for organization
+  - Estimated time tracking
+  - Status change via dropdown on task cards
+  - Task statistics dashboard
 - **Dashboard**: Real-time statistics for contacts, appointments, tasks, and deals
 - **Responsive Design**: Mobile-friendly interface with adaptive layouts
 - **Data Persistence**: LocalStorage for offline data persistence
 
 ### 🚧 In Progress / Coming Soon
-- **Task Management**: Kanban-style task board with priority tracking
 - **Enhanced Negotiation**: Deal tracking with values and probabilities
 
 ## Getting Started

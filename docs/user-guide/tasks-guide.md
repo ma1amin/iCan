@@ -1,414 +1,295 @@
-# Task Management Guide
+# Tasks Guide
 
-Organize your professional workflow with iCan's comprehensive task management system featuring Kanban boards, priority tracking, and smart categorization.
+Manage your tasks and action items with iCan's comprehensive Kanban-style task management system.
 
-## Task Overview
+## Current Implementation Status
 
-The iCan task system helps you manage your professional to-do items with:
+### ✅ Available Features
+- **Kanban Board**: Four-column Kanban board (To Do, In Progress, Review, Done)
+- **Task Creation**: Comprehensive task creation with all fields
+- **Task Editing**: Full task editing capabilities
+- **Task Categories**: Multiple categories (follow-up, research, meeting prep, administrative, development)
+- **Priority Levels**: Three priority levels (low, medium, high) with color coding
+- **Due Date Tracking**: Due date with relative formatting and overdue indicators
+- **Reminder System**: Reminders (15min, 1hour, 1day, 1week before)
+- **Search and Filtering**: Search by title, description, tags; filter by contact, status, priority, category
+- **Linking**: Link tasks to contacts, appointments, interactions, and deals
+- **Task Tags**: Organize tasks with tags
+- **Estimated Time**: Track estimated time for tasks
+- **Status Change**: Quick status change via dropdown on task cards
+- **Task Statistics**: Dashboard showing total, in progress, done, and overdue tasks
 
-- Kanban-style visual boards
-- Priority-based organization
-- Due date tracking and reminders
-- Contact linking for context
-- Task templates for efficiency
-- Category-based organization
+### 🚧 Coming Soon
+- Drag-and-drop task movement between columns
+- Task templates for common tasks
+- Task dependencies
+- Subtasks
+- Time tracking (actual time vs estimated)
+- Task assignments
+- Task automation
 
-## Task Structure
+## Kanban Board Overview
 
-Each task includes:
+The Kanban board displays tasks in four columns based on their status:
 
-### Basic Information
-- **Title** (required): Task name or description
-- **Description**: Detailed task information
-- **Status**: Current state (To Do, In Progress, Done)
-- **Priority**: Importance level (Low, Medium, High)
+### To Do
+- Tasks that need to be started
+- Color: Gray (#4B5266)
 
-### Scheduling
-- **Due Date**: When task must be completed
-- **Reminder**: Notification timing
-- **Estimated Time**: How long task will take
-- **Actual Time**: Time spent on task
+### In Progress
+- Tasks currently being worked on
+- Color: Blue (#5B8DEF)
 
-### Context
-- **Contact**: Related contact (optional)
-- **Category**: Task type or purpose
-- **Tags**: Custom labels for organization
-- **Linked Items**: Related appointments, interactions, deals
+### Review
+- Tasks that need review or approval
+- Color: Yellow (#F0B429)
 
-## Task Categories
-
-### Follow-up
-- Follow-up actions after interactions
-- Response-required tasks
-- Callback reminders
-
-### Research
-- Company or contact research
-- Industry investigation
-- Competitive analysis
-
-### Meeting Prep
-- Meeting preparation tasks
-- Agenda creation
-- Material gathering
-
-### Administrative
-- Documentation tasks
-- Data entry
-- File organization
-
-### Development
-- Project development tasks
-- Feature implementation
-- Bug fixes
-
-### Custom Categories
-- Create your own categories
-- Tailor to your workflow
-- Share across team (if applicable)
+### Done
+- Completed tasks
+- Color: Green (#34D399)
 
 ## Creating Tasks
 
-### Quick Task Creation
+### Manual Creation
 
-Fast task creation for immediate capture:
-
-1. Click "New Task" button in top navigation
-2. Enter task title
-3. Set basic priority and due date
-4. Click "Save"
-
-### Detailed Task Creation
-
-Comprehensive task setup:
-
-1. Click "New Task" button
-2. Fill in all relevant fields:
-   - Title and description
-   - Priority level
-   - Due date and reminders
-   - Category and tags
-   - Related contact (if applicable)
-3. Click "Save"
-
-### Task from Contact
-
-Create tasks directly from contact profiles:
-
-1. Open contact detail view
-2. Click "Add Task" button
-3. Contact automatically linked
-4. Fill in task details
-5. Click "Save"
+1. Navigate to Tasks view
+2. Click "New Task" button
+3. Fill in required fields:
+   - **Title** (required): Task name
+   - **Status**: To Do, In Progress, Review, or Done
+   - **Priority**: Low, Medium, or High
+4. Add optional details:
+   - **Due Date**: When the task is due
+   - **Reminder**: 15min, 1hour, 1day, or 1week before
+   - **Estimated Time**: Time estimate in minutes
+   - **Category**: Follow-up, Research, Meeting Prep, Administrative, Development
+   - **Contact**: Related contact
+   - **Related Appointment**: Link to calendar appointment
+   - **Related Interaction**: Link to interaction
+   - **Related Deal**: Link to deal
+   - **Tags**: Comma-separated tags for organization
+   - **Description**: Task details and requirements
+5. Click "Create Task"
 
 ### Task from Interaction
 
-Create follow-up tasks from interactions:
+When you log an interaction with "Follow-up Required" outcome:
+1. Navigate to the interaction
+2. Create a follow-up task to track the required action
+3. Link the task to the interaction for context
 
-1. Log interaction with outcome
-2. If outcome requires follow-up, system prompts
-3. Task automatically linked to contact and interaction
-4. Fill in task details
-5. Click "Save"
+## Managing Tasks
 
-## Task Views
+### Viewing Tasks
 
-### Kanban Board
+**Kanban Board**: Shows tasks organized by status
+- Four columns for different statuses
+- Task cards with key information
+- Priority indicators (colored dots)
+- Due date with relative formatting
+- Contact name if linked
+- Tags display
+- Click to edit/view details
 
-Visual task organization by status:
-
-- **To Do**: Tasks not yet started
-- **In Progress**: Currently being worked on
-- **Review**: Under review or awaiting feedback
-- **Done**: Completed tasks
-
-**Features**:
-- Drag and drop between columns
-- Color-coded by priority
-- Badges for due date status
-- Contact avatars when linked
-
-### List View
-
-Detailed task list with sorting:
-
-- Sort by due date, priority, category
-- Filter by status, contact, category
-- Compact view for many tasks
-- Bulk operations available
-
-### Calendar View
-
-Tasks displayed on calendar:
-
-- View tasks by due date
-- See task load distribution
-- Identify busy periods
-- Plan task allocation
-
-### Today View
-
-Focus on today's tasks:
-
-- All tasks due today
-- Overdue tasks highlighted
-- High-priority tasks prominent
-- Quick completion actions
-
-## Task Management
+**Task Statistics**: Dashboard at top of Tasks view
+- Total tasks count
+- In Progress count (blue)
+- Done count (green)
+- Overdue count (red)
 
 ### Editing Tasks
 
-1. Click on any task to open details
-2. Click "Edit" button
-3. Modify any fields as needed
-4. Click "Save" to update
+1. Click on any task card to open details
+2. Modify any fields as needed
+3. Click "Save Changes" to update
 
-### Updating Status
+### Changing Task Status
 
 **Quick Status Change**:
-- Drag task to different column (Kanban)
-- Use status dropdown (List view)
-- Click status badge for quick menu
+1. Find the status dropdown on the task card
+2. Select new status from dropdown
+3. Task moves to appropriate column
 
-**Bulk Status Update**:
-- Select multiple tasks
-- Choose new status
-- Apply to all selected
-
-### Completing Tasks
-
-1. Open task details
-2. Click "Complete" button
-3. Add completion notes (optional)
-4. Task moves to Done column
-
-**Quick Complete**:
-- Click checkmark on task card
-- Task immediately marked complete
+**Edit Task**:
+1. Open task details by clicking on the card
+2. Change status field
+3. Click "Save Changes"
 
 ### Deleting Tasks
 
-1. Open task details
-2. Click "Delete" button
+1. Open task details by clicking on the card
+2. Click "Delete Task" button
 3. Confirm deletion
-4. **Note**: This cannot be undone
+4. **Note**: This action cannot be undone
 
-## Prioritization
+## Task Categories
 
-### Priority Levels
+Organize tasks by category for better management:
 
-- **High**: Urgent and important
-- **Medium**: Important but not urgent
-- **Low**: Nice to have when time permits
+### Follow-up
+- Tasks related to following up with contacts
+- Generated from interactions with "Follow-up Required" outcome
+- High priority typically
 
-### Priority Indicators
+### Research
+- Research and investigation tasks
+- Information gathering
+- Market research
 
-- **Color Coding**: Red (High), Orange (Medium), Blue (Low)
-- **Positioning**: Higher priorities appear first
-- **Badges**: Priority badges on task cards
+### Meeting Prep
+- Preparation for meetings
+- Agenda creation
+- Material preparation
 
-### Priority Management
+### Administrative
+- Administrative tasks
+- Documentation
+- Organizational tasks
 
-**Setting Priority**:
-- Choose priority when creating task
-- Change priority from task details
-- Bulk update priority for multiple tasks
+### Development
+- Development and technical tasks
+- Feature implementation
+- Bug fixes
 
-**Priority Sorting**:
-- Auto-sort by priority in list view
-- High-priority tasks highlighted in dashboard
-- Priority affects task recommendations
+## Priority Levels
 
-## Due Dates and Reminders
+Assign priority to tasks for better focus:
 
-### Setting Due Dates
+### Low
+- Tasks that can be done when time permits
+- Color: Gray (#4B5266)
 
-1. Create or edit task
-2. Select due date from calendar
-3. Set specific time if needed
-4. Task auto-sorts by due date
+### Medium
+- Standard priority tasks
+- Color: Yellow (#F0B429)
 
-### Due Date Status
+### High
+- Urgent tasks requiring immediate attention
+- Color: Red (#E06166)
 
-- **Overdue**: Past due date (red highlighting)
-- **Due Today**: Due today (orange highlighting)
-- **Due Soon**: Due within 3 days (yellow highlighting)
-- **Future**: Due later (no highlighting)
+## Search and Filtering
 
-### Reminders
+### Search Tasks
 
-Set reminders to never miss deadlines:
+1. Use the search bar at the top of Tasks view
+2. Type in task title, description, or tags
+3. Kanban board updates in real-time to show matching tasks
 
-1. Open task details
-2. Add reminder timing
-3. Options:
-   - On due date
-   - 1 day before
-   - 3 days before
-   - 1 week before
-   - Custom timing
-4. Receive notifications as configured
+### Filter by Contact
 
-## Task Templates
+View tasks for specific contacts:
 
-### Creating Templates
+1. Use the contact filter dropdown
+2. Select specific contact or "All Contacts"
+3. Board shows only tasks with that contact
 
-For recurring task types:
+### Filter by Status
 
-1. Go to Settings > Task Templates
-2. Click "New Template"
-3. Set default values:
-   - Title pattern
-   - Default category
-   - Default priority
-   - Standard due date offset
-   - Common subtasks
-4. Save template
+Focus on specific statuses:
 
-### Using Templates
+1. Use the status filter dropdown
+2. Select status (To Do, In Progress, Review, Done)
+3. Board shows only tasks with that status
 
-1. Click "New Task"
-2. Choose template from dropdown
-3. Task pre-filled with template values
-4. Customize as needed
-5. Click "Save"
+### Filter by Priority
 
-### Template Examples
+View tasks by priority:
 
-**Meeting Prep Template**:
-- Category: Meeting Prep
-- Priority: High
-- Due date: 1 day before meeting
-- Subtasks: Review agenda, Prepare materials, Send confirmations
+1. Use the priority filter dropdown
+2. Select priority (Low, Medium, High)
+3. Board shows only tasks with that priority
 
-**Follow-up Template**:
-- Category: Follow-up
-- Priority: Medium
-- Due date: 3 days after interaction
-- Description: Send follow-up message/email
+### Filter by Category
 
-## Advanced Features
+View tasks by category:
 
-### Task Dependencies
+1. Use the category filter dropdown
+2. Select category
+3. Board shows only tasks with that category
 
-Set tasks that depend on others:
+### Clearing Filters
 
-1. Open task details
-2. Add "Depends on" tasks
-3. Dependent tasks blocked until prerequisite complete
-4. Visual indicators show dependencies
+- Clear search text to remove search filter
+- Select "All Contacts" to remove contact filter
+- Select "All Statuses" to remove status filter
+- Select "All Priorities" to remove priority filter
+- Select "All Categories" to remove category filter
 
-### Recurring Tasks
+## Task Fields Reference
 
-For repeated tasks:
+| Field | Required | Description |
+|-------|----------|-------------|
+| Title | Yes | Task name or description |
+| Status | No | To Do, In Progress, Review, or Done |
+| Priority | No | Low, Medium, or High |
+| Due Date | No | When the task is due |
+| Reminder | No | 15min, 1hour, 1day, or 1week before |
+| Estimated Time | No | Time estimate in minutes |
+| Category | No | Follow-up, Research, Meeting Prep, Administrative, Development |
+| Contact | No | Related contact (dropdown selection) |
+| Related Appointment | No | Link to calendar appointment |
+| Related Interaction | No | Link to interaction |
+| Related Deal | No | Link to deal |
+| Tags | No | Comma-separated tags for organization |
+| Description | No | Task details and requirements |
 
-1. Create task as normal
-2. Enable "Recurring" option
-3. Set recurrence pattern:
-   - Daily, weekly, monthly
-   - Custom schedule
-4. Set end condition or number of occurrences
-5. New instances auto-created
+## Due Date Formatting
 
-### Task Time Tracking
+Due dates are displayed with relative formatting for quick understanding:
 
-Track time spent on tasks:
+- **Overdue**: Due date is in the past (displayed in red)
+- **Today**: Due today
+- **Tomorrow**: Due tomorrow
+- **X days**: Due in X days (up to 7 days)
+- **Date**: Absolute date for more than 7 days away
 
-1. Start timer when beginning task
-2. Pause/stop as needed
-3. Manual time entry also available
-4. View time analytics per task/category
+## Best Practices
 
-### Bulk Operations
-
-Perform actions on multiple tasks:
-
-1. Select tasks using checkboxes
-2. Choose bulk action:
-   - Change status
-   - Update priority
-   - Set due date
-   - Add category
-   - Delete
+1. **Set Priorities**: Always set appropriate priority levels
+2. **Use Categories**: Categorize tasks for better organization
+3. **Set Due Dates**: Set due dates for time-sensitive tasks
+4. **Link to Contacts**: Link tasks to related contacts for context
+5. **Use Tags**: Use tags for additional organization
+6. **Update Status**: Keep task status current as work progresses
+7. **Review Regularly**: Review tasks daily to prioritize work
 
 ## Integration with Other Features
 
 ### Contact Integration
-
-- Tasks linked to contacts appear in contact timeline
-- Contact-specific task lists
-- Task completion updates contact activity
+- Tasks appear in contact activity timeline
+- Contact name displayed on task cards
+- Filter tasks by contact
 
 ### Calendar Integration
-
-- Tasks with due dates appear on calendar
-- Schedule tasks alongside appointments
-- View task load distribution
+- Link tasks to appointments for meeting prep
+- Link tasks to calendar events
+- Schedule-related task management
 
 ### Interaction Integration
+- Create follow-up tasks from interactions
+- Link tasks to interactions for context
+- Track action items from communications
 
-- Create tasks from interaction outcomes
-- Task completion can log interaction
-- Interaction history informs task priorities
-
-### Pipeline Integration
-
-- Tasks linked to deals and opportunities
-- Deal progress affects task priorities
-- Task completion influences deal stages
-
-## Analytics and Insights
-
-### Task Statistics
-
-View task analytics:
-
-- Completion rate by category
-- Average completion time
-- Overdue task rate
-- Priority distribution
-- Task creation trends
-
-### Productivity Metrics
-
-Track your productivity:
-
-- Tasks completed per day/week
-- On-time completion rate
-- Time spent per category
-- Efficiency trends
-
-### Workload Analysis
-
-Analyze your task load:
-
-- Upcoming task distribution
-- Priority balance
-- Category workload
-- Capacity planning
-
-## Best Practices
-
-1. **Capture Quickly**: Log tasks immediately when identified
-2. **Be Specific**: Use clear, actionable titles
-3. **Set Realistic Due Dates**: Allow adequate time
-4. **Prioritize Ruthlessly**: Focus on high-value tasks
-5. **Review Regularly**: Weekly task review and cleanup
+### Deal Integration
+- Link tasks to deals for negotiation follow-ups
+- Track deal-related action items
+- Pipeline task management
 
 ## Tips and Tricks
 
-- **Keyboard Shortcuts**: Quick keys for task creation and completion
-- **Smart Defaults**: Set default category/priority based on context
-- **Task Batching**: Group similar tasks for efficiency
-- **Time Blocking**: Schedule dedicated task time
-- ** templates**: Use templates for recurring task types
+- **Quick Status Change**: Use the dropdown on task cards for fast status updates
+- **Overdue Indicators**: Overdue tasks are highlighted in red
+- **Priority Colors**: Priority indicators use color coding for quick scanning
+- **Tag Search**: Search by tags to find related tasks
+- **Multi-Filter**: Combine multiple filters for precise task views
+- **Statistics**: Use the statistics dashboard to track progress
 
 ## Troubleshooting
 
-**Tasks Not Showing**: Check filters and view settings
-**Reminder Issues**: Verify notification permissions
-**Sync Problems**: Check data connection and sync settings
-**Performance**: Archive completed tasks regularly
+**Task Not Showing**: Check filters and ensure task exists in correct status column
+**Cannot Edit Task**: Make sure you're clicking on the task card
+**Due Date Issues**: Ensure due date is in the future
+**Status Not Changing**: Use the dropdown on the task card or edit the task
+**Contact Not in Dropdown**: Create the contact first in Contacts view
 
 For more help, see the [Troubleshooting Guide](../troubleshooting.md).
