@@ -1,23 +1,421 @@
 .calendar-view {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
-.placeholder-content {
-  text-align: center;
-  padding: 60px 40px;
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 16px;
 }
 
-.placeholder-content h3 {
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.calendar-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #E6E9F0;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.calendar-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.calendar-filters {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.calendar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.calendar-view-toggle {
+  display: flex;
+  gap: 4px;
+}
+
+.calendar-grid {
+  min-height: 600px;
+}
+
+/* Month View */
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: #1B1F2B;
+  margin-bottom: 1px;
+}
+
+.calendar-weekday {
+  background: #141821;
+  padding: 12px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8B92A8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: #1B1F2B;
+}
+
+.calendar-day {
+  background: #141821;
+  min-height: 100px;
+  padding: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.calendar-day:hover {
+  background: #1B2130;
+}
+
+.calendar-day.empty {
+  background: #0B0E14;
+  cursor: default;
+}
+
+.calendar-day.empty:hover {
+  background: #0B0E14;
+}
+
+.calendar-day.today {
+  background: #1B2130;
+}
+
+.calendar-day.selected {
+  background: #232838;
+  border: 2px solid #5B8DEF;
+}
+
+.calendar-day-number {
+  font-size: 14px;
   font-weight: 600;
   color: #E6E9F0;
-  margin: 0 0 8px 0;
 }
 
-.placeholder-content p {
-  font-size: 14px;
+.calendar-day.today .calendar-day-number {
+  color: #5B8DEF;
+}
+
+.calendar-day-appointments {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.calendar-appointment-dot {
+  width: 100%;
+  height: 4px;
+  background: #5B8DEF;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.calendar-appointment-dot:hover {
+  opacity: 0.8;
+}
+
+.calendar-appointment-more {
+  font-size: 10px;
   color: #8B92A8;
-  margin: 0;
+  font-weight: 500;
+}
+
+/* Week View */
+.calendar-week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: #1B1F2B;
+}
+
+.calendar-day-week {
+  background: #141821;
+  min-height: 400px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calendar-day-week:hover {
+  background: #1B2130;
+}
+
+.calendar-day-week.today {
+  background: #1B2130;
+}
+
+.calendar-day-week.selected {
+  background: #232838;
+  border: 2px solid #5B8DEF;
+}
+
+.calendar-day-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1B1F2B;
+}
+
+.calendar-day-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #8B92A8;
+  text-transform: uppercase;
+}
+
+.calendar-day-number {
+  font-size: 18px;
+  font-weight: 700;
+  color: #E6E9F0;
+}
+
+.calendar-day-week.today .calendar-day-number {
+  color: #5B8DEF;
+}
+
+.calendar-day-appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.calendar-appointment-item {
+  font-size: 12px;
+  color: #E6E9F0;
+  padding: 6px 8px;
+  background: #1B2130;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.calendar-appointment-item:hover {
+  background: #232838;
+}
+
+.calendar-appointment-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #5B8DEF;
+  font-weight: 500;
+}
+
+.calendar-appointment-title {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendar-appointment-contact {
+  font-size: 10px;
+  color: #8B92A8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Day View */
+.calendar-day-view {
+  min-height: 500px;
+}
+
+.calendar-day-header-large {
+  padding: 20px;
+  background: #141821;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.calendar-day-header-large.today {
+  background: #1B2130;
+  border: 2px solid #5B8DEF;
+}
+
+.calendar-day-name-large {
+  font-size: 48px;
+  font-weight: 700;
+  color: #E6E9F0;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.calendar-day-header-large.today .calendar-day-name-large {
+  color: #5B8DEF;
+}
+
+.calendar-day-number-large {
+  font-size: 48px;
+  font-weight: 700;
+  color: #8B92A8;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.calendar-month-year {
+  font-size: 18px;
+  color: #8B92A8;
+  font-weight: 500;
+}
+
+.calendar-day-appointments-list-large {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calendar-no-appointments {
+  text-align: center;
+  padding: 40px;
+  color: #8B92A8;
+  font-size: 14px;
+}
+
+.calendar-appointment-item-large {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: #141821;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.calendar-appointment-item-large:hover {
+  background: #1B2130;
+}
+
+.appointment-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: #5B8DEF;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.appointment-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.appointment-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #E6E9F0;
+}
+
+.appointment-contact {
+  font-size: 12px;
+  color: #8B92A8;
+}
+
+.appointment-location {
+  font-size: 12px;
+  color: #545B70;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .calendar-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .calendar-nav {
+    justify-content: space-between;
+  }
+
+  .calendar-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .calendar-filters {
+    flex-direction: column;
+  }
+
+  .calendar-actions {
+    flex-direction: column;
+  }
+
+  .calendar-view-toggle {
+    width: 100%;
+  }
+
+  .calendar-view-toggle .btn {
+    flex: 1;
+  }
+
+  .calendar-weekdays,
+  .calendar-days {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .calendar-day {
+    min-height: 60px;
+    padding: 4px;
+  }
+
+  .calendar-day-number {
+    font-size: 12px;
+  }
+
+  .calendar-week-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar-day-week {
+    min-height: auto;
+    padding: 8px;
+  }
+
+  .calendar-day-name-large {
+    font-size: 32px;
+  }
+
+  .calendar-day-number-large {
+    font-size: 32px;
+  }
 }

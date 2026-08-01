@@ -2,67 +2,85 @@
 
 Master appointment scheduling and calendar management with iCan's comprehensive calendar system.
 
-## Calendar Overview
+## Current Implementation Status
 
-The iCan calendar provides full-featured appointment management with:
+### ✅ Available Features
+- **Calendar Views**: Three calendar views (Month, Week, Day)
+- **Appointment CRUD**: Create, edit, and delete appointments
+- **Recurring Events**: Support for daily, weekly, and monthly recurrence
+- **Reminder System**: Reminders (15min, 1hour, 1day before)
+- **Search and Filtering**: Search by title, filter by contact and type
+- **Contact Integration**: Link appointments to contacts
+- **Navigation**: Navigate between months, weeks, and days
+- **Responsive Design**: Mobile-friendly calendar views
 
-- Multiple view options (month, week, day)
-- Recurring event support
-- Customizable reminders
-- Contact integration
-- External calendar sync capabilities
+### 🚧 Coming Soon
+- Drag-and-drop appointment rescheduling
+- External calendar sync (Google, Outlook)
+- Appointment templates
+- Availability management
+- Color-coded appointment types
+- Multiple reminder support per appointment
 
 ## Calendar Views
 
 ### Month View
 - Displays entire month at a glance
-- Shows appointment titles and times
-- Navigate between months
-- Click any day to see details or create appointments
+- Shows appointment indicators (dots for multiple appointments)
+- Navigate between months using Previous/Next buttons
+- Click any day to create new appointment
+- Today highlighted with special styling
+- Appointment count for days with multiple events
 
 ### Week View
-- Detailed view of current week
-- Hourly time slots
-- Drag-and-drop appointment rescheduling
-- Better for detailed weekly planning
+- Detailed view of current week (7 days)
+- Shows appointment list for each day
+- Appointment time, title, and contact name displayed
+- Navigate between weeks
+- Click on appointments to edit
+- Click on day header to create appointment
 
 ### Day View
 - Focused view of single day
-- Detailed time breakdown
-- Ideal for daily schedule management
-- Quick appointment creation
+- Large display of day name and date
+- Detailed appointment list with time, title, contact, and location
+- Navigate between days
+- Comprehensive appointment information
 
 ## Creating Appointments
 
 ### Basic Appointment
 
 1. Navigate to Calendar view
-2. Click on a date/time slot or "New Appointment" button
+2. Click "New Appointment" button or click on any date
 3. Fill in required fields:
    - **Title** (required): Appointment name
-   - **Date and Time**: When the appointment occurs
-   - **Duration**: How long the appointment lasts
+   - **Start Time** (required): When the appointment begins
+   - **End Time** (required): When the appointment ends
 4. Add optional details:
-   - **Contact**: Related contact (optional)
    - **Location**: Physical or virtual location
    - **Type**: Call, meeting, video conference, etc.
+   - **Contact**: Related contact (optional)
+   - **Status**: Scheduled, completed, or cancelled
+   - **Recurrence**: No recurrence, daily, weekly, or monthly
+   - **Reminder**: 15min, 1hour, 1day before, or none
    - **Description**: Additional details or agenda
-5. Click "Save"
+5. Click "Create Appointment"
 
 ### Recurring Appointments
 
 For regular meetings or appointments:
 
 1. Create appointment as above
-2. Enable "Recurring" option
-3. Choose recurrence pattern:
-   - **Daily**: Every day
-   - **Weekly**: Same day each week
-   - **Bi-weekly**: Every two weeks
-   - **Monthly**: Same date each month
-   - **Custom**: Specific pattern
-4. Set end date or number of occurrences
-5. Click "Save"
+2. Set "Recurrence" field:
+   - **None**: One-time appointment
+   - **Daily**: Repeats every day
+   - **Weekly**: Repeats every week on same day
+   - **Monthly**: Repeats every month on same date
+3. Set reminder if needed
+4. Click "Create Appointment"
+
+**Note**: Currently, all recurrence patterns are treated as indefinite. Individual occurrence editing coming soon.
 
 ### Appointment Types
 
@@ -71,8 +89,6 @@ Choose the appropriate type for better organization:
 - **Call**: Phone call or voice conversation
 - **Meeting**: In-person meeting
 - **Video**: Video conference or virtual meeting
-- **Email**: Scheduled email follow-up
-- **Task**: Dedicated work session
 - **Other**: Custom appointment type
 
 ## Managing Appointments
@@ -80,33 +96,25 @@ Choose the appropriate type for better organization:
 ### Editing Appointments
 
 1. Click on any appointment to open details
-2. Click "Edit" button
-3. Modify any fields as needed
-4. Click "Save" to update
-
-**Note**: For recurring appointments, choose whether to edit:
-- **This occurrence only**
-- **This and all future occurrences**
-- **All occurrences**
-
-### Rescheduling
-
-**Drag and Drop** (Week/Day view):
-1. Click and hold appointment
-2. Drag to new time slot
-3. Release to reschedule
-
-**Manual Reschedule**:
-1. Open appointment details
-2. Edit date/time fields
-3. Click "Save"
+2. Modify any fields as needed
+3. Click "Save Changes" to update
 
 ### Deleting Appointments
 
-1. Open appointment details
+1. Open appointment details by clicking on it
 2. Click "Delete" button
-3. Choose deletion scope (for recurring events)
-4. Confirm deletion
+3. Confirm deletion
+4. **Note**: This action cannot be undone
+
+### Rescheduling
+
+Currently, rescheduling is done by editing the appointment:
+
+1. Open appointment details
+2. Edit the Start Time and End Time fields
+3. Click "Save Changes"
+
+**Coming soon**: Drag-and-drop rescheduling in Week and Day views.
 
 ## Reminders
 
@@ -115,45 +123,44 @@ Never miss an appointment with customizable reminders:
 ### Setting Reminders
 
 1. Create or edit appointment
-2. Add reminder in "Reminders" section
-3. Choose timing:
-   - 15 minutes before
-   - 1 hour before
-   - 1 day before
-   - Custom time
-4. Add multiple reminders if needed
+2. Set "Reminder" field:
+   - **None**: No reminder
+   - **15min**: 15 minutes before appointment
+   - **1hour**: 1 hour before appointment
+   - **1day**: 1 day before appointment
+3. Click "Save"
 
-### Reminder Notifications
-
-- **In-App**: Pop-up notification when app is open
-- **Browser**: Browser notification (if enabled)
-- **Email**: Email reminder (if configured)
+**Note**: Currently, reminders are stored with the appointment. Browser notification support coming soon.
 
 ## Calendar Filtering
+
+### Search Appointments
+
+1. Use the search bar at the top of the calendar
+2. Type in appointment title or description
+3. Calendar updates in real-time to show matching appointments
 
 ### Filter by Contact
 
 View appointments for specific contacts:
 
-1. Use contact filter dropdown
-2. Select contact or "All contacts"
+1. Use the contact filter dropdown
+2. Select specific contact or "All Contacts"
 3. Calendar updates to show filtered results
 
 ### Filter by Type
 
 Focus on specific appointment types:
 
-1. Use type filter dropdown
+1. Use the type filter dropdown
 2. Select type (Call, Meeting, Video, etc.)
 3. Calendar shows only selected type
 
-### Filter by Date Range
+### Clearing Filters
 
-View specific time periods:
-
-1. Use date range picker
-2. Select start and end dates
-3. Calendar shows appointments in range
+- Clear search text to remove search filter
+- Select "All Contacts" to remove contact filter
+- Select "All Types" to remove type filter
 
 ## Integration with Contacts
 
@@ -161,49 +168,34 @@ View specific time periods:
 
 Link appointments to contacts for better context:
 
-1. When creating appointment, select related contact
+1. When creating appointment, select related contact from dropdown
 2. Appointment appears in contact's activity timeline
-3. Contact information available in appointment details
-4. Quick access to contact history
+3. Contact name displayed on appointment in calendar views
+4. Quick access to contact information
 
-### Quick Appointment from Contact
+### Viewing Contact Appointments
 
-Create appointments directly from contact profiles:
+To see all appointments for a specific contact:
 
-1. Open contact detail view
-2. Click "Schedule Appointment" button
-3. Appointment pre-linked to contact
-4. Contact information auto-filled
+1. Go to Contacts view
+2. Click on the contact
+3. View activity timeline
+4. Appointments are displayed with interactions and tasks
 
-## Advanced Features
+## Appointment Fields Reference
 
-### Calendar Sync
-
-Sync with external calendars (Google, Outlook, etc.):
-
-1. Go to Settings > Calendar Sync
-2. Connect external calendar account
-3. Choose sync direction (import, export, or both)
-4. Configure sync frequency
-5. Calendar automatically syncs
-
-### Appointment Templates
-
-Create templates for common appointment types:
-
-1. Go to Settings > Appointment Templates
-2. Create new template
-3. Set default duration, type, reminders
-4. Use template when creating similar appointments
-
-### Availability Management
-
-Set your availability to prevent scheduling conflicts:
-
-1. Go to Settings > Availability
-2. Set working hours
-3. Block out unavailable times
-4. Calendar respects availability when suggesting times
+| Field | Required | Description |
+|-------|----------|-------------|
+| Title | Yes | Name or subject of the appointment |
+| Start Time | Yes | When the appointment begins |
+| End Time | Yes | When the appointment ends |
+| Location | No | Physical address or virtual meeting link |
+| Type | No | Call, meeting, video, or other |
+| Contact | No | Related contact (dropdown selection) |
+| Status | No | Scheduled, completed, or cancelled |
+| Recurrence | No | None, daily, weekly, or monthly |
+| Reminder | No | None, 15min, 1hour, or 1day before |
+| Description | No | Agenda, notes, or additional details |
 
 ## Best Practices
 
@@ -212,20 +204,22 @@ Set your availability to prevent scheduling conflicts:
 3. **Set Reminders**: Use reminders for important appointments
 4. **Link Contacts**: Always link to relevant contacts
 5. **Review Regularly**: Check calendar weekly for planning
+6. **Use Recurrence**: Set up recurring events for regular meetings
+7. **Filter Wisely**: Use filters to focus on specific types of appointments
 
 ## Tips and Tricks
 
-- **Color Coding**: Different appointment types have different colors
-- **Quick Add**: Double-click any time slot for quick appointment creation
-- **Keyboard Shortcuts**: Use arrow keys to navigate, Enter to create
-- **Multiple Calendars**: Create separate calendars for different contexts
-- **Export**: Export calendar for backup or sharing
+- **Quick Create**: Click on any date to quickly create appointment for that day
+- **View Switching**: Toggle between Month, Week, and Day views for different perspectives
+- **Today's Date**: Current date is highlighted in calendar views
+- **Navigation**: Use Previous/Next buttons to navigate between periods
+- **Multiple Appointments**: Days with multiple appointments show a count indicator
 
 ## Troubleshooting
 
-**Appointments Not Showing**: Check date filters and calendar view
-**Sync Issues**: Verify external calendar connection and permissions
-**Reminder Problems**: Check notification settings in browser
-**Conflicts**: Use availability settings to prevent double-booking
+**Appointments Not Showing**: Check filters (search, contact, type) and ensure you're viewing the correct date range
+**Cannot Edit Appointment**: Make sure you're clicking on the appointment, not the day
+**Date/Time Issues**: Ensure end time is after start time
+**Contact Not in Dropdown**: Create the contact first in Contacts view
 
 For more help, see the [Troubleshooting Guide](../troubleshooting.md).

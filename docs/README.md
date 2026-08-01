@@ -16,12 +16,19 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Bulk import from CSV with validation
   - Export to CSV and JSON formats
   - Tags, notes, and detailed contact information
+- **Calendar & Appointments**: Full calendar functionality
+  - Three calendar views (Month, Week, Day)
+  - Appointment creation and editing with validation
+  - Recurring event support (daily, weekly, monthly)
+  - Reminder system (15min, 1hour, 1day before)
+  - Search and filter appointments by title, contact, and type
+  - Integration with contacts
+  - Color-coded appointment display
 - **Dashboard**: Real-time statistics for contacts, appointments, tasks, and deals
 - **Responsive Design**: Mobile-friendly interface with adaptive layouts
 - **Data Persistence**: LocalStorage for offline data persistence
 
 ### 🚧 In Progress / Coming Soon
-- **Calendar & Appointments**: Full calendar integration with recurring events
 - **Interaction History**: Complete log of all interactions with contacts
 - **Task Management**: Kanban-style task board with priority tracking
 - **Enhanced Negotiation**: Deal tracking with values and probabilities

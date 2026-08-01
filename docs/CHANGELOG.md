@@ -2,6 +2,69 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [1.1.0] - 2026-08-01
+
+### Added - Calendar & Appointments System
+- **CalendarView**: Full calendar implementation with three views
+  - Month view with appointment dots and navigation
+  - Week view with detailed appointment list
+  - Day view with comprehensive appointment display
+  - Navigation between periods (previous/next)
+  - Today indicator and current date highlighting
+  - Click to create appointment on any date
+
+- **AppointmentForm Modal**: Comprehensive appointment creation/editing
+  - Title, description, and location fields
+  - Start and end time with datetime-local input
+  - Appointment type selection (call, meeting, video, etc.)
+  - Status tracking (scheduled, completed, cancelled)
+  - Recurring event support (daily, weekly, monthly)
+  - Reminder system (15min, 1hour, 1day before)
+  - Contact integration with dropdown selection
+  - Form validation for required fields
+  - Delete functionality for existing appointments
+
+- **Calendar Features**:
+  - Real-time search across appointment titles and descriptions
+  - Filter by contact
+  - Filter by appointment type
+  - Contact names displayed on appointments
+  - Location information in day view
+  - Color-coded appointment display
+  - Appointment count indicators in month view
+  - Sorted appointments by time
+
+- **Integration**:
+  - Full AppContext integration for appointment CRUD operations
+  - Automatic data persistence with LocalStorage
+  - Contact selection for linking appointments
+  - Activity timeline updates in contact detail view
+
+### Enhanced - Components
+- **Form Components**: Added datetime-local input type support
+- **Calendar CSS**: Comprehensive styling for all calendar views
+- **Responsive Design**: Mobile-friendly calendar views
+
+### Updated - Documentation
+- **README.md**: Updated with calendar features
+- **Platform Overview**: Updated current status
+- **CHANGELOG.md**: Added version 1.1.0 changes
+
+### Technical Improvements
+- Date handling and formatting utilities
+- Time-based appointment sorting
+- Calendar navigation logic
+- Recurrence and reminder structure
+- Enhanced type definitions for appointments
+
+### Project Structure
+- Added `src/components/calendar/CalendarView.jsx`
+- Added `src/components/calendar/CalendarView.css`
+- Added `src/components/calendar/AppointmentForm.jsx`
+- Added `src/components/calendar/AppointmentForm.css`
+- Enhanced `src/components/calendar/CalendarView.jsx` (replaced placeholder)
+- Enhanced `src/components/calendar/CalendarView.css` (replaced placeholder)
+
 ## [1.0.0] - 2026-08-01
 
 ### Added - Contact Management System
