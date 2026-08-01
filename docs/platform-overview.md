@@ -13,7 +13,14 @@ The name "iCan" represents the four core pillars of the platform:
 
 ## Current Status
 
-### Version 1.0 - Contact Management Release
+### Version 1.5.1 - Bug Fix Release (2026-08-01)
+
+**Recent Bug Fixes:**
+- ✅ Fixed contact selection validation in InteractionForm and DealForm
+- ✅ Added disabled placeholder options to contact dropdowns
+- ✅ Enhanced form validation logic for select dropdowns
+
+### Version 1.5.0 - Companies View Release (2026-08-01)
 
 **Implemented Features:**
 - ✅ Contact Management System

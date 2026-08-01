@@ -2,6 +2,34 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [1.5.1] - 2026-08-01
+
+### Fixed - Contact Selection Validation
+- **InteractionForm**: Fixed "Contact is required" error when contact was selected
+  - Added disabled placeholder option to contact dropdown
+  - Improved validation to check for empty string in addition to falsy values
+  - Ensures users must explicitly select a contact before submitting
+
+- **DealForm**: Fixed "Contact is required" error when contact was selected
+  - Added disabled placeholder option to contact dropdown
+  - Improved validation to check for empty string in addition to falsy values
+  - Ensures users must explicitly select a contact before submitting
+
+- **Form Component**: Enhanced Select component
+  - Added support for disabled property on options
+  - Allows placeholder options to be non-selectable
+  - Improves form validation UX
+
+### Technical Improvements
+- Enhanced form validation logic for select dropdowns
+- Better user experience for required contact selection
+- Improved error handling in interaction and deal forms
+
+### Project Structure
+- Enhanced `src/components/common/Form.jsx` (added disabled option support)
+- Enhanced `src/components/interactions/InteractionForm.jsx` (contact selection fix)
+- Enhanced `src/components/negotiations/DealForm.jsx` (contact selection fix)
+
 ## [1.5.0] - 2026-08-01
 
 ### Added - Companies View System

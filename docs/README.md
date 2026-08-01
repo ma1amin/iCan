@@ -2,6 +2,10 @@
 
 A comprehensive digital life and networking organization platform where the acronym represents: I (Interact), C (Contact/Connect), A (Arrange/Appointment), N (Negotiate).
 
+## Version
+
+**Current Version: 1.5.1** (Latest bug fix release - 2026-08-01)
+
 ## Vision
 
 The iCan platform helps professionals manage their relationships, appointments, tasks, and business negotiations in one unified system.
