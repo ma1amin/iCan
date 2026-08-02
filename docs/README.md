@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 2.0.2** (Critical fixes - 2026-08-03)
+**Current Version: 3.0.0** (PostgreSQL implementation - 2026-08-03)
 
 ## Vision
 
@@ -13,13 +13,33 @@ The iCan platform helps professionals manage their relationships, appointments, 
 ## Features
 
 ### ✅ Implemented
+- **PostgreSQL Database**: Complete database implementation with Prisma ORM
+  - Multi-tenant architecture with tenant isolation
+  - Comprehensive schema with 10 models (users, tenants, contacts, companies, appointments, interactions, tasks, deals, verification tokens, password reset tokens)
+  - Performance indexes on frequently queried fields
+  - Foreign key relationships with cascade/delete
+  - JSON support for flexible data (tags, settings, etc.)
+  - Database migration system
+- **Express.js API Server**: RESTful API with authentication
+  - Authentication endpoints (register, login, verify-email, profile management, account deletion)
+  - Full CRUD operations for all entities
+  - JWT authentication with secure token management
+  - Multi-tenant isolation on all API routes
+  - Protected routes with middleware
+  - Error handling and validation
+- **API Integration**: Complete frontend API integration
+  - AuthContext uses API calls instead of localStorage
+  - AppContext uses API calls for all CRUD operations
+  - Centralized API client library with token management
+  - Parallel data loading for better performance
+  - Real-time data updates without localStorage polling
 - **Authentication System**: Multi-tenant SaaS authentication
   - User registration with email/password
   - User login with validation
   - Email verification system (mock implementation)
   - Multi-tenant architecture with organization support
   - Protected routes for authenticated users
-  - Session management with localStorage
+  - Session management with JWT tokens
   - User roles (Admin, Member, Viewer)
   - Logout functionality
 - **Landing Page**: Comprehensive public-facing marketing page
@@ -135,12 +155,30 @@ The iCan platform helps professionals manage their relationships, appointments, 
 npm install
 ```
 
-2. Start development server:
+2. Start development servers (frontend + API):
 ```bash
-npm start
+npm run dev
 ```
 
 3. Open browser to `http://localhost:3000`
+
+The API server will run on `http://localhost:3001` and the frontend on `http://localhost:3000`.
+
+### Development Setup
+
+The platform uses a full-stack architecture with:
+- **Frontend**: React (port 3000)
+- **Backend**: Express.js API (port 3001)
+- **Database**: PostgreSQL with Prisma ORM
+
+To run components separately:
+```bash
+# Start API server only
+npm run server
+
+# Start frontend only
+npm start
+```
 
 ## Project Structure
 
@@ -161,14 +199,25 @@ ican/
 │   │   └── dashboard/       # Dashboard and analytics
 │   ├── pages/               # Page components (LoginPage, RegisterPage, VerifyEmailPage, ProfilePage)
 │   ├── hooks/              # Custom React hooks
+│   ├── lib/                # Utility libraries
+│   │   ├── api.js          # API client library
+│   │   ├── auth.js         # Authentication utilities
+│   │   └── prisma.js       # Prisma client configuration
 │   ├── utils/              # Utility functions
 │   ├── context/            # React Context providers (AppContext, AuthContext)
 │   ├── types/              # Type definitions (contacts, appointments, interactions, tasks, deals, companies, users, tenants)
 │   ├── styles/             # Global styles
 │   ├── App.jsx             # Main application component with routing
 │   └── index.js            # Application entry point
+├── scripts/                # Utility scripts
+│   └── migrate-local-to-api.js  # Data migration script
+├── prisma/                 # Prisma ORM configuration
+│   ├── schema.prisma       # Database schema
+│   ├── migrations/         # Database migrations
+│   └── prisma.config.ts    # Prisma configuration
 ├── docs/                   # Documentation
 ├── public/                 # Static assets
+├── server.js               # Express.js API server
 └── package.json            # Dependencies and scripts
 ```
 
@@ -203,11 +252,12 @@ Comprehensive documentation is available in the `docs/` folder:
 - **Frontend**: React 18 with modern hooks
 - **Routing**: React Router DOM for client-side routing
 - **State Management**: React Context API (AppContext, AuthContext)
-- **Authentication**: Custom auth system with multi-tenant support
+- **Authentication**: Custom auth system with multi-tenant support and JWT tokens
+- **Database**: PostgreSQL with Prisma ORM
+- **API**: Express.js RESTful API
+- **Security**: bcryptjs for password hashing, jsonwebtoken for JWT
 - **Styling**: CSS with custom design system and CSS variables for theming
 - **Date Handling**: Custom date utilities
-- **Storage**: LocalStorage with multi-tenant isolation (backend-ready)
-- **Data Persistence**: Tenant-specific localStorage keys for data isolation
 - **Type Safety**: Type definitions for all data structures
 
 ## Color Scheme

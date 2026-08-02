@@ -2,347 +2,363 @@
 
 ## Overview
 
-The iCan platform currently uses **localStorage** for data persistence as a frontend-only application with a backend-ready architecture. This approach allows the platform to function immediately without requiring a backend server, while being designed for future API integration.
+The iCan platform uses **PostgreSQL** as the primary database with **Prisma ORM** for data access. This provides a scalable, production-ready backend with multi-tenant architecture, strong data integrity, and complex query capabilities.
 
 ## Current Storage Implementation
 
-### Storage Technology: LocalStorage
+### Storage Technology: PostgreSQL with Prisma ORM
 
-**Why LocalStorage?**
-- Zero-setup deployment
-- Works entirely in the browser
-- No server required
-- Fast and responsive
-- Sufficient for individual user data
-- Perfect for prototype and development phase
+**Why PostgreSQL with Prisma?**
+- **Scalability**: Handles large datasets efficiently
+- **Multi-Tenant**: Built-in support for tenant isolation
+- **Data Integrity**: ACID compliance for transaction safety
+- **Complex Queries**: Excellent for complex business queries
+- **Performance**: Proven scalability to billions of records
+- **Type Safety**: Prisma provides type-safe database access
+- **Developer Experience**: Excellent tooling and migrations
 
-### Storage Keys and Structure
+### Database Schema
 
-#### Authentication Data
-- **Key**: `ican-auth`
-- **Purpose**: Stores current user session and tenant information
-- **Structure**:
-```javascript
-{
-  user: User,
-  tenant: Tenant,
-  lastSync: timestamp
-}
-```
+The platform uses 10 main models:
 
-#### User Accounts
-- **Key**: `ican-users`
-- **Purpose**: Stores all registered user accounts
-- **Structure**: Array of User objects
+#### Core Models
+- **Tenant**: Multi-tenant organization management
+- **User**: User accounts with authentication
+- **VerificationToken**: Email verification system
+- **PasswordResetToken**: Password recovery system
 
-#### Tenant/Organization Data
-- **Key**: `ican-tenants`
-- **Purpose**: Stores all organizations/tenants
-- **Structure**: Array of Tenant objects
-
-#### Email Verification Tokens
-- **Key**: `ican-verification-tokens`
-- **Purpose**: Stores email verification tokens
-- **Structure**: Array of verification token objects
-
-#### Application Data (Tenant-Specific)
-- **Key**: `ican-data-{tenantId}`
-- **Purpose**: Stores application data for each tenant
-- **Structure**:
-```javascript
-{
-  contacts: Contact[],
-  appointments: Appointment[],
-  interactions: Interaction[],
-  tasks: Task[],
-  deals: Deal[],
-  companies: Company[],
-  settings: Settings,
-  version: string,
-  lastSync: timestamp
-}
-```
+#### Business Models
+- **Contact**: Contact management
+- **Company**: Company/organization tracking
+- **Appointment**: Calendar and scheduling
+- **Interaction**: Communication logging
+- **Task**: Task management
+- **Deal**: Pipeline and negotiations
 
 ### Multi-Tenant Data Isolation
 
-Each tenant has its own isolated data storage:
+Each tenant has completely isolated data:
+- **Tenant-Specific Queries**: All queries include `tenantId` filter
+- **Foreign Key Relationships**: Data is isolated via foreign keys
+- **API-Level Isolation**: API routes enforce tenant access
+- **Cascade Deletes**: Proper data cleanup when tenants are deleted
 
-1. **Tenant-Specific Storage Keys**: Application data is stored with tenant-specific keys
-2. **Automatic Isolation**: When a user logs in, only their tenant's data is loaded
-3. **Separate Storage**: Different tenants cannot access each other's data
-4. **Unique Identifiers**: Each tenant has a unique ID that prefixes their data
-
-**Example Storage Keys:**
-- Tenant 1: `ican-data-tenant-abc123`
-- Tenant 2: `ican-data-tenant-def456`
-- Tenant 3: `ican-data-tenant-ghi789`
-
-## Data Flow
-
-### Registration Flow
-1. User fills registration form
-2. New tenant is created with unique ID
-3. New user is created linked to tenant
-4. Verification token is generated
-5. All data stored in localStorage
-6. User receives verification email (mock)
-
-### Login Flow
-1. User enters credentials
-2. System validates against stored users
-3. User's tenant is retrieved
-4. Session data stored in `ican-auth`
-5. Tenant-specific data loaded from `ican-data-{tenantId}`
-6. User redirected to dashboard
-
-### Data Persistence
-1. All data changes trigger automatic save
-2. Data saved to tenant-specific storage key
-3. Changes persist across browser sessions
-4. No server required for data storage
-
-## Data Capacity
-
-### LocalStorage Limitations
-- **Storage Limit**: ~5-10MB per domain
-- **Browser Compatibility**: All modern browsers
-- **Data Types**: Only strings (requires JSON serialization)
-- **Persistence**: Persists until cleared by user or browser
-
-### Current Data Usage
-- **User Data**: ~1KB per user
-- **Tenant Data**: ~2KB per tenant
-- **Application Data**: ~100KB per tenant (typical usage)
-- **Verification Tokens**: ~1KB per token
-
-### Storage Optimization
-- Data is JSON serialized
-- Only essential data stored
-- No unnecessary duplication
-- Efficient data structures
-
-## Security Considerations
-
-### Current Security Model
-- **Client-Side Storage**: Data stored in user's browser
-- **No Server Transmission**: Data never leaves the browser
-- **Local Isolation**: Data isolated by tenant ID
-- **Password Storage**: Stored in localStorage (development only)
-
-### Security Limitations
-- **Not Secure for Production**: LocalStorage is not encrypted
-- **Client-Side Validation**: Validation can be bypassed
-- **No Server-Side Security**: No server-side authentication
-- **Data Access**: Anyone with browser access can view data
-
-### Security for Production
-When moving to production with backend:
-- Implement server-side authentication
-- Use encrypted database storage
-- Add proper authorization checks
-- Implement data encryption at rest
-- Add audit logging
-- Use secure password hashing
-- Implement proper session management
-
-## Backend Integration Path
-
-### Phase 1: Current State (Frontend-Only)
-- ✅ LocalStorage for all data
-- ✅ Multi-tenant architecture (client-side)
-- ✅ Backend-ready data structures
-- ✅ REST API-ready interfaces
-
-### Phase 2: Backend Integration
-- **Authentication API**: Replace localStorage auth with API calls
-- **Data API**: Replace localStorage with REST API calls
-- **Real Database**: Migrate to PostgreSQL/MySQL/MongoDB
-- **Server-Side Validation**: Add server-side validation
-- **Secure Password Storage**: Implement bcrypt/argon2
-
-### Phase 3: Production Features
-- **Encrypted Storage**: Data encryption at rest
-- **API Rate Limiting**: Prevent abuse
-- **Backup Systems**: Automated backups
-- **Monitoring**: Application monitoring
-- **CDN Integration**: Static asset delivery
-
-## Database Schema (Future)
-
-### Users Table
-```sql
-CREATE TABLE users (
-  id UUID PRIMARY KEY,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  password_hash VARCHAR(255) NOT NULL,
-  name VARCHAR(255) NOT NULL,
-  tenant_id UUID REFERENCES tenants(id),
-  role VARCHAR(50) NOT NULL,
-  email_verified BOOLEAN DEFAULT FALSE,
-  avatar TEXT,
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW()
-);
-```
-
-### Tenants Table
-```sql
-CREATE TABLE tenants (
-  id UUID PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  slug VARCHAR(255) UNIQUE NOT NULL,
-  plan VARCHAR(50) NOT NULL,
-  settings JSONB,
-  created_by VARCHAR(255),
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW()
-);
-```
-
-### Contacts Table
-```sql
-CREATE TABLE contacts (
-  id UUID PRIMARY KEY,
-  tenant_id UUID REFERENCES tenants(id),
-  name VARCHAR(255) NOT NULL,
-  phone VARCHAR(50),
-  email VARCHAR(255),
-  company VARCHAR(255),
-  location VARCHAR(255),
-  industry VARCHAR(100),
-  source VARCHAR(50),
-  stage VARCHAR(50),
-  tags TEXT[],
-  last_contact_date TIMESTAMP,
-  notes TEXT,
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW()
-);
-```
-
-## Data Backup and Export
-
-### Current Backup Methods
-- **Manual Export**: Users can export data to JSON
-- **Browser Storage**: Data persists in browser
-- **Manual Backup**: Users can manually backup localStorage
-
-### Export Functionality
+**Example Query:**
 ```javascript
-// Export all tenant data
-const exportData = () => {
-  const data = {
-    user: currentUser,
-    tenant: currentTenant,
-    contacts: allContacts,
-    appointments: allAppointments,
-    interactions: allInteractions,
-    tasks: allTasks,
-    deals: allDeals,
-    companies: allCompanies,
-    settings: currentSettings,
-    exportDate: new Date().toISOString()
-  };
-  
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `ican-backup-${tenant.id}-${Date.now()}.json`;
-  a.click();
-};
+// All contacts are automatically filtered by tenantId
+const contacts = await prisma.contact.findMany({
+  where: { tenantId: user.tenantId }
+});
+```
+
+## API Architecture
+
+### RESTful API Design
+
+The platform uses Express.js with RESTful API endpoints:
+
+#### Authentication Endpoints
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `POST /api/auth/verify-email` - Email verification
+- `GET /api/auth/me` - Get current user
+- `PUT /api/auth/profile` - Update profile
+- `DELETE /api/auth/account` - Delete account
+
+#### CRUD Endpoints
+- **Contacts**: GET, POST, PUT, DELETE `/api/contacts`
+- **Companies**: GET, POST, PUT, DELETE `/api/companies`
+- **Appointments**: GET, POST, PUT, DELETE `/api/appointments`
+- **Interactions**: GET, POST, PUT, DELETE `/api/interactions`
+- **Tasks**: GET, POST, PUT, DELETE `/api/tasks`
+- **Deals**: GET, POST, PUT, DELETE `/api/deals`
+
+### Authentication
+
+**JWT Token Flow:**
+1. User logs in → Server validates credentials
+2. Server generates JWT token with user/tenant info
+3. Token stored in localStorage
+4. Token included in Authorization header for API calls
+5. Server validates token on protected routes
+
+**Token Structure:**
+```javascript
+{
+  userId: string,
+  email: string,
+  tenantId: string
+}
 ```
 
 ## Data Migration
 
-### Version Migration
-- **Data Version**: Stored in each data object
-- **Migration Logic**: Applied on data load
-- **Backward Compatibility**: Maintained through version checks
+### localStorage to PostgreSQL Migration
 
-### Example Migration
+The platform includes a migration script to migrate existing localStorage data to PostgreSQL:
+
+**Migration Script Location:** `scripts/migrate-local-to-api.js`
+
+**How to Use:**
+1. Start the API server: `npm run server`
+2. Login to the application with your existing account
+3. Open browser console
+4. Load the migration script
+5. Run: `migrateLocalStorageToAPI()`
+
+**Migration Process:**
+1. Validates authentication token
+2. Loads data from localStorage
+3. Migrates in dependency order (companies → contacts → appointments, etc.)
+4. Maps relationships using names to IDs
+5. Reports success/failure for each entity
+6. Offers option to clear localStorage after migration
+
+**Data Mapping:**
+- Companies: Direct migration with all fields
+- Contacts: Maps company names to IDs
+- Appointments: Maps contact names to IDs
+- Interactions: Maps contact names to IDs
+- Tasks: Maps contact names to IDs
+- Deals: Maps contact and company names to IDs
+
+## Data Access
+
+### Frontend API Integration
+
+The platform uses a centralized API client library:
+
+**Location:** `src/lib/api.js`
+
+**Features:**
+- Automatic token inclusion in requests
+- Centralized error handling
+- Type-safe API calls
+- Separate modules for each entity
+
+**Example Usage:**
 ```javascript
-const migrateData = (data) => {
-  // Handle old companies format
-  if (data.companies && !Array.isArray(data.companies)) {
-    data.companies = Object.values(data.companies);
-  }
-  
-  // Add new fields
-  if (!data.settings.theme) {
-    data.settings.theme = 'dark';
-  }
-  
-  return data;
-};
+import { contactsAPI } from '../lib/api';
+
+// Get all contacts
+const { contacts } = await contactsAPI.getAll();
+
+// Create contact
+const { contact } = await contactsAPI.create(contactData);
 ```
+
+### Direct Database Access
+
+For direct database access (seeds, scripts):
+
+**Prisma Client Location:** `src/lib/prisma.js`
+
+**Example Usage:**
+```javascript
+import prisma from '../lib/prisma';
+
+// Direct database query
+const contacts = await prisma.contact.findMany({
+  where: { tenantId: user.tenantId },
+  include: { company: true }
+});
+```
+
+## Data Storage
+
+### Database Configuration
+
+**Connection String:** Stored in `.env` file
+```
+DATABASE_URL="postgres://user:password@host:port/database"
+```
+
+**Environment Variables:**
+- `DATABASE_URL` - PostgreSQL connection string
+- `JWT_SECRET` - JWT token secret
+- `NODE_ENV` - Environment (development/production)
+- `REACT_APP_API_URL` - Frontend API URL
+
+### Database Migrations
+
+**Prisma Migrations:** Located in `prisma/migrations/`
+
+**Run Migrations:**
+```bash
+npx prisma migrate dev --name migration_name
+```
+
+**Production Migrations:**
+```bash
+npx prisma migrate deploy
+```
+
+## Security Considerations
+
+### Current Security Model
+- **Password Storage**: Hashed with bcryptjs
+- **Authentication**: JWT tokens with expiration
+- **Multi-Tenant Isolation**: Database-level tenant isolation
+- **API Security**: Protected routes with JWT middleware
+- **Input Validation**: Prisma schema validation
+- **SQL Injection**: Protected by Prisma ORM
+
+### Security Features
+- **Password Hashing**: bcryptjs with salt rounds
+- **JWT Tokens**: 7-day expiration, secure storage
+- **Tenant Isolation**: All queries filtered by tenantId
+- **Protected Routes**: JWT middleware on all protected endpoints
+- **CORS**: Configured for frontend API access
+- **Environment Variables**: Sensitive data in .env (not committed)
+
+### Production Security Recommendations
+- **HTTPS**: Required for production deployment
+- **Strong JWT Secret**: Use environment variable with secure random string
+- **Database Security**: Enable SSL/TLS for database connections
+- **Rate Limiting**: Add rate limiting to API endpoints
+- **Input Validation**: Add additional server-side validation
+- **Audit Logging**: Log all data access and modifications
+- **Regular Backups**: Automated database backups
 
 ## Performance Considerations
 
 ### Current Performance
-- **Load Time**: Instant (local storage)
-- **Write Time**: Fast (no network calls)
-- **Capacity**: Sufficient for typical usage
-- **Latency**: Zero (no network)
+- **Database**: PostgreSQL with indexes on frequently queried fields
+- **API**: Express.js with async/await for non-blocking operations
+- **Frontend**: Parallel data loading with Promise.all
+- **Caching**: Future enhancement for database query caching
 
 ### Performance Optimization
-- **Lazy Loading**: Load data only when needed
-- **Debounced Saves**: Prevent excessive writes
-- **Efficient Updates**: Only update changed data
-- **Memory Management**: Clean up unused data
+- **Indexes**: Added on tenantId, foreign keys, and frequently queried fields
+- **Query Optimization**: Prisma generates optimized SQL queries
+- **Parallel Loading**: Frontend loads data in parallel
+- **Connection Pooling**: Prisma manages database connections efficiently
+- **Lazy Loading**: Components load data when needed
 
-## Future Enhancements
+### Future Performance Enhancements
+- **Read Replicas**: Add read replicas for scaling read operations
+- **Query Caching**: Implement Redis caching for frequently accessed data
+- **Database Partitioning**: Partition large tables by tenantId
+- **Connection Pooling**: Tune connection pool settings
+- **Query Optimization**: Add database-specific optimizations
 
-### Planned Features
-- **Cloud Sync**: Optional cloud backup
-- **Offline Support**: Service worker implementation
-- **Data Compression**: Reduce storage usage
-- **Incremental Sync**: Only sync changes
-- **Conflict Resolution**: Handle data conflicts
-- **Version History**: Track data changes
+## Scalability
 
-### Backend Features
-- **API Rate Limiting**: Prevent abuse
-- **Data Encryption**: End-to-end encryption
-- **Access Control**: Fine-grained permissions
-- **Audit Logging**: Track all data access
-- **Real-time Sync**: WebSocket integration
-- **Data Sharding**: Scale for large datasets
+### Current Scalability
+- **Vertical Scaling**: Add more resources to single server
+- **Database Scaling**: PostgreSQL handles large datasets efficiently
+- **Multi-Tenant**: Architecture supports many tenants
+- **API Scaling**: Express.js can be scaled with load balancers
+
+### Scalability Path
+- **Phase 1**: Single PostgreSQL instance (current)
+- **Phase 2**: Read replicas for read-heavy workloads
+- **Phase 3**: Database partitioning by tenantId
+- **Phase 4**: Horizontal scaling with load balancers
+- **Phase 5**: Database sharding across multiple servers
+
+### Scalability Features
+- **Tenant Isolation**: Each tenant's data is separate
+- **Index Strategy**: Optimized for multi-tenant queries
+- **Connection Pooling**: Efficient database connection management
+- **API Stateless**: API can be scaled horizontally
+- **Frontend Static**: Can be served via CDN
+
+## Backup and Recovery
+
+### Current Backup Strategy
+- **Database Backups**: Manual PostgreSQL backups
+- **Export Functionality**: Users can export data to JSON
+- **Migration Script**: Can be used for data transfer
+
+### Production Backup Recommendations
+- **Automated Backups**: Daily automated database backups
+- **Point-in-Time Recovery**: Configure PITR for PostgreSQL
+- **Backup Rotation**: Keep multiple backup versions
+- **Offsite Storage**: Store backups in secure offsite location
+- **Backup Testing**: Regularly test backup restoration
+
+### Export Functionality
+Users can export their data from the frontend:
+- Contacts, appointments, interactions, tasks, deals
+- All data in JSON format
+- Complete data for backup purposes
 
 ## Troubleshooting
 
 ### Common Issues
 
-**Data Not Persisting**
-- Check browser localStorage settings
-- Ensure cookies/storage are enabled
-- Check browser security settings
+**Database Connection Issues**
+- Check DATABASE_URL in .env file
+- Ensure PostgreSQL server is running
+- Verify connection credentials
+- Check database permissions
 
-**Data Loss**
-- Browser cache clearing
-- Private browsing mode
-- Storage quota exceeded
+**API Connection Issues**
+- Ensure API server is running on port 3001
+- Check REACT_APP_API_URL in .env
+- Verify CORS configuration
+- Check browser console for errors
+
+**Migration Issues**
+- Ensure you're logged in before running migration
+- Check that API server is running
+- Verify localStorage contains data
+- Check browser console for migration errors
 
 **Multi-Tenant Issues**
-- Verify tenant ID is correct
-- Check storage key format
-- Ensure proper tenant association
+- Verify tenantId is included in all queries
+- Check API middleware is enforcing tenant access
+- Ensure JWT token contains correct tenantId
+- Check database foreign key relationships
 
 ### Debug Tools
 ```javascript
-// Check all stored data
-console.log('Auth Data:', localStorage.getItem('ican-auth'));
-console.log('Users:', localStorage.getItem('ican-users'));
-console.log('Tenants:', localStorage.getItem('ican-tenants'));
-console.log('All Storage Keys:', Object.keys(localStorage));
+// Check database connection
+npx prisma db push
+
+// Regenerate Prisma client
+npx prisma generate
+
+// View database schema
+npx prisma studio
+
+// Check API health
+fetch('http://localhost:3001/api/health')
 ```
+
+## Future Enhancements
+
+### Planned Database Features
+- **Row-Level Security**: PostgreSQL RLS for additional security
+- **Database Triggers**: Automatic timestamp updates
+- **Stored Procedures**: Complex database operations
+- **Materialized Views**: Performance optimization for complex queries
+- **Full-Text Search**: Enhanced search capabilities
+
+### Planned API Features
+- **GraphQL**: Alternative to REST API
+- **WebSockets**: Real-time updates
+- **File Upload**: Enhanced file handling
+- **Bulk Operations**: Bulk import/export
+- **Advanced Filtering**: Complex query parameters
+
+### Planned Security Features
+- **Two-Factor Authentication**: Enhanced security
+- **API Rate Limiting**: Prevent abuse
+- **IP Whitelisting**: Additional security layer
+- **Audit Logging**: Comprehensive activity logging
+- **Session Management**: Enhanced session controls
 
 ## Conclusion
 
-The current localStorage implementation provides a solid foundation for the iCan platform:
-- **Immediate Functionality**: Works without backend
-- **Multi-Tenant Ready**: Proper tenant isolation
-- **Backend-Ready**: Designed for API integration
-- **Scalable Path**: Clear migration path to production database
+The PostgreSQL implementation provides a solid, scalable foundation for the iCan platform:
+- **Production-Ready Database**: PostgreSQL with Prisma ORM
+- **Multi-Tenant Architecture**: Complete tenant isolation
+- **Secure Authentication**: JWT tokens with password hashing
+- **Scalable API**: RESTful API with proper security
+- **Data Migration**: Path from localStorage to PostgreSQL
+- **Performance Optimized**: Indexes and query optimization
+- **Future-Ready**: Clear path for scaling and enhancements
 
-This architecture allows the platform to be used immediately while preparing for future backend integration with proper security, scalability, and production features.
+This architecture allows the platform to scale to production with enterprise-grade database capabilities while maintaining the developer-friendly Prisma ORM for easy data access.
