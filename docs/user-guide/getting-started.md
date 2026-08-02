@@ -2,13 +2,24 @@
 
 Welcome to iCan! This guide will help you get started with the platform and set up your professional networking system.
 
-## Installation
+## Platform Access
 
-### Prerequisites
+### For Users
+
+To access the iCan platform:
+
+1. **Visit the Landing Page**: Navigate to the platform URL
+2. **Sign Up**: Create a new account with your email and password
+3. **Verify Email**: Complete email verification to activate your account
+4. **Login**: Sign in with your credentials to access the platform
+
+### For Developers
+
+#### Prerequisites
 - Node.js 16+ installed
 - Modern web browser (Chrome, Firefox, Safari, Edge)
 
-### Setup Instructions
+#### Setup Instructions
 
 1. **Clone or download the iCan platform**
    ```bash
@@ -31,10 +42,24 @@ Welcome to iCan! This guide will help you get started with the platform and set 
 
 ## First-Time Setup
 
+### Account Registration
+
+1. Click the "Sign Up" button on the landing page
+2. Fill in the registration form:
+   - Full Name (required)
+   - Email (required)
+   - Password (minimum 8 characters)
+   - Confirm Password
+   - Organization Name (optional)
+3. Click "Create Account"
+4. Verify your email address when prompted
+5. Login with your credentials
+
 ### Create Your First Contact
 
-1. Click the "Add Contact" button in the top navigation
-2. Fill in the contact details:
+1. Navigate to the "Contacts" view from the sidebar
+2. Click the "Add Contact" button in the top navigation
+3. Fill in the contact details:
    - Name (required)
    - Phone number
    - Email address
@@ -42,7 +67,7 @@ Welcome to iCan! This guide will help you get started with the platform and set 
    - Source (LinkedIn, WhatsApp, Other)
    - Initial stage (New, Contacted, etc.)
    - Notes
-3. Click "Save" to create the contact
+4. Click "Save" to create the contact
 
 ### Import Existing Contacts
 
@@ -94,6 +119,8 @@ The sidebar provides access to all main features:
 - **Tasks**: Manage your task list and workflow
 - **Pipeline**: Track deals and negotiations
 - **Companies**: View contacts grouped by company
+- **Profile**: Manage your account settings and profile
+- **Logout**: Sign out of your account
 
 ### Dashboard
 
@@ -141,6 +168,7 @@ The platform uses color coding to represent different aspects:
 
 ## Next Steps
 
+- Learn more about [Authentication](authentication-guide.md)
 - Learn more about [Contact Management](contacts-guide.md)
 - Explore [Calendar Features](calendar-guide.md)
 - Understand [Interaction Tracking](interactions-guide.md)

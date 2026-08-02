@@ -9,19 +9,26 @@ Technical documentation for the iCan platform architecture, component structure,
 The iCan platform follows a modern React-based architecture with:
 
 - **Component-Based UI**: Modular React components for maintainability
-- **Context-Based State Management**: React Context API for global state
-- **LocalStorage Persistence**: Client-side data storage
+- **Context-Based State Management**: React Context API for global state (AppContext, AuthContext)
+- **Client-Side Routing**: React Router DOM for navigation and route protection
+- **Multi-Tenant Architecture**: Organization-based data isolation
+- **LocalStorage Persistence**: Client-side data storage with backend-ready design
 - **Modular Design**: Separated concerns and reusable components
+- **Authentication System**: User registration, login, and email verification
+- **Theme System**: CSS variable-based theming with light/dark modes
 
 ### Technology Stack
 
 - **Frontend Framework**: React 18.2.0
 - **Build Tool**: React Scripts 5.0.1
-- **State Management**: React Context API
-- **Styling**: CSS with custom design system
+- **Routing**: React Router DOM
+- **State Management**: React Context API (AppContext, AuthContext)
+- **Authentication**: Custom multi-tenant auth system
+- **Styling**: CSS with custom design system and CSS variables
 - **Icons**: Lucide React 0.263.1
 - **Date Handling**: date-fns 2.30.0
 - **Type Safety**: PropTypes (with TypeScript interfaces in types/)
+- **Storage**: LocalStorage with backend-ready architecture
 
 ## Project Structure
 
@@ -29,20 +36,24 @@ The iCan platform follows a modern React-based architecture with:
 ican/
 ├── src/
 │   ├── components/          # React components
-│   │   ├── common/          # Reusable UI components
-│   │   ├── layout/          # Layout components
-│   │   ├── contacts/        # Contact management
-│   │   ├── calendar/        # Calendar and appointments
-│   │   ├── interactions/    # Interaction history
-│   │   ├── tasks/           # Task management
-│   │   ├── negotiations/    # Deal tracking
+│   │   ├── common/          # Reusable UI components (Button, Modal, Form, Card, Footer, ThemeToggle)
+│   │   ├── layout/          # Layout components (AppShell, Sidebar, Header)
+│   │   ├── contacts/        # Contact management (ContactsView, ContactForm, ContactDetail, CompaniesView)
+│   │   ├── calendar/        # Calendar and appointments (CalendarView, AppointmentForm)
+│   │   ├── interactions/    # Interaction history (InteractionsView, InteractionForm)
+│   │   ├── tasks/           # Task management (TasksView, TaskForm, KanbanBoard)
+│   │   ├── negotiations/    # Deal tracking (DealsView, DealForm, PipelineView)
+│   │   ├── user/            # User profile (UserProfile)
+│   │   ├── auth/            # Authentication (LoginForm, RegisterForm, AuthLayout, EmailVerification, ProtectedRoute)
+│   │   ├── landing/         # Landing page (LandingPage)
 │   │   └── dashboard/       # Dashboard and analytics
+│   ├── pages/               # Page components (LoginPage, RegisterPage, VerifyEmailPage, ProfilePage)
 │   ├── hooks/               # Custom React hooks
 │   ├── utils/               # Utility functions
-│   ├── context/             # React Context providers
-│   ├── types/               # TypeScript interfaces/PropTypes
+│   ├── context/             # React Context providers (AppContext, AuthContext)
+│   ├── types/               # Type definitions (contacts, appointments, interactions, tasks, deals, companies, users, tenants)
 │   ├── styles/              # Global styles
-│   ├── App.jsx              # Main application component
+│   ├── App.jsx              # Main application component with routing
 │   └── index.js             # Application entry point
 ├── docs/                    # Documentation
 ├── public/                  # Static assets
@@ -54,19 +65,28 @@ ican/
 ### Component Hierarchy
 
 ```
-App
-└── AppProvider (Context)
-    └── AppShell
-        ├── Sidebar
-        ├── Header
-        └── Main Content Area
-            ├── Dashboard
-            ├── Contacts
-            ├── Calendar
-            ├── Interactions
-            ├── Tasks
-            ├── Pipeline
-            └── Companies
+App (with React Router)
+├── AuthProvider (Authentication Context)
+│   ├── Public Routes
+│   │   ├── LandingPage
+│   │   ├── LoginPage
+│   │   ├── RegisterPage
+│   │   └── VerifyEmailPage
+│   └── Protected Routes (with ProtectedRoute)
+│       └── AppProvider (Application Context)
+│           └── AppShell
+│               ├── Sidebar
+│               ├── Header
+│               ├── Main Content Area
+│               │   ├── Dashboard
+│               │   ├── Contacts
+│               │   ├── Calendar
+│               │   ├── Interactions
+│               │   ├── Tasks
+│               │   ├── Pipeline
+│               │   ├── Companies
+│               │   └── ProfilePage
+│               └── Footer
 ```
 
 ### Component Categories
@@ -74,70 +94,65 @@ App
 #### Common Components
 Reusable UI components used across the application:
 
-- **Button**: Standardized button with variants
+- **Button**: Standardized button with variants (primary, secondary, ghost, danger)
 - **Modal**: Modal dialog component
-- **Form**: Form input components
+- **Form**: Form input components (Input, Select, Textarea, Checkbox)
 - **Card**: Card container component
-- **Badge**: Status and category badges
-- **Avatar**: User/contact avatar display
+- **Footer**: Footer component with branding
+- **ThemeToggle**: Theme toggle button for light/dark mode switching
 
 #### Layout Components
 Structural components for application layout:
 
 - **AppShell**: Main application layout wrapper
-- **Sidebar**: Navigation sidebar
-- **Header**: Application header with actions
-- **Navigation**: Navigation menu component
+- **Sidebar**: Navigation sidebar with user menu and logout
+- **Header**: Page header with title, actions, and theme toggle
+
+#### Authentication Components
+User authentication and account management:
+
+- **AuthLayout**: Layout for authentication pages
+- **LoginForm**: User login form
+- **RegisterForm**: User registration form
+- **EmailVerification**: Email verification component
+- **ProtectedRoute**: Route protection wrapper
+- **UserProfile**: User profile management
 
 #### Feature Components
 Domain-specific components for each feature area:
 
-- **Contacts**: ContactList, ContactDetail, ContactForm
-- **Calendar**: CalendarView, AppointmentForm, MonthView, WeekView, DayView
-- **Interactions**: InteractionList, InteractionForm, InteractionTimeline
-- **Tasks**: TaskDashboard, TaskBoard, TaskForm
-- **Negotiations**: DealPipeline, DealForm, DealAnalytics
-- **Dashboard**: Dashboard, StatsCards, AgendaView, ActivityFeed
+- **Contacts**: ContactsView, ContactDetail, ContactForm, CompaniesView, CompanyDetail, CompanyForm
+- **Calendar**: CalendarView, AppointmentForm
+- **Interactions**: InteractionsView, InteractionForm
+- **Tasks**: TasksView, TaskForm, KanbanBoard
+- **Negotiations**: DealsView, DealForm, PipelineView
+- **Dashboard**: Dashboard
+- **Landing**: LandingPage
 
 ## State Management
 
 ### Context Architecture
 
-The application uses React Context API for state management:
+The application uses React Context API for state management with two main contexts:
 
-#### AppContext
-Global application state including:
+#### AuthContext
+Authentication and user management state:
 
-- **contacts**: Array of contact objects
-- **appointments**: Array of appointment objects
-- **interactions**: Array of interaction objects
-- **tasks**: Array of task objects
-- **deals**: Array of deal objects
-- **companies**: Object with company data
-- **currentView**: Current active view
-- **loading**: Loading state
-- **error**: Error state
+- **user**: Current authenticated user object
+- **tenant**: Current user's organization/tenant
+- **isAuthenticated**: Authentication status
+- **isLoading**: Loading state for auth operations
+- **error**: Authentication error state
 
-#### Context Actions
-
-Actions available in AppContext:
-
-- **addContact**: Create new contact
-- **updateContact**: Update existing contact
-- **deleteContact**: Remove contact
-- **addAppointment**: Create new appointment
-- **updateAppointment**: Update appointment
-- **deleteAppointment**: Remove appointment
-- **addInteraction**: Log new interaction
-- **updateInteraction**: Update interaction
-- **deleteInteraction**: Remove interaction
-- **addTask**: Create new task
-- **updateTask**: Update task
-- **deleteTask**: Remove task
-- **addDeal**: Create new deal
-- **updateDeal**: Update deal
-- **deleteDeal**: Remove deal
+#### AuthContext Actions
+- **register**: Create new user account and organization
+- **login**: Authenticate user with email/password
+- **addCompany**: Create new company
+- **updateCompany**: Update company
+- **deleteCompany**: Remove company
 - **setCurrentView**: Change current view
+- **updateSettings**: Update application settings
+- **toggleTheme**: Switch between light/dark themes
 - **loadData**: Load data from storage
 - **saveData**: Save data to storage
 
@@ -145,13 +160,17 @@ Actions available in AppContext:
 
 Custom hooks for accessing and manipulating state:
 
-#### useContacts
-- Access contacts array
-- Contact CRUD operations
-- Contact filtering and search
+#### useAuthContext
+- Access authentication state
+- User login/logout operations
+- Profile management
+- Email verification
 
-#### useAppointments
-- Access appointments array
+#### useAppContext
+- Access application state
+- All CRUD operations for contacts, appointments, interactions, tasks, deals, companies
+- Settings management
+- Theme toggling
 - Appointment CRUD operations
 - Calendar date utilities
 
@@ -171,6 +190,41 @@ Custom hooks for accessing and manipulating state:
 - Pipeline calculations
 
 ## Data Structures
+
+### User Structure
+```javascript
+{
+  id: string,
+  email: string,
+  password: string,
+  name: string,
+  tenantId: string,
+  role: 'admin' | 'member' | 'viewer',
+  emailVerified: boolean,
+  avatar: string,
+  createdAt: timestamp,
+  updatedAt: timestamp
+}
+```
+
+### Tenant Structure
+```javascript
+{
+  id: string,
+  name: string,
+  slug: string,
+  plan: 'free' | 'pro' | 'enterprise',
+  settings: {
+    theme: 'dark' | 'light',
+    currency: string,
+    dateFormat: string,
+    timezone: string
+  },
+  createdBy: string,
+  createdAt: timestamp,
+  updatedAt: timestamp
+}
+```
 
 ### Contact Structure
 ```javascript
@@ -304,14 +358,18 @@ Custom hooks for accessing and manipulating state:
 
 ### Storage Strategy
 
-The application uses LocalStorage for data persistence:
+The application uses LocalStorage for data persistence with a multi-tenant architecture:
 
-- **Storage Key**: 'ican-data'
+- **Application Data**: 'ican-data' key for application state
+- **Authentication Data**: 'ican-auth' key for user sessions
+- **User Data**: 'ican-users' key for user accounts
+- **Tenant Data**: 'ican-tenants' key for organizations
+- **Verification Tokens**: 'ican-verification-tokens' key for email verification
 - **Data Format**: JSON
 - **Auto-save**: Automatic save on state changes
 - **Load on Startup**: Data loaded on application initialization
 
-### Storage Structure
+### Application Data Structure
 ```javascript
 {
   contacts: Contact[],
@@ -319,7 +377,7 @@ The application uses LocalStorage for data persistence:
   interactions: Interaction[],
   tasks: Task[],
   deals: Deal[],
-  companies: { [companyName]: string },
+  companies: Company[],
   settings: {
     theme: 'dark' | 'light',
     currency: string,
@@ -330,6 +388,21 @@ The application uses LocalStorage for data persistence:
 }
 ```
 
+### Authentication Data Structure
+```javascript
+{
+  user: User,
+  tenant: Tenant,
+  lastSync: timestamp
+}
+```
+
+### Multi-Tenant Data Isolation
+
+- All data entities will include `tenantId` for organization isolation
+- Data filtering by tenant in data access layer
+- Future backend integration will enforce tenant isolation at API level
+
 ### Backup and Restore
 
 - **Export**: Export data to JSON file
@@ -337,12 +410,43 @@ The application uses LocalStorage for data persistence:
 - **Backup**: Automatic backup creation
 - **Restore**: Restore from backup
 
-## Styling Architecture
+## Routing Architecture
 
-### Design System
+### Route Structure
 
-The platform uses a custom design system with:
+The application uses React Router DOM for client-side routing:
 
+#### Public Routes
+- `/` - Landing page
+- `/login` - User login
+- `/register` - User registration
+- `/verify-email` - Email verification
+
+#### Protected Routes
+- `/dashboard` - Main dashboard
+- `/contacts` - Contact management
+- `/calendar` - Calendar and appointments
+- `/interactions` - Interaction history
+- `/tasks` - Task management
+- `/pipeline` - Deal pipeline
+- `/companies` - Company management
+- `/profile` - User profile
+
+### Route Protection
+
+- **ProtectedRoute Component**: Wraps protected routes
+- **Authentication Check**: Redirects unauthenticated users to login
+- **Loading States**: Shows loading during auth checks
+- **Redirect Logic**: Preserves intended destination after login
+
+## Theme System
+
+### CSS Variable Architecture
+
+The platform uses CSS variables for theming:
+
+#### Theme Variables
+```css
 - **Color Palette**: I-C-A-N themed colors
 - **Typography**: Space Grotesk, Inter, JetBrains Mono
 - **Spacing**: Consistent spacing scale
@@ -386,6 +490,15 @@ The platform uses a custom design system with:
 
 ## Security Considerations
 
+### Authentication Security
+
+- **Password Validation**: Minimum 8 characters required
+- **Email Verification**: Email verification system for account activation
+- **Session Management**: Secure session handling with localStorage
+- **Multi-Tenant Isolation**: Organization-based data separation
+- **Protected Routes**: Route protection for authenticated users
+- **Backend-Ready**: Designed for secure backend integration
+
 ### Client-Side Security
 
 - **Input Validation**: All user inputs validated
@@ -396,9 +509,10 @@ The platform uses a custom design system with:
 ### Data Privacy
 
 - **Local Storage**: Data stored locally on user device
-- **No Cloud Sync**: Optional cloud sync with user consent
+- **Multi-Tenant Isolation**: Data isolated by organization
 - **Export Control**: User controls data export
-- **Clear Data**: User can clear all data
+- **Account Deletion**: User can delete account and data
+- **Backend-Ready**: Designed for secure backend integration
 
 ## Accessibility
 

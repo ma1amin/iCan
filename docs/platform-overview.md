@@ -13,6 +13,55 @@ The name "iCan" represents the four core pillars of the platform:
 
 ## Current Status
 
+### Version 2.0.0 - Major SaaS Release (2026-08-03)
+
+**Major New Features:**
+- ✅ **Authentication System**: Multi-tenant SaaS authentication with user registration, login, and email verification
+- ✅ **Landing Page**: Comprehensive public-facing marketing page with hero, features, testimonials, pricing, and FAQ
+- ✅ **User Profile System**: Complete user account management with profile editing, avatar upload, and password changes
+- ✅ **Theme Toggle**: Light/dark theme switching with CSS variables and persistence
+- ✅ **Footer**: Consistent branding with InfoLogix attribution and copyright
+- ✅ **Multi-Tenant Architecture**: Support for multiple organizations with data isolation
+- ✅ **Protected Routes**: Route protection for authenticated users only
+- ✅ **Backend-Ready Architecture**: Designed for future API integration
+
+**Authentication Features:**
+- User registration with email/password validation
+- User login with session management
+- Email verification system (mock implementation)
+- Multi-tenant organization support
+- User roles (Admin, Member, Viewer)
+- Protected routes and redirects
+- Logout functionality
+- localStorage-based session persistence
+
+**Landing Page Features:**
+- Hero section with platform value proposition
+- Features grid showcasing I-C-A-N capabilities
+- Testimonials section with user reviews
+- Pricing section (Free, Pro, Enterprise tiers)
+- FAQ section with common questions
+- Call-to-action buttons for sign up and login
+- Theme toggle integration
+- Fully responsive design
+
+**User Profile Features:**
+- Profile information display and editing
+- Avatar upload functionality
+- Password change modal
+- Tenant/organization information display
+- Email verification status
+- Security settings
+- Account management options
+
+**Theme System:**
+- CSS variable-based theming
+- Light/dark theme toggle
+- Theme persistence in localStorage
+- Smooth theme transitions
+- System preference detection
+- Theme color meta tag updates
+
 ### Version 1.5.1 - Bug Fix Release (2026-08-01)
 
 **Recent Bug Fixes:**

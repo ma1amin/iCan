@@ -2,6 +2,105 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [2.0.0] - 2026-08-03
+
+### Added - Complete SaaS Platform Transformation
+- **Authentication System**: Multi-tenant authentication with user registration and login
+  - User registration with email/password validation
+  - User login with session management
+  - Email verification system (mock implementation ready for backend)
+  - Multi-tenant architecture with organization support
+  - User roles (Admin, Member, Viewer)
+  - Protected routes for authenticated users
+  - Session persistence with localStorage
+  - Logout functionality
+
+- **Landing Page**: Comprehensive public-facing marketing page
+  - Hero section with platform value proposition
+  - Features grid showcasing I-C-A-N capabilities
+  - Testimonials section with user reviews
+  - Pricing section (Free, Pro, Enterprise tiers)
+  - FAQ section with common questions
+  - Call-to-action buttons for sign up and login
+  - Theme toggle integration
+  - Fully responsive design
+
+- **User Profile System**: Complete user account management
+  - Profile information display and editing
+  - Avatar upload functionality
+  - Password change modal
+  - Tenant/organization information display
+  - Email verification status
+  - Security settings
+  - Account management options
+
+- **Theme Toggle**: Light/dark theme switching
+  - Theme toggle button in header (works on all pages)
+  - CSS variable-based theming system
+  - Theme persistence in localStorage
+  - Smooth theme transitions
+  - System preference detection
+  - Theme color meta tag updates
+  - Flash prevention on page load
+
+- **Footer**: Consistent branding across all pages
+  - "Developed with ❤️ By InfoLogix" branding
+  - "All Rights Reserved © 2026" copyright notice
+  - Responsive design
+  - Integrated into all authenticated pages
+
+### Enhanced - Components & Architecture
+- **React Router Integration**: Client-side routing with public and protected routes
+- **AuthContext**: Complete authentication state management
+- **Multi-Tenant Support**: Organization isolation and management
+- **Backend-Ready Architecture**: Designed for future API integration
+- **Type Definitions**: Added user and tenant type definitions
+- **Protected Routes**: Route protection component for authenticated users
+- **Responsive Design**: Enhanced mobile responsiveness across all components
+
+### New Components
+- `src/components/auth/AuthLayout.jsx` - Authentication page layout
+- `src/components/auth/LoginForm.jsx` - User login form
+- `src/components/auth/RegisterForm.jsx` - User registration form
+- `src/components/auth/EmailVerification.jsx` - Email verification component
+- `src/components/auth/ProtectedRoute.jsx` - Route protection wrapper
+- `src/components/common/Footer.jsx` - Footer component
+- `src/components/common/ThemeToggle.jsx` - Theme toggle button
+- `src/components/landing/LandingPage.jsx` - Landing page component
+- `src/components/user/UserProfile.jsx` - User profile component
+- `src/pages/LoginPage.jsx` - Login page
+- `src/pages/RegisterPage.jsx` - Registration page
+- `src/pages/VerifyEmailPage.jsx` - Email verification page
+- `src/pages/ProfilePage.jsx` - User profile page
+- `src/context/AuthContext.jsx` - Authentication context
+- `src/types/users.js` - User type definitions
+- `src/types/tenants.js` - Tenant type definitions
+
+### Enhanced Files
+- `src/App.jsx` - Added React Router integration and route configuration
+- `src/components/layout/Sidebar.jsx` - Updated to use React Router links, added profile navigation
+- `src/components/layout/Header.jsx` - Updated to work with routing, added theme toggle
+- `src/components/layout/AppShell.jsx` - Added footer integration
+- `src/context/AppContext.jsx` - Added theme toggle functions and theme application
+- `src/styles/global.css` - Added CSS variables for theming system
+- `src/components/common/Button.css` - Updated to use CSS variables
+- `public/index.html` - Added theme initialization script
+
+### Dependencies
+- Added `react-router-dom` for client-side routing
+
+### Breaking Changes
+- **Major Version Update**: This is a major version update with significant architectural changes
+- **Routing**: Application now uses React Router instead of view state
+- **Authentication**: All features now require authentication (except landing page)
+- **Data Structure**: New user and tenant entities added to data model
+
+### Migration Notes
+- Existing localStorage data will continue to work
+- New authentication system is separate from existing data
+- Users will need to register/login to access features
+- Theme preference is now managed through settings
+
 ## [1.5.1] - 2026-08-01
 
 ### Fixed - Contact Selection Validation
