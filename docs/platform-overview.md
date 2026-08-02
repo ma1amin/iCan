@@ -13,6 +13,16 @@ The name "iCan" represents the four core pillars of the platform:
 
 ## Current Status
 
+### Version 2.0.1 - Authentication Enhancement (2026-08-03)
+
+**Authentication System Enhancements:**
+- ✅ Moved logout from sidebar to header for better UX
+- ✅ Added account deletion with two-step confirmation
+- ✅ Implemented type "DELETE ACCOUNT" confirmation (prevents copy/paste)
+- ✅ Added password verification for account deletion
+- ✅ Enhanced user profile organization
+- ✅ Added comprehensive data cleanup on account deletion
+
 ### Version 2.0.0 - Major SaaS Release (2026-08-03)
 
 **Major New Features:**

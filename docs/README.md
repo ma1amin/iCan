@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 2.0.0** (Major SaaS release - 2026-08-03)
+**Current Version: 2.0.1** (Authentication enhancement - 2026-08-03)
 
 ## Vision
 
@@ -37,8 +37,11 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Password change modal
   - Tenant/organization information display
   - Email verification status
-  - Security settings
-  - Account management options
+  - Security settings with logout
+  - Account deletion with two-step confirmation
+  - Type "DELETE ACCOUNT" confirmation (prevents copy/paste)
+  - Password verification for account deletion
+  - Comprehensive data cleanup on deletion
 - **Theme Toggle**: Light/dark theme switching
   - Theme toggle button in header (works on all pages)
   - CSS variable-based theming system
@@ -46,6 +49,10 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Smooth theme transitions
   - System preference detection
   - Theme color meta tag updates
+- **Header**: Enhanced header with logout functionality
+  - Logout button in header action area
+  - Consistent placement across all pages
+  - Better accessibility than sidebar logout
 - **Footer**: Consistent branding across all pages
   - "Developed with ❤️ By InfoLogix" branding
   - "All Rights Reserved © 2026" copyright notice
@@ -172,6 +179,7 @@ Comprehensive documentation is available in the `docs/` folder:
 - **Platform Overview**: `docs/platform-overview.md`
 - **User Guides**: `docs/user-guide/`
   - Getting Started
+  - Authentication Guide
   - Contacts Guide
   - Calendar Guide
   - Interactions Guide

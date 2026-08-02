@@ -147,14 +147,11 @@ Authentication and user management state:
 #### AuthContext Actions
 - **register**: Create new user account and organization
 - **login**: Authenticate user with email/password
-- **addCompany**: Create new company
-- **updateCompany**: Update company
-- **deleteCompany**: Remove company
-- **setCurrentView**: Change current view
-- **updateSettings**: Update application settings
-- **toggleTheme**: Switch between light/dark themes
-- **loadData**: Load data from storage
-- **saveData**: Save data to storage
+- **logout**: End user session
+- **verifyEmail**: Verify user email address
+- **resendVerificationEmail**: Resend verification email
+- **updateUserProfile**: Update user profile information
+- **deleteAccount**: Delete user account and all associated data
 
 ### Custom Hooks
 
@@ -165,14 +162,13 @@ Custom hooks for accessing and manipulating state:
 - User login/logout operations
 - Profile management
 - Email verification
+- Account deletion
 
 #### useAppContext
 - Access application state
 - All CRUD operations for contacts, appointments, interactions, tasks, deals, companies
 - Settings management
 - Theme toggling
-- Appointment CRUD operations
-- Calendar date utilities
 
 #### useInteractions
 - Access interactions array

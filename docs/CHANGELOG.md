@@ -2,6 +2,51 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [2.0.1] - 2026-08-03
+
+### Fixed - Authentication System Enhancements
+- **UserProfile**: Enhanced user profile with improved account management
+  - Moved logout button from sidebar to header for better UX
+  - Added logout button in header action area
+  - Replaced logout in danger zone with Delete Account button
+  - Added comprehensive account deletion modal with two-step confirmation
+  - Implemented type "DELETE ACCOUNT" confirmation (prevents copy/paste)
+  - Added password verification for account deletion
+  - Added proper validation and error messages
+  - Added success message and redirect after deletion
+  - Moved logout to Security section for better organization
+
+- **AuthContext**: Added account deletion functionality
+  - Added deleteAccount function for account deletion
+  - Added tenant cleanup when deleting creator's account
+  - Added proper data cleanup for all storage keys
+  - Added deleteAccount to context value
+
+- **Sidebar**: Removed logout button to keep sidebar clean
+  - Removed logout button from sidebar footer
+  - Kept sidebar focused on navigation and stats
+
+- **Header**: Added logout button for better accessibility
+  - Added logout button in header action area
+  - Integrated with AuthContext logout function
+  - Consistent placement across all pages
+
+- **UserProfile CSS**: Enhanced styling for new features
+  - Added delete form styling with warning message
+  - Added delete step sections with proper spacing
+  - Added uppercase styling to confirmation input
+  - Added security actions section for logout button
+  - Improved modal actions styling
+
+### UI/UX Improvements
+- Better organization of profile sections
+- More intuitive security section layout
+- Enhanced danger zone with proper account deletion
+- Improved button placement and grouping
+- Better visual hierarchy for actions
+- Cleaner sidebar without logout button
+- More accessible logout in header
+
 ## [2.0.0] - 2026-08-03
 
 ### Added - Complete SaaS Platform Transformation

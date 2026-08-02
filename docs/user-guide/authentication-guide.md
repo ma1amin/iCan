@@ -148,6 +148,28 @@ Your profile includes:
 5. Confirm your new password
 6. Click "Update Password"
 
+### Deleting Your Account
+
+⚠️ **Warning**: Deleting your account is irreversible and will permanently delete all your data including contacts, appointments, interactions, tasks, and deals.
+
+To delete your account:
+
+1. Go to your profile page
+2. Scroll to the "Danger Zone" section
+3. Click "Delete Account"
+4. In the confirmation modal:
+   - Type "DELETE ACCOUNT" (you must type this exactly, copy/paste is disabled)
+   - Enter your password to verify your identity
+5. Click "Delete Account" to confirm
+6. Your account and all associated data will be permanently deleted
+7. You will be redirected to the landing page
+
+**Important Notes:**
+- If you created an organization, it will also be deleted
+- All your data will be permanently removed from the system
+- There is no way to recover your account after deletion
+- This action cannot be undone
+
 ### Organization Information
 
 Your profile displays:
@@ -213,8 +235,10 @@ Currently, users create their own organizations during registration. In future u
 - Use a strong, unique password
 - Enable email verification
 - Keep your profile information updated
-- Use the logout button when on shared devices
+- Use the logout button in the header when on shared devices
 - Regularly export your data for backup
+- Be extremely careful with account deletion - it's irreversible
+- Consider backup before account deletion
 
 ## Troubleshooting
 
