@@ -4,6 +4,7 @@ node_modules/
 .pnp.js
 package-lock.json
 yarn.lock
+skills-lock.json
 
 # Testing
 /coverage
