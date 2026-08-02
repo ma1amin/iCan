@@ -87,13 +87,8 @@ const UserProfile = () => {
       return;
     }
 
-    if (deleteForm.password !== user.password) {
-      setError('Incorrect password');
-      return;
-    }
-
     try {
-      const result = await deleteAccount();
+      const result = await deleteAccount(deleteForm.password);
       
       if (result.success) {
         setSuccess('Account deleted successfully');
