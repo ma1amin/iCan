@@ -164,6 +164,9 @@ export const AuthProvider = ({ children }) => {
 
       saveAuthState(user, tenant);
 
+      // Trigger data reload for the new tenant
+      window.dispatchEvent(new Event('storage'));
+
       return { success: true, user, tenant };
     } catch (error) {
       setState(prev => ({ ...prev, error: error.message }));
@@ -175,6 +178,8 @@ export const AuthProvider = ({ children }) => {
   const logout = useCallback(() => {
     localStorage.removeItem(AUTH_STORAGE_KEY);
     setState(defaultAuthState);
+    // Navigate to landing page
+    window.location.href = '/';
   }, []);
 
   // Verify email

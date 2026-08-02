@@ -28,7 +28,7 @@ export const emptyUser = {
 export const createUser = (userData) => ({
   ...emptyUser,
   ...userData,
-  id: userData.id || Date.now().toString(36),
+  id: userData.id || 'user-' + Date.now().toString(36) + '-' + Math.random().toString(36).substring(2, 9),
   createdAt: userData.createdAt || Date.now(),
   updatedAt: Date.now()
 });

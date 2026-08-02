@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { useAuthContext } from './AuthContext';
 import { emptyContact } from '../types/contacts';
 import { emptyAppointment } from '../types/appointments';
 import { emptyInteraction } from '../types/interactions';
@@ -9,7 +10,7 @@ import { emptyCompany } from '../types/companies';
 const AppContext = createContext(null);
 
 const STORAGE_KEY = 'ican-data';
-const DATA_VERSION = '1.0.0';
+const DATA_VERSION = '2.0.0';
 
 const defaultSettings = {
   theme: 'dark',
@@ -44,12 +45,20 @@ const initialState = {
 
 export const AppProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
+  const { user, tenant } = useAuthContext();
+
+  // Get tenant-specific storage key
+  const getTenantStorageKey = useCallback(() => {
+    if (!tenant) return STORAGE_KEY;
+    return `${STORAGE_KEY}-${tenant.id}`;
+  }, [tenant]);
 
   // Load data from localStorage
   useEffect(() => {
     const loadData = async () => {
       try {
-        const stored = localStorage.getItem(STORAGE_KEY);
+        const storageKey = getTenantStorageKey();
+        const stored = localStorage.getItem(storageKey);
         if (stored) {
           const parsed = JSON.parse(stored);
           // Migration: Convert companies from object to array if needed
@@ -75,11 +84,20 @@ export const AppProvider = ({ children }) => {
     };
 
     loadData();
-  }, []);
+
+    // Reload data when tenant changes
+    const handleStorageChange = () => {
+      loadData();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [getTenantStorageKey]);
 
   // Save data to localStorage
   const saveData = useCallback(async () => {
     try {
+      const storageKey = getTenantStorageKey();
       const dataToSave = {
         contacts: state.contacts,
         appointments: state.appointments,
@@ -91,7 +109,7 @@ export const AppProvider = ({ children }) => {
         version: DATA_VERSION,
         lastSync: Date.now()
       };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+      localStorage.setItem(storageKey, JSON.stringify(dataToSave));
     } catch (error) {
       console.error('Error saving data:', error);
       setState(prev => ({ ...prev, error: 'Failed to save data' }));

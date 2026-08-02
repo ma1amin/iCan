@@ -31,7 +31,7 @@ export const emptyTenant = {
 export const createTenant = (tenantData) => ({
   ...emptyTenant,
   ...tenantData,
-  id: tenantData.id || Date.now().toString(36),
+  id: tenantData.id || 'tenant-' + Date.now().toString(36) + '-' + Math.random().toString(36).substring(2, 9),
   slug: tenantData.slug || generateSlug(tenantData.name),
   createdAt: tenantData.createdAt || Date.now(),
   updatedAt: Date.now()
