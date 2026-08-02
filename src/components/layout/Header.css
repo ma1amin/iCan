@@ -4,9 +4,10 @@
   justify-content: space-between;
   gap: 16px;
   padding: 20px 28px;
-  border-bottom: 1px solid #1B1F2B;
-  background: #0B0E14;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-primary);
   flex-wrap: wrap;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .header-left {
@@ -21,7 +22,7 @@
   font-family: 'Space Grotesk', sans-serif;
   font-size: 24px;
   font-weight: 700;
-  color: #E6E9F0;
+  color: var(--text-primary);
   margin: 0;
   letter-spacing: -0.01em;
   text-transform: capitalize;

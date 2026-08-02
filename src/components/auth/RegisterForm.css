@@ -1,0 +1,43 @@
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.register-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.register-form-error {
+  background: rgba(232, 90, 90, 0.1);
+  border: 1px solid var(--accent-danger);
+  color: var(--accent-danger);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.register-form-footer {
+  text-align: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-color);
+}
+
+.register-form-footer-text {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.register-form-link {
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-form-link:hover {
+  text-decoration: underline;
+}

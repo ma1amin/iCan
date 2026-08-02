@@ -1,0 +1,82 @@
+.email-verification {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.email-verification-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.email-verification-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.email-verification-icon.success {
+  background: var(--accent-success);
+  color: white;
+}
+
+.email-verification-icon.error {
+  background: var(--accent-danger);
+  color: white;
+}
+
+.email-verification-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.email-verification-message {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.email-verification-footer {
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+  width: 100%;
+}
+
+.email-verification-link {
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.email-verification-link:hover {
+  text-decoration: underline;
+}

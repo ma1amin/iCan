@@ -105,6 +105,19 @@ export const AppProvider = ({ children }) => {
     }
   }, [state, state.loading, saveData]);
 
+  // Apply theme to document
+  useEffect(() => {
+    if (state.settings.theme) {
+      document.documentElement.setAttribute('data-theme', state.settings.theme);
+      // Update theme-color meta tag
+      const themeColor = state.settings.theme === 'light' ? '#FFFFFF' : '#0B0E14';
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', themeColor);
+      }
+    }
+  }, [state.settings.theme]);
+
   // Contact actions
   const addContact = useCallback((contact) => {
     setState(prev => ({
@@ -250,6 +263,13 @@ export const AppProvider = ({ children }) => {
     }));
   }, []);
 
+  const toggleTheme = useCallback(() => {
+    setState(prev => ({
+      ...prev,
+      settings: { ...prev.settings, theme: prev.settings.theme === 'dark' ? 'light' : 'dark' }
+    }));
+  }, []);
+
   const value = {
     ...state,
     // Contact actions
@@ -280,6 +300,7 @@ export const AppProvider = ({ children }) => {
     setCurrentView,
     // Settings
     updateSettings,
+    toggleTheme,
     // Data management
     saveData
   };

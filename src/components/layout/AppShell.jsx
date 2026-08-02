@@ -2,6 +2,7 @@ import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import Footer from '../common/Footer';
 import './AppShell.css';
 
 const AppShell = ({ children }) => {
@@ -15,6 +16,7 @@ const AppShell = ({ children }) => {
         <main className="app-content">
           {children}
         </main>
+        <Footer />
       </div>
     </div>
   );

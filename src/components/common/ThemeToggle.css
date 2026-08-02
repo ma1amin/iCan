@@ -1,0 +1,32 @@
+.theme-toggle {
+  background: transparent;
+  border: 1px solid #232838;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #8B92A8;
+}
+
+.theme-toggle:hover {
+  background: #232838;
+  color: #E6E9F0;
+}
+
+.theme-toggle-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+[data-theme="light"] .theme-toggle {
+  border-color: #D1D5DB;
+  color: #545B70;
+}
+
+[data-theme="light"] .theme-toggle:hover {
+  background: #F5F7FA;
+  color: #1A1F2E;
+}

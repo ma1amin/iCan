@@ -1,6 +1,14 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider, useAppContext } from './context/AppContext';
+import { AuthProvider } from './context/AuthContext';
 import AppShell from './components/layout/AppShell';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import LandingPage from './components/landing/LandingPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import VerifyEmailPage from './pages/VerifyEmailPage';
+import ProfilePage from './pages/ProfilePage';
 import Dashboard from './components/dashboard/Dashboard';
 import ContactsView from './components/contacts/ContactsView';
 import CalendarView from './components/calendar/CalendarView';
@@ -27,7 +35,8 @@ function AppContent() {
     interactions: <InteractionsView />,
     tasks: <TasksView />,
     pipeline: <DealsView />,
-    companies: <CompaniesView />
+    companies: <CompaniesView />,
+    profile: <ProfilePage />
   };
 
   return views[currentView] || <Dashboard />;
@@ -35,11 +44,102 @@ function AppContent() {
 
 function App() {
   return (
-    <AppProvider>
-      <AppShell>
-        <AppContent />
-      </AppShell>
-    </AppProvider>
+    <AuthProvider>
+      <AppProvider>
+        <Router>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/verify-email" element={<VerifyEmailPage />} />
+
+            {/* Protected Routes */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <AppShell>
+                    <AppContent />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/contacts"
+              element={
+                <ProtectedRoute>
+                  <AppShell>
+                    <AppContent />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/calendar"
+              element={
+                <ProtectedRoute>
+                  <AppShell>
+                    <AppContent />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/interactions"
+              element={
+                <ProtectedRoute>
+                  <AppShell>
+                    <AppContent />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/tasks"
+              element={
+                <ProtectedRoute>
+                  <AppShell>
+                    <AppContent />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/pipeline"
+              element={
+                <ProtectedRoute>
+                  <AppShell>
+                    <AppContent />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/companies"
+              element={
+                <ProtectedRoute>
+                  <AppShell>
+                    <AppContent />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Fallback */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </AppProvider>
+    </AuthProvider>
   );
 }
 

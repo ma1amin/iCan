@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
+import { useAuthContext } from '../../context/AuthContext';
 import './Sidebar.css';
 
 // Simple icon components as placeholders
@@ -10,27 +12,51 @@ const MessageSquare = () => <span>💬</span>;
 const CheckSquare = () => <span>✅</span>;
 const GitBranch = () => <span>🌿</span>;
 const Building2 = () => <span>🏢</span>;
+const User = () => <span>👤</span>;
 const X = () => <span>✕</span>;
 const Menu = () => <span>☰</span>;
+const LogOut = () => <span>🚪</span>;
 
 const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-  { id: 'contacts', label: 'Contacts', icon: '👥' },
-  { id: 'calendar', label: 'Calendar', icon: '📅' },
-  { id: 'interactions', label: 'Interactions', icon: '💬' },
-  { id: 'tasks', label: 'Tasks', icon: '✅' },
-  { id: 'pipeline', label: 'Pipeline', icon: '🌿' },
-  { id: 'companies', label: 'Companies', icon: '🏢' }
+  { id: 'dashboard', label: 'Dashboard', icon: '📊', path: '/dashboard' },
+  { id: 'contacts', label: 'Contacts', icon: '👥', path: '/contacts' },
+  { id: 'calendar', label: 'Calendar', icon: '📅', path: '/calendar' },
+  { id: 'interactions', label: 'Interactions', icon: '💬', path: '/interactions' },
+  { id: 'tasks', label: 'Tasks', icon: '✅', path: '/tasks' },
+  { id: 'pipeline', label: 'Pipeline', icon: '🌿', path: '/pipeline' },
+  { id: 'companies', label: 'Companies', icon: '🏢', path: '/companies' },
+  { id: 'profile', label: 'Profile', icon: '👤', path: '/profile' }
 ];
 
 const Sidebar = () => {
-  const { currentView, setCurrentView, contacts } = useAppContext();
+  const location = useLocation();
+  const { contacts } = useAppContext();
+  const { logout } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleNavClick = (viewId) => {
-    setCurrentView(viewId);
+  const handleNavClick = () => {
     setIsOpen(false);
   };
+
+  const handleLogout = () => {
+    logout();
+    setIsOpen(false);
+  };
+
+  const getActiveView = () => {
+    const path = location.pathname;
+    if (path === '/dashboard') return 'dashboard';
+    if (path === '/contacts') return 'contacts';
+    if (path === '/calendar') return 'calendar';
+    if (path === '/interactions') return 'interactions';
+    if (path === '/tasks') return 'tasks';
+    if (path === '/pipeline') return 'pipeline';
+    if (path === '/companies') return 'companies';
+    if (path === '/profile') return 'profile';
+    return 'dashboard';
+  };
+
+  const currentView = getActiveView();
 
   return (
     <>
@@ -53,8 +79,10 @@ const Sidebar = () => {
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div>
-            <div className="sidebar-brand">iCan</div>
-            <div className="sidebar-tagline">Interact · Contact · Arrange · Negotiate</div>
+            <Link to="/dashboard" className="sidebar-brand-link">
+              <div className="sidebar-brand">iCan</div>
+              <div className="sidebar-tagline">Interact · Contact · Arrange · Negotiate</div>
+            </Link>
           </div>
           <button 
             className="sidebar-close mobile-only"
@@ -70,15 +98,16 @@ const Sidebar = () => {
             const isActive = currentView === item.id;
             
             return (
-              <button
+              <Link
                 key={item.id}
-                onClick={() => handleNavClick(item.id)}
+                to={item.path}
+                onClick={handleNavClick}
                 className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
                 aria-current={isActive ? 'page' : undefined}
               >
                 <span className="sidebar-nav-icon">{item.icon}</span>
                 <span>{item.label}</span>
-              </button>
+              </Link>
             );
           })}
         </nav>
@@ -90,6 +119,14 @@ const Sidebar = () => {
               <span className="sidebar-stat-label">Contacts</span>
             </div>
           </div>
+          <button
+            onClick={handleLogout}
+            className="sidebar-logout"
+            aria-label="Logout"
+          >
+            <span className="sidebar-logout-icon">🚪</span>
+            <span>Logout</span>
+          </button>
         </div>
       </aside>
     </>

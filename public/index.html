@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0B0E14" />
     <meta name="description" content="iCan - Comprehensive digital life and networking organization platform" />
     <title>iCan Platform</title>
+    <script>
+      // Initialize theme from localStorage to prevent flash
+      (function() {
+        try {
+          const stored = localStorage.getItem('ican-data');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            if (parsed.settings && parsed.settings.theme) {
+              document.documentElement.setAttribute('data-theme', parsed.settings.theme);
+              // Update theme-color meta tag
+              const themeColor = parsed.settings.theme === 'light' ? '#FFFFFF' : '#0B0E14';
+              document.querySelector('meta[name="theme-color"]').setAttribute('content', themeColor);
+            }
+          }
+        } catch (e) {
+          console.error('Error initializing theme:', e);
+        }
+      })();
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

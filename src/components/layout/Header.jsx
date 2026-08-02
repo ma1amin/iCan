@@ -1,27 +1,33 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 import Button from '../common/Button';
+import ThemeToggle from '../common/ThemeToggle';
 import './Header.css';
 
 const Header = () => {
-  const { currentView } = useAppContext();
+  const location = useLocation();
+  const { setCurrentView } = useAppContext();
 
   const getViewTitle = () => {
+    const path = location.pathname;
     const titles = {
-      dashboard: 'Dashboard',
-      contacts: 'Contacts',
-      calendar: 'Calendar',
-      interactions: 'Interactions',
-      tasks: 'Tasks',
-      pipeline: 'Pipeline',
-      companies: 'Companies'
+      '/dashboard': 'Dashboard',
+      '/contacts': 'Contacts',
+      '/calendar': 'Calendar',
+      '/interactions': 'Interactions',
+      '/tasks': 'Tasks',
+      '/pipeline': 'Pipeline',
+      '/companies': 'Companies',
+      '/profile': 'Profile'
     };
-    return titles[currentView] || currentView;
+    return titles[path] || 'Dashboard';
   };
 
   const getHeaderActions = () => {
+    const path = location.pathname;
     const actions = {
-      contacts: (
+      '/contacts': (
         <>
           <Button variant="ghost" size="small" icon="📥">
             Import
@@ -31,31 +37,48 @@ const Header = () => {
           </Button>
         </>
       ),
-      calendar: (
+      '/calendar': (
         <Button variant="primary" size="small" icon="➕">
           New Appointment
         </Button>
       ),
-      interactions: (
+      '/interactions': (
         <Button variant="primary" size="small" icon="➕">
           Log Interaction
         </Button>
       ),
-      tasks: (
+      '/tasks': (
         <Button variant="primary" size="small" icon="➕">
           New Task
         </Button>
       ),
-      pipeline: (
+      '/pipeline': (
         <Button variant="primary" size="small" icon="➕">
           New Deal
         </Button>
       ),
-      companies: null,
-      dashboard: null
+      '/companies': null,
+      '/dashboard': null,
+      '/profile': null
     };
-    return actions[currentView] || null;
+    return actions[path] || null;
   };
+
+  // Update currentView based on route
+  React.useEffect(() => {
+    const path = location.pathname;
+    const viewMap = {
+      '/dashboard': 'dashboard',
+      '/contacts': 'contacts',
+      '/calendar': 'calendar',
+      '/interactions': 'interactions',
+      '/tasks': 'tasks',
+      '/pipeline': 'pipeline',
+      '/companies': 'companies',
+      '/profile': 'profile'
+    };
+    setCurrentView(viewMap[path] || 'dashboard');
+  }, [location.pathname, setCurrentView]);
 
   return (
     <header className="header">
@@ -63,6 +86,7 @@ const Header = () => {
         <h1 className="header-title">{getViewTitle()}</h1>
       </div>
       <div className="header-right">
+        <ThemeToggle />
         {getHeaderActions()}
       </div>
     </header>
