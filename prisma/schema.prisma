@@ -1,0 +1,258 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Multi-tenant: Tenants table for organization isolation
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  plan      String   @default("free") // free, pro, enterprise
+  settings  Json?
+  createdBy String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users     User[]
+  contacts  Contact[]
+  companies Company[]
+  
+  @@index([slug])
+  @@index([plan])
+}
+
+// Users table with tenant association
+model User {
+  id             String   @id @default(uuid())
+  tenantId       String
+  email          String   @unique
+  passwordHash   String
+  name           String
+  role           String   @default("member") // admin, member, viewer
+  emailVerified  Boolean  @default(false)
+  avatar         String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  tenant         Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  appointments   Appointment[]
+  interactions   Interaction[]
+  tasks          Task[]
+  deals          Deal[]
+  
+  @@index([tenantId])
+  @@index([email])
+}
+
+// Companies table
+model Company {
+  id          String   @id @default(uuid())
+  tenantId    String
+  name        String
+  industry    String?
+  size        String?  // startup, small, medium, large, enterprise
+  location    String?
+  website     String?
+  foundedYear Int?
+  revenue     Float?
+  employeeCount Int?
+  description String?
+  tags        String[]
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  contacts    Contact[]
+  deals       Deal[]
+  
+  @@index([tenantId])
+  @@index([name])
+  @@index([industry])
+}
+
+// Contacts table
+model Contact {
+  id              String   @id @default(uuid())
+  tenantId        String
+  companyId       String?
+  name            String
+  phone           String?
+  email           String?
+  location        String?
+  industry        String?
+  source          String?  // linkedin, whatsapp, other
+  stage           String   @default("new") // new, contacted, meeting, negotiating, collaborating, archived
+  tags            String[]
+  lastContactDate DateTime?
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tenant          Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  company         Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  appointments    Appointment[]
+  interactions    Interaction[]
+  tasks           Task[]
+  deals           Deal[]
+  
+  @@index([tenantId])
+  @@index([companyId])
+  @@index([stage])
+  @@index([source])
+  @@index([name])
+}
+
+// Appointments table
+model Appointment {
+  id          String   @id @default(uuid())
+  tenantId    String
+  contactId   String?
+  userId      String?
+  title       String
+  description String?
+  startTime   DateTime
+  endTime     DateTime
+  location    String?
+  type        String?  // call, meeting, video, email, task, other
+  recurrence  Json?    // { frequency, interval, endDate, occurrences }
+  reminder    Json?    // { timing, customMinutes }
+  status      String   @default("scheduled") // scheduled, completed, cancelled
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  contact     Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  interactions Interaction[]
+  
+  @@index([tenantId])
+  @@index([contactId])
+  @@index([startTime])
+  @@index([status])
+}
+
+// Interactions table
+model Interaction {
+  id          String   @id @default(uuid())
+  tenantId    String
+  contactId   String?
+  userId      String?
+  appointmentId String?
+  type        String  // call, email, message, meeting, other
+  direction   String  // inbound, outbound
+  subject     String?
+  content     String?
+  timestamp   DateTime
+  duration    Int?
+  outcome     String? // follow-up_required, awaiting_response, completed, no_response, not_interested, custom
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  contact     Contact?     @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  user        User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  appointment Appointment? @relation(fields: [appointmentId], references: [id], onDelete: SetNull)
+  
+  @@index([tenantId])
+  @@index([contactId])
+  @@index([type])
+  @@index([timestamp])
+  @@index([outcome])
+}
+
+// Tasks table
+model Task {
+  id          String   @id @default(uuid())
+  tenantId    String
+  contactId   String?
+  userId      String?
+  title       String
+  description String?
+  status      String   @default("todo") // todo, in_progress, review, done
+  priority    String   @default("medium") // low, medium, high
+  dueDate     DateTime?
+  reminder    Json?    // { timing, customMinutes }
+  estimatedTime Int?
+  actualTime  Int?
+  category    String?  // follow-up, research, meeting_prep, administrative, development, custom
+  tags        String[]
+  linkedItems Json?    // { appointments: [], interactions: [], deals: [] }
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  completedAt DateTime?
+
+  contact     Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([tenantId])
+  @@index([contactId])
+  @@index([status])
+  @@index([priority])
+  @@index([dueDate])
+  @@index([category])
+}
+
+// Deals table
+model Deal {
+  id                String   @id @default(uuid())
+  tenantId          String
+  contactId         String?
+  companyId         String?
+  userId            String?
+  name              String
+  value             Float?
+  currency          String   @default("USD")
+  probability       Int      @default(50)
+  expectedCloseDate DateTime?
+  stage             String   @default("prospecting") // prospecting, qualification, proposal, negotiation, closing, won, lost
+  source            String?
+  competitors       String[]
+  nextSteps         String[]
+  tags              String[]
+  notes             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  contact           Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  company           Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  user              User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([tenantId])
+  @@index([contactId])
+  @@index([companyId])
+  @@index([stage])
+  @@index([probability])
+  @@index([expectedCloseDate])
+}
+
+// Email verification tokens
+model VerificationToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+}
+
+// Password reset tokens
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+}
