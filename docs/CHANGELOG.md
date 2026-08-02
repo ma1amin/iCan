@@ -2,6 +2,43 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [2.0.2] - 2026-08-03
+
+### Fixed - Critical Authentication and Multi-Tenant Issues
+- **Logout Function**: Fixed logout redirection
+  - Added proper window.location.href redirect to landing page
+  - Ensures user is redirected after logout
+  - Clears session and navigates to home page
+
+- **Multi-Tenant Isolation**: Implemented proper tenant data isolation
+  - Fixed tenant-specific storage keys (ican-data-{tenantId})
+  - Each tenant now has completely isolated data storage
+  - Added getTenantStorageKey function for dynamic key generation
+  - Storage event listener triggers data reload on tenant changes
+  - Login now triggers storage event to reload tenant data
+  - Fixed user/tenant ID generation to ensure uniqueness
+
+- **Data Storage**: Enhanced data storage architecture
+  - Enhanced user ID generation with random suffix
+  - Enhanced tenant ID generation with random suffix
+  - Updated data version to 2.0.0 for multi-tenant support
+  - AppContext now integrates with AuthContext for tenant awareness
+  - Data automatically loads based on current tenant
+
+- **Type Definitions**: Improved ID generation
+  - Added random suffix to user IDs to prevent collisions
+  - Added random suffix to tenant IDs to prevent collisions
+  - Better uniqueness guarantee for multi-tenant environment
+
+### Documentation
+- **Data Storage Guide**: Added comprehensive data storage documentation
+  - Explained localStorage implementation in detail
+  - Documented multi-tenant isolation architecture
+  - Documented security considerations and limitations
+  - Added backend integration path and database schema
+  - Added troubleshooting section for storage issues
+  - Documented data backup and export functionality
+
 ## [2.0.1] - 2026-08-03
 
 ### Fixed - Authentication System Enhancements

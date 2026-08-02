@@ -13,6 +13,22 @@ The name "iCan" represents the four core pillars of the platform:
 
 ## Current Status
 
+### Version 2.0.2 - Critical Fixes (2026-08-03)
+
+**Critical Bug Fixes:**
+- ✅ Fixed logout redirection to landing page
+- ✅ Implemented proper multi-tenant data isolation
+- ✅ Enhanced unique ID generation for users and tenants
+- ✅ Added storage event listener for tenant changes
+- ✅ Fixed tenant-specific storage keys
+- ✅ Each tenant now has completely isolated data
+
+**Data Storage Enhancements:**
+- ✅ Implemented tenant-specific storage keys (ican-data-{tenantId})
+- ✅ Automatic data reload on tenant changes
+- ✅ Enhanced ID generation to prevent collisions
+- ✅ AppContext now tenant-aware
+
 ### Version 2.0.1 - Authentication Enhancement (2026-08-03)
 
 **Authentication System Enhancements:**

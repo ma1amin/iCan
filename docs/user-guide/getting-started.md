@@ -10,8 +10,11 @@ To access the iCan platform:
 
 1. **Visit the Landing Page**: Navigate to the platform URL
 2. **Sign Up**: Create a new account with your email and password
-3. **Verify Email**: Complete email verification to activate your account
-4. **Login**: Sign in with your credentials to access the platform
+3. **Create Organization**: Enter your organization name during registration
+4. **Verify Email**: Complete email verification to activate your account
+5. **Login**: Sign in with your credentials to access your organization's data
+
+**Note**: Each organization has its own isolated data. Your contacts, appointments, and other data are separate from other organizations.
 
 ### For Developers
 

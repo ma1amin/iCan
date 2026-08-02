@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 2.0.1** (Authentication enhancement - 2026-08-03)
+**Current Version: 2.0.2** (Critical fixes - 2026-08-03)
 
 ## Vision
 
@@ -187,6 +187,7 @@ Comprehensive documentation is available in the `docs/` folder:
   - Negotiations Guide
 - **Technical Documentation**: `docs/technical/`
   - Architecture
+  - Data Storage
   - Data Structures
   - API Reference
   - Component Library
@@ -205,7 +206,8 @@ Comprehensive documentation is available in the `docs/` folder:
 - **Authentication**: Custom auth system with multi-tenant support
 - **Styling**: CSS with custom design system and CSS variables for theming
 - **Date Handling**: Custom date utilities
-- **Storage**: LocalStorage with optional cloud sync (backend-ready)
+- **Storage**: LocalStorage with multi-tenant isolation (backend-ready)
+- **Data Persistence**: Tenant-specific localStorage keys for data isolation
 - **Type Safety**: Type definitions for all data structures
 
 ## Color Scheme
