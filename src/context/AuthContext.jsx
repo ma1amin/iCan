@@ -1,11 +1,9 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { createUser, validateUser, ROLES } from '../types/users';
-import { createTenant, generateSlug, TENANT_PLANS } from '../types/tenants';
+import { authAPI } from '../lib/api';
 
 const AuthContext = createContext(null);
 
 const AUTH_STORAGE_KEY = 'ican-auth';
-const VERIFICATION_TOKEN_STORAGE_KEY = 'ican-verification-tokens';
 
 const defaultAuthState = {
   user: null,
@@ -18,204 +16,157 @@ const defaultAuthState = {
 export const AuthProvider = ({ children }) => {
   const [state, setState] = useState(defaultAuthState);
 
-  // Load auth state from localStorage
+  // Save auth state to localStorage
+  const saveAuthState = useCallback((user, tenant) => {
+    localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify({
+      user,
+      tenant,
+      lastSync: Date.now()
+    }));
+  }, []);
+
+  // Load auth state from localStorage on mount
   useEffect(() => {
-    const loadAuthState = () => {
+    const loadAuthState = async () => {
       try {
         const stored = localStorage.getItem(AUTH_STORAGE_KEY);
         if (stored) {
           const parsed = JSON.parse(stored);
-          setState(prev => ({
-            ...prev,
-            user: parsed.user,
-            tenant: parsed.tenant,
-            isAuthenticated: !!parsed.user,
-            isLoading: false
-          }));
+          
+          // Verify token is still valid by fetching current user
+          try {
+            const response = await authAPI.getCurrentUser();
+            setState(prev => ({
+              ...prev,
+              user: response.user,
+              tenant: response.tenant,
+              isAuthenticated: true,
+              isLoading: false
+            }));
+          } catch (error) {
+            // Token invalid, clear auth state
+            localStorage.removeItem(AUTH_STORAGE_KEY);
+            setState(prev => ({ ...prev, isLoading: false }));
+          }
         } else {
           setState(prev => ({ ...prev, isLoading: false }));
         }
       } catch (error) {
         console.error('Error loading auth state:', error);
-        setState(prev => ({ ...prev, isLoading: false, error: 'Failed to load auth state' }));
+        setState(prev => ({ ...prev, error: 'Failed to load auth state', isLoading: false }));
       }
     };
 
     loadAuthState();
   }, []);
 
-  // Save auth state to localStorage
-  const saveAuthState = useCallback((user, tenant) => {
-    try {
-      const dataToSave = {
-        user,
-        tenant,
-        lastSync: Date.now()
-      };
-      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(dataToSave));
-    } catch (error) {
-      console.error('Error saving auth state:', error);
-    }
-  }, []);
-
-  // Generate verification token
-  const generateVerificationToken = useCallback(() => {
-    return Math.random().toString(36).substring(2, 15) + 
-           Math.random().toString(36).substring(2, 15);
-  }, []);
-
   // Register user
   const register = useCallback(async (userData, tenantData) => {
     try {
-      // Validate user data
-      const userValidation = validateUser(userData);
-      if (!userValidation.isValid) {
-        throw new Error(userValidation.errors.join(', '));
-      }
+      setState(prev => ({ ...prev, isLoading: true, error: null }));
 
-      // Create tenant
-      const tenant = createTenant({
-        name: tenantData.name || userData.name + "'s Organization",
-        plan: TENANT_PLANS.FREE,
-        createdBy: userData.email
-      });
-
-      // Create user
-      const user = createUser({
-        ...userData,
-        tenantId: tenant.id,
-        role: ROLES.ADMIN,
-        emailVerified: false
-      });
-
-      // Generate verification token
-      const token = generateVerificationToken();
-      const verificationToken = {
-        id: Date.now().toString(36),
-        userId: user.id,
-        token,
-        expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
-        usedAt: null
-      };
-
-      // Store verification token
-      const existingTokens = JSON.parse(localStorage.getItem(VERIFICATION_TOKEN_STORAGE_KEY) || '[]');
-      localStorage.setItem(VERIFICATION_TOKEN_STORAGE_KEY, JSON.stringify([...existingTokens, verificationToken]));
-
-      // Mock email sending (in production, this would be an API call)
-      console.log('📧 Verification Email Sent:', {
-        to: user.email,
-        subject: 'Verify your iCan account',
-        verificationLink: `${window.location.origin}/verify-email?token=${token}`,
-        token
-      });
-
-      // Save user and tenant to localStorage (in production, this would be API calls)
-      const existingUsers = JSON.parse(localStorage.getItem('ican-users') || '[]');
-      const existingTenants = JSON.parse(localStorage.getItem('ican-tenants') || '[]');
+      const response = await authAPI.register(userData, tenantData);
       
-      localStorage.setItem('ican-users', JSON.stringify([...existingUsers, user]));
-      localStorage.setItem('ican-tenants', JSON.stringify([...existingTenants, tenant]));
+      if (response.success) {
+        setState(prev => ({
+          ...prev,
+          user: response.user,
+          tenant: response.tenant,
+          isAuthenticated: true,
+          isLoading: false,
+          error: null
+        }));
 
-      setState(prev => ({
-        ...prev,
-        user,
-        tenant,
-        isAuthenticated: true,
-        isLoading: false,
-        error: null
-      }));
+        saveAuthState(response.user, response.tenant);
 
-      saveAuthState(user, tenant);
+        // Trigger data reload for the new tenant
+        window.dispatchEvent(new Event('storage'));
 
-      return { success: true, user, tenant, requiresVerification: true };
+        return { success: true, user: response.user, tenant: response.tenant, requiresVerification: response.requiresVerification };
+      } else {
+        throw new Error(response.error || 'Registration failed');
+      }
     } catch (error) {
-      setState(prev => ({ ...prev, error: error.message }));
+      setState(prev => ({ ...prev, error: error.message, isLoading: false }));
       return { success: false, error: error.message };
     }
-  }, [generateVerificationToken, saveAuthState]);
+  }, [saveAuthState]);
 
   // Login user
   const login = useCallback(async (email, password) => {
     try {
-      const existingUsers = JSON.parse(localStorage.getItem('ican-users') || '[]');
-      const existingTenants = JSON.parse(localStorage.getItem('ican-tenants') || '[]');
+      setState(prev => ({ ...prev, isLoading: true, error: null }));
 
-      const user = existingUsers.find(u => u.email === email && u.password === password);
+      const response = await authAPI.login(email, password);
       
-      if (!user) {
-        throw new Error('Invalid email or password');
+      if (response.success) {
+        setState(prev => ({
+          ...prev,
+          user: response.user,
+          tenant: response.tenant,
+          isAuthenticated: true,
+          isLoading: false,
+          error: null
+        }));
+
+        saveAuthState(response.user, response.tenant);
+
+        // Trigger data reload for the new tenant
+        window.dispatchEvent(new Event('storage'));
+
+        return { success: true, user: response.user, tenant: response.tenant };
+      } else {
+        throw new Error(response.error || 'Login failed');
       }
-
-      const tenant = existingTenants.find(t => t.id === user.tenantId);
-      
-      if (!tenant) {
-        throw new Error('Tenant not found');
-      }
-
-      setState(prev => ({
-        ...prev,
-        user,
-        tenant,
-        isAuthenticated: true,
-        isLoading: false,
-        error: null
-      }));
-
-      saveAuthState(user, tenant);
-
-      // Trigger data reload for the new tenant
-      window.dispatchEvent(new Event('storage'));
-
-      return { success: true, user, tenant };
     } catch (error) {
-      setState(prev => ({ ...prev, error: error.message }));
+      setState(prev => ({ ...prev, error: error.message, isLoading: false }));
       return { success: false, error: error.message };
     }
   }, [saveAuthState]);
 
   // Logout user
-  const logout = useCallback(() => {
-    localStorage.removeItem(AUTH_STORAGE_KEY);
-    setState(defaultAuthState);
-    // Navigate to landing page
-    window.location.href = '/';
+  const logout = useCallback(async () => {
+    try {
+      await authAPI.logout();
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      setState(defaultAuthState);
+      // Navigate to landing page
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Force logout even if API call fails
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      setState(defaultAuthState);
+      window.location.href = '/';
+    }
   }, []);
 
   // Verify email
   const verifyEmail = useCallback(async (token) => {
     try {
-      const existingTokens = JSON.parse(localStorage.getItem(VERIFICATION_TOKEN_STORAGE_KEY) || '[]');
-      const existingUsers = JSON.parse(localStorage.getItem('ican-users') || '[]');
+      setState(prev => ({ ...prev, isLoading: true, error: null }));
 
-      const verificationToken = existingTokens.find(t => t.token === token && !t.usedAt && t.expiresAt > Date.now());
+      const response = await authAPI.verifyEmail(token);
       
-      if (!verificationToken) {
-        throw new Error('Invalid or expired verification token');
+      if (response.success) {
+        // Update local state
+        if (state.user) {
+          setState(prev => ({
+            ...prev,
+            user: { ...prev.user, emailVerified: true },
+            isLoading: false
+          }));
+          saveAuthState({ ...state.user, emailVerified: true }, state.tenant);
+        } else {
+          setState(prev => ({ ...prev, isLoading: false }));
+        }
+
+        return { success: true };
+      } else {
+        throw new Error(response.error || 'Email verification failed');
       }
-
-      // Mark token as used
-      const updatedTokens = existingTokens.map(t => 
-        t.id === verificationToken.id ? { ...t, usedAt: Date.now() } : t
-      );
-      localStorage.setItem(VERIFICATION_TOKEN_STORAGE_KEY, JSON.stringify(updatedTokens));
-
-      // Update user email verification status
-      const updatedUsers = existingUsers.map(u => 
-        u.id === verificationToken.userId ? { ...u, emailVerified: true, updatedAt: Date.now() } : u
-      );
-      localStorage.setItem('ican-users', JSON.stringify(updatedUsers));
-
-      // Update current user if logged in
-      if (state.user && state.user.id === verificationToken.userId) {
-        const updatedUser = { ...state.user, emailVerified: true, updatedAt: Date.now() };
-        setState(prev => ({ ...prev, user: updatedUser }));
-        saveAuthState(updatedUser, state.tenant);
-      }
-
-      return { success: true };
     } catch (error) {
-      setState(prev => ({ ...prev, error: error.message }));
+      setState(prev => ({ ...prev, error: error.message, isLoading: false }));
       return { success: false, error: error.message };
     }
   }, [state.user, state.tenant, saveAuthState]);
@@ -227,36 +178,15 @@ export const AuthProvider = ({ children }) => {
         throw new Error('No user logged in');
       }
 
-      if (state.user.emailVerified) {
-        throw new Error('Email already verified');
-      }
-
-      const token = generateVerificationToken();
-      const verificationToken = {
-        id: Date.now().toString(36),
-        userId: state.user.id,
-        token,
-        expiresAt: Date.now() + 24 * 60 * 60 * 1000,
-        usedAt: null
-      };
-
-      const existingTokens = JSON.parse(localStorage.getItem(VERIFICATION_TOKEN_STORAGE_KEY) || '[]');
-      localStorage.setItem(VERIFICATION_TOKEN_STORAGE_KEY, JSON.stringify([...existingTokens, verificationToken]));
-
-      // Mock email sending
-      console.log('📧 Verification Email Resent:', {
-        to: state.user.email,
-        subject: 'Verify your iCan account',
-        verificationLink: `${window.location.origin}/verify-email?token=${token}`,
-        token
-      });
-
+      // For now, this is a placeholder as the API doesn't have this endpoint yet
+      console.log('📧 Verification email resend requested for:', state.user.email);
+      
       return { success: true };
     } catch (error) {
       setState(prev => ({ ...prev, error: error.message }));
       return { success: false, error: error.message };
     }
-  }, [state.user, generateVerificationToken]);
+  }, [state.user]);
 
   // Update user profile
   const updateUserProfile = useCallback(async (updates) => {
@@ -265,55 +195,53 @@ export const AuthProvider = ({ children }) => {
         throw new Error('No user logged in');
       }
 
-      const existingUsers = JSON.parse(localStorage.getItem('ican-users') || '[]');
-      const updatedUser = { ...state.user, ...updates, updatedAt: Date.now() };
+      setState(prev => ({ ...prev, isLoading: true, error: null }));
+
+      const response = await authAPI.updateProfile(updates);
       
-      const updatedUsers = existingUsers.map(u => 
-        u.id === state.user.id ? updatedUser : u
-      );
-      localStorage.setItem('ican-users', JSON.stringify(updatedUsers));
+      if (response.success) {
+        setState(prev => ({
+          ...prev,
+          user: response.user,
+          isLoading: false
+        }));
+        saveAuthState(response.user, state.tenant);
 
-      setState(prev => ({ ...prev, user: updatedUser }));
-      saveAuthState(updatedUser, state.tenant);
-
-      return { success: true, user: updatedUser };
+        return { success: true, user: response.user };
+      } else {
+        throw new Error(response.error || 'Profile update failed');
+      }
     } catch (error) {
-      setState(prev => ({ ...prev, error: error.message }));
+      setState(prev => ({ ...prev, error: error.message, isLoading: false }));
       return { success: false, error: error.message };
     }
   }, [state.user, state.tenant, saveAuthState]);
 
   // Delete account
-  const deleteAccount = useCallback(async () => {
+  const deleteAccount = useCallback(async (password) => {
     try {
       if (!state.user) {
         throw new Error('No user logged in');
       }
 
-      // Remove user from users array
-      const existingUsers = JSON.parse(localStorage.getItem('ican-users') || '[]');
-      const updatedUsers = existingUsers.filter(u => u.id !== state.user.id);
-      localStorage.setItem('ican-users', JSON.stringify(updatedUsers));
+      setState(prev => ({ ...prev, isLoading: true, error: null }));
 
-      // Remove tenant if user is the only member (in production, check tenant member count)
-      if (state.tenant && state.tenant.createdBy === state.user.email) {
-        const existingTenants = JSON.parse(localStorage.getItem('ican-tenants') || '[]');
-        const updatedTenants = existingTenants.filter(t => t.id !== state.tenant.id);
-        localStorage.setItem('ican-tenants', JSON.stringify(updatedTenants));
+      const response = await authAPI.deleteAccount(password);
+      
+      if (response.success) {
+        // Clear auth state
+        localStorage.removeItem(AUTH_STORAGE_KEY);
+        setState(defaultAuthState);
+
+        return { success: true };
+      } else {
+        throw new Error(response.error || 'Account deletion failed');
       }
-
-      // Clear auth state
-      localStorage.removeItem(AUTH_STORAGE_KEY);
-
-      // Reset state
-      setState(defaultAuthState);
-
-      return { success: true };
     } catch (error) {
-      setState(prev => ({ ...prev, error: error.message }));
+      setState(prev => ({ ...prev, error: error.message, isLoading: false }));
       return { success: false, error: error.message };
     }
-  }, [state.user, state.tenant]);
+  }, [state.user]);
 
   const value = {
     ...state,
@@ -326,17 +254,13 @@ export const AuthProvider = ({ children }) => {
     deleteAccount
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuthContext = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuthContext must be used within AuthProvider');
+    throw new Error('useAuthContext must be used within an AuthProvider');
   }
   return context;
 };

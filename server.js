@@ -388,6 +388,373 @@ app.delete('/api/contacts/:id', authenticateToken, async (req, res) => {
   }
 });
 
+// Companies CRUD routes
+
+// Get all companies for tenant
+app.get('/api/companies', authenticateToken, async (req, res) => {
+  try {
+    const companies = await prisma.company.findMany({
+      where: { tenantId: req.user.tenantId },
+      include: {
+        _count: {
+          select: { contacts: true, deals: true }
+        }
+      }
+    });
+
+    res.json({ companies });
+  } catch (error) {
+    console.error('Get companies error:', error);
+    res.status(500).json({ error: 'Failed to get companies' });
+  }
+});
+
+// Create company
+app.post('/api/companies', authenticateToken, async (req, res) => {
+  try {
+    const companyData = {
+      ...req.body,
+      tenantId: req.user.tenantId
+    };
+
+    const company = await prisma.company.create({
+      data: companyData
+    });
+
+    res.status(201).json({ company });
+  } catch (error) {
+    console.error('Create company error:', error);
+    res.status(500).json({ error: 'Failed to create company' });
+  }
+});
+
+// Update company
+app.put('/api/companies/:id', authenticateToken, async (req, res) => {
+  try {
+    const company = await prisma.company.update({
+      where: { 
+        id: req.params.id,
+        tenantId: req.user.tenantId
+      },
+      data: req.body
+    });
+
+    res.json({ company });
+  } catch (error) {
+    console.error('Update company error:', error);
+    res.status(500).json({ error: 'Failed to update company' });
+  }
+});
+
+// Delete company
+app.delete('/api/companies/:id', authenticateToken, async (req, res) => {
+  try {
+    await prisma.company.delete({
+      where: { 
+        id: req.params.id,
+        tenantId: req.user.tenantId
+      }
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Delete company error:', error);
+    res.status(500).json({ error: 'Failed to delete company' });
+  }
+});
+
+// Appointments CRUD routes
+
+// Get all appointments for tenant
+app.get('/api/appointments', authenticateToken, async (req, res) => {
+  try {
+    const appointments = await prisma.appointment.findMany({
+      where: { tenantId: req.user.tenantId },
+      include: { contact: true, user: true }
+    });
+
+    res.json({ appointments });
+  } catch (error) {
+    console.error('Get appointments error:', error);
+    res.status(500).json({ error: 'Failed to get appointments' });
+  }
+});
+
+// Create appointment
+app.post('/api/appointments', authenticateToken, async (req, res) => {
+  try {
+    const appointmentData = {
+      ...req.body,
+      tenantId: req.user.tenantId
+    };
+
+    const appointment = await prisma.appointment.create({
+      data: appointmentData,
+      include: { contact: true, user: true }
+    });
+
+    res.status(201).json({ appointment });
+  } catch (error) {
+    console.error('Create appointment error:', error);
+    res.status(500).json({ error: 'Failed to create appointment' });
+  }
+});
+
+// Update appointment
+app.put('/api/appointments/:id', authenticateToken, async (req, res) => {
+  try {
+    const appointment = await prisma.appointment.update({
+      where: { 
+        id: req.params.id,
+        tenantId: req.user.tenantId
+      },
+      data: req.body,
+      include: { contact: true, user: true }
+    });
+
+    res.json({ appointment });
+  } catch (error) {
+    console.error('Update appointment error:', error);
+    res.status(500).json({ error: 'Failed to update appointment' });
+  }
+});
+
+// Delete appointment
+app.delete('/api/appointments/:id', authenticateToken, async (req, res) => {
+  try {
+    await prisma.appointment.delete({
+      where: { 
+        id: req.params.id,
+        tenantId: req.user.tenantId
+      }
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Delete appointment error:', error);
+    res.status(500).json({ error: 'Failed to delete appointment' });
+  }
+});
+
+// Interactions CRUD routes
+
+// Get all interactions for tenant
+app.get('/api/interactions', authenticateToken, async (req, res) => {
+  try {
+    const interactions = await prisma.interaction.findMany({
+      where: { tenantId: req.user.tenantId },
+      include: { contact: true, user: true, appointment: true }
+    });
+
+    res.json({ interactions });
+  } catch (error) {
+    console.error('Get interactions error:', error);
+    res.status(500).json({ error: 'Failed to get interactions' });
+  }
+});
+
+// Create interaction
+app.post('/api/interactions', authenticateToken, async (req, res) => {
+  try {
+    const interactionData = {
+      ...req.body,
+      tenantId: req.user.tenantId
+    };
+
+    const interaction = await prisma.interaction.create({
+      data: interactionData,
+      include: { contact: true, user: true, appointment: true }
+    });
+
+    res.status(201).json({ interaction });
+  } catch (error) {
+    console.error('Create interaction error:', error);
+    res.status(500).json({ error: 'Failed to create interaction' });
+  }
+});
+
+// Update interaction
+app.put('/api/interactions/:id', authenticateToken, async (req, res) => {
+  try {
+    const interaction = await prisma.interaction.update({
+      where: { 
+        id: req.params.id,
+        tenantId: req.user.tenantId
+      },
+      data: req.body,
+      include: { contact: true, user: true, appointment: true }
+    });
+
+    res.json({ interaction });
+  } catch (error) {
+    console.error('Update interaction error:', error);
+    res.status(500).json({ error: 'Failed to update interaction' });
+  }
+});
+
+// Delete interaction
+app.delete('/api/interactions/:id', authenticateToken, async (req, res) => {
+  try {
+    await prisma.interaction.delete({
+      where: { 
+        id: req.params.id,
+        tenantId: req.user.tenantId
+      }
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Delete interaction error:', error);
+    res.status(500).json({ error: 'Failed to delete interaction' });
+  }
+});
+
+// Tasks CRUD routes
+
+// Get all tasks for tenant
+app.get('/api/tasks', authenticateToken, async (req, res) => {
+  try {
+    const tasks = await prisma.task.findMany({
+      where: { tenantId: req.user.tenantId },
+      include: { contact: true, user: true }
+    });
+
+    res.json({ tasks });
+  } catch (error) {
+    console.error('Get tasks error:', error);
+    res.status(500).json({ error: 'Failed to get tasks' });
+  }
+});
+
+// Create task
+app.post('/api/tasks', authenticateToken, async (req, res) => {
+  try {
+    const taskData = {
+      ...req.body,
+      tenantId: req.user.tenantId
+    };
+
+    const task = await prisma.task.create({
+      data: taskData,
+      include: { contact: true, user: true }
+    });
+
+    res.status(201).json({ task });
+  } catch (error) {
+    console.error('Create task error:', error);
+    res.status(500).json({ error: 'Failed to create task' });
+  }
+});
+
+// Update task
+app.put('/api/tasks/:id', authenticateToken, async (req, res) => {
+  try {
+    const task = await prisma.task.update({
+      where: { 
+        id: req.params.id,
+        tenantId: req.user.tenantId
+      },
+      data: req.body,
+      include: { contact: true, user: true }
+    });
+
+    res.json({ task });
+  } catch (error) {
+    console.error('Update task error:', error);
+    res.status(500).json({ error: 'Failed to update task' });
+  }
+});
+
+// Delete task
+app.delete('/api/tasks/:id', authenticateToken, async (req, res) => {
+  try {
+    await prisma.task.delete({
+      where: { 
+        id: req.params.id,
+        tenantId: req.user.tenantId
+      }
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Delete task error:', error);
+    res.status(500).json({ error: 'Failed to delete task' });
+  }
+});
+
+// Deals CRUD routes
+
+// Get all deals for tenant
+app.get('/api/deals', authenticateToken, async (req, res) => {
+  try {
+    const deals = await prisma.deal.findMany({
+      where: { tenantId: req.user.tenantId },
+      include: { contact: true, company: true, user: true }
+    });
+
+    res.json({ deals });
+  } catch (error) {
+    console.error('Get deals error:', error);
+    res.status(500).json({ error: 'Failed to get deals' });
+  }
+});
+
+// Create deal
+app.post('/api/deals', authenticateToken, async (req, res) => {
+  try {
+    const dealData = {
+      ...req.body,
+      tenantId: req.user.tenantId
+    };
+
+    const deal = await prisma.deal.create({
+      data: dealData,
+      include: { contact: true, company: true, user: true }
+    });
+
+    res.status(201).json({ deal });
+  } catch (error) {
+    console.error('Create deal error:', error);
+    res.status(500).json({ error: 'Failed to create deal' });
+  }
+});
+
+// Update deal
+app.put('/api/deals/:id', authenticateToken, async (req, res) => {
+  try {
+    const deal = await prisma.deal.update({
+      where: { 
+        id: req.params.id,
+        tenantId: req.user.tenantId
+      },
+      data: req.body,
+      include: { contact: true, company: true, user: true }
+    });
+
+    res.json({ deal });
+  } catch (error) {
+    console.error('Update deal error:', error);
+    res.status(500).json({ error: 'Failed to update deal' });
+  }
+});
+
+// Delete deal
+app.delete('/api/deals/:id', authenticateToken, async (req, res) => {
+  try {
+    await prisma.deal.delete({
+      where: { 
+        id: req.params.id,
+        tenantId: req.user.tenantId
+      }
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Delete deal error:', error);
+    res.status(500).json({ error: 'Failed to delete deal' });
+  }
+});
+
 // Start server
 app.listen(PORT, () => {
   console.log(`iCan API server running on port ${PORT}`);
