@@ -6,9 +6,10 @@ import Modal from '../common/Modal';
 import './UserProfile.css';
 
 const UserProfile = () => {
-  const { user, tenant, updateUserProfile, logout } = useAuthContext();
+  const { user, tenant, updateUserProfile, logout, deleteAccount } = useAuthContext();
   const [isEditing, setIsEditing] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [editForm, setEditForm] = useState({
     name: user?.name || '',
     avatar: user?.avatar || ''
@@ -17,6 +18,10 @@ const UserProfile = () => {
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
+  });
+  const [deleteForm, setDeleteForm] = useState({
+    confirmationText: '',
+    password: ''
   });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -71,6 +76,39 @@ const UserProfile = () => {
     });
     setIsPasswordModalOpen(false);
     setTimeout(() => setSuccess(''), 3000);
+  };
+
+  const handleDeleteAccount = async () => {
+    setError('');
+    setSuccess('');
+
+    if (deleteForm.confirmationText !== 'DELETE ACCOUNT') {
+      setError('Please type "DELETE ACCOUNT" to confirm');
+      return;
+    }
+
+    if (deleteForm.password !== user.password) {
+      setError('Incorrect password');
+      return;
+    }
+
+    try {
+      const result = await deleteAccount();
+      
+      if (result.success) {
+        setSuccess('Account deleted successfully');
+        setIsDeleteModalOpen(false);
+        
+        // Redirect to landing page after a short delay
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
+      } else {
+        setError(result.error);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
+    }
   };
 
   const handleAvatarUpload = (e) => {
@@ -218,9 +256,14 @@ const UserProfile = () => {
         {/* Security */}
         <div className="user-profile-section">
           <h2 className="user-profile-section-title">Security</h2>
-          <Button variant="secondary" onClick={() => setIsPasswordModalOpen(true)}>
-            Change Password
-          </Button>
+          <div className="user-profile-security-actions">
+            <Button variant="secondary" onClick={() => setIsPasswordModalOpen(true)}>
+              Change Password
+            </Button>
+            <Button variant="ghost" onClick={logout}>
+              Logout
+            </Button>
+          </div>
         </div>
 
         {/* Danger Zone */}
@@ -229,8 +272,8 @@ const UserProfile = () => {
           <p className="user-profile-section-description">
             These actions are irreversible. Please be careful.
           </p>
-          <Button variant="danger" onClick={logout}>
-            Logout
+          <Button variant="danger" onClick={() => setIsDeleteModalOpen(true)}>
+            Delete Account
           </Button>
         </div>
       </div>
@@ -270,6 +313,74 @@ const UserProfile = () => {
             </Button>
             <Button variant="primary" onClick={handlePasswordChange}>
               Update Password
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Delete Account Modal */}
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        title="Delete Account"
+        size="small"
+      >
+        <div className="user-profile-delete-form">
+          <p className="user-profile-delete-warning">
+            This action is irreversible. All your data, including contacts, appointments, interactions, tasks, and deals will be permanently deleted.
+          </p>
+          
+          <div className="user-profile-delete-step">
+            <label className="user-profile-delete-label">
+              Type <strong>DELETE ACCOUNT</strong> to confirm:
+            </label>
+            <Input
+              type="text"
+              value={deleteForm.confirmationText}
+              onChange={(value) => setDeleteForm(prev => ({ ...prev, confirmationText: value }))}
+              placeholder="DELETE ACCOUNT"
+              fullWidth
+              onPaste={(e) => e.preventDefault()}
+              onCopy={(e) => e.preventDefault()}
+              className="user-profile-delete-input"
+            />
+          </div>
+
+          <div className="user-profile-delete-step">
+            <label className="user-profile-delete-label">
+              Enter your password to confirm:
+            </label>
+            <Input
+              type="password"
+              value={deleteForm.password}
+              onChange={(value) => setDeleteForm(prev => ({ ...prev, password: value }))}
+              placeholder="Your password"
+              fullWidth
+            />
+          </div>
+
+          {error && (
+            <div className="user-profile-error">
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="user-profile-success">
+              {success}
+            </div>
+          )}
+
+          <div className="user-profile-modal-actions">
+            <Button variant="ghost" onClick={() => setIsDeleteModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button 
+              variant="danger" 
+              onClick={handleDeleteAccount}
+              disabled={deleteForm.confirmationText !== 'DELETE ACCOUNT' || !deleteForm.password}
+            >
+              Delete Account
             </Button>
           </div>
         </div>

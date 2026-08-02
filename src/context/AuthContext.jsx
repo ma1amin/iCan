@@ -278,6 +278,38 @@ export const AuthProvider = ({ children }) => {
     }
   }, [state.user, state.tenant, saveAuthState]);
 
+  // Delete account
+  const deleteAccount = useCallback(async () => {
+    try {
+      if (!state.user) {
+        throw new Error('No user logged in');
+      }
+
+      // Remove user from users array
+      const existingUsers = JSON.parse(localStorage.getItem('ican-users') || '[]');
+      const updatedUsers = existingUsers.filter(u => u.id !== state.user.id);
+      localStorage.setItem('ican-users', JSON.stringify(updatedUsers));
+
+      // Remove tenant if user is the only member (in production, check tenant member count)
+      if (state.tenant && state.tenant.createdBy === state.user.email) {
+        const existingTenants = JSON.parse(localStorage.getItem('ican-tenants') || '[]');
+        const updatedTenants = existingTenants.filter(t => t.id !== state.tenant.id);
+        localStorage.setItem('ican-tenants', JSON.stringify(updatedTenants));
+      }
+
+      // Clear auth state
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+
+      // Reset state
+      setState(defaultAuthState);
+
+      return { success: true };
+    } catch (error) {
+      setState(prev => ({ ...prev, error: error.message }));
+      return { success: false, error: error.message };
+    }
+  }, [state.user, state.tenant]);
+
   const value = {
     ...state,
     register,
@@ -285,7 +317,8 @@ export const AuthProvider = ({ children }) => {
     logout,
     verifyEmail,
     resendVerificationEmail,
-    updateUserProfile
+    updateUserProfile,
+    deleteAccount
   };
 
   return (

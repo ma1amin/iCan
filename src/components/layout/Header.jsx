@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
+import { useAuthContext } from '../../context/AuthContext';
 import Button from '../common/Button';
 import ThemeToggle from '../common/ThemeToggle';
 import './Header.css';
@@ -8,6 +9,7 @@ import './Header.css';
 const Header = () => {
   const location = useLocation();
   const { setCurrentView } = useAppContext();
+  const { logout } = useAuthContext();
 
   const getViewTitle = () => {
     const path = location.pathname;
@@ -88,6 +90,9 @@ const Header = () => {
       <div className="header-right">
         <ThemeToggle />
         {getHeaderActions()}
+        <Button variant="ghost" size="small" onClick={logout}>
+          Logout
+        </Button>
       </div>
     </header>
   );

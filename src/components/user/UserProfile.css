@@ -149,6 +149,12 @@
   border-color: var(--accent-primary);
 }
 
+.user-profile-security-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .user-profile-fields {
   display: flex;
   flex-direction: column;
@@ -199,6 +205,42 @@
   gap: 12px;
   justify-content: flex-end;
   margin-top: 8px;
+}
+
+.user-profile-delete-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.user-profile-delete-warning {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  background: rgba(232, 90, 90, 0.1);
+  border: 1px solid var(--accent-danger);
+  color: var(--accent-danger);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 0;
+}
+
+.user-profile-delete-step {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-profile-delete-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.user-profile-delete-input {
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
 }
 
 /* Responsive */

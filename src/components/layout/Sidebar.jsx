@@ -119,14 +119,6 @@ const Sidebar = () => {
               <span className="sidebar-stat-label">Contacts</span>
             </div>
           </div>
-          <button
-            onClick={handleLogout}
-            className="sidebar-logout"
-            aria-label="Logout"
-          >
-            <span className="sidebar-logout-icon">🚪</span>
-            <span>Logout</span>
-          </button>
         </div>
       </aside>
     </>
