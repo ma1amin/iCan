@@ -82,127 +82,129 @@ const KanbanBoard = ({ tasks, onTaskUpdate, onTaskDelete }) => {
   };
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="kanban-board">
-        {TASK_STATUS.map(status => {
-          const statusTasks = tasks.filter(task => task.status === status);
-          return (
-            <Droppable key={status} droppableId={status}>
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className={`kanban-column ${snapshot.isDraggingOver ? 'dragging-over' : ''}`}
-                >
-                  <div 
-                    className="kanban-column-header"
-                    style={{ 
-                      backgroundColor: TASK_STATUS_COLORS[status] + '22',
-                      color: TASK_STATUS_COLORS[status]
-                    }}
+    <>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <div className="kanban-board">
+          {TASK_STATUS.map(status => {
+            const statusTasks = tasks.filter(task => task.status === status);
+            return (
+              <Droppable key={status} droppableId={status}>
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className={`kanban-column ${snapshot.isDraggingOver ? 'dragging-over' : ''}`}
                   >
-                    <h3 className="kanban-column-title">{TASK_STATUS_LABELS[status]}</h3>
-                    <span className="kanban-column-count">{statusTasks.length}</span>
-                  </div>
-                  <div className="kanban-column-tasks">
-                    {statusTasks.length === 0 ? (
-                      <div className="kanban-empty">
-                        <span>No tasks</span>
-                      </div>
-                    ) : (
-                      statusTasks.map((task, index) => {
-                        const contact = getContact(task.contactId);
-                        return (
-                          <Draggable key={task.id} draggableId={task.id} index={index}>
-                            {(provided, snapshot) => (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                className={`kanban-task-card ${snapshot.isDragging ? 'dragging' : ''}`}
-                                onClick={() => handleTaskClick(task)}
-                              >
-                                <div className="task-card-header">
-                                  <div 
-                                    className="task-priority-indicator"
-                                    style={{ backgroundColor: TASK_PRIORITY_COLORS[task.priority] }}
-                                  />
-                                  <span className="task-priority-label">{TASK_PRIORITY_LABELS[task.priority]}</span>
-                                </div>
-                                <h4 className="task-card-title">{task.title}</h4>
-                                {task.description && (
-                                  <p className="task-card-description">{task.description}</p>
-                                )}
-                                <div className="task-card-meta">
-                                  {contact && (
-                                    <div className="task-card-contact">{contact.name}</div>
-                                  )}
-                                  {task.dueDate && (
+                    <div 
+                      className="kanban-column-header"
+                      style={{ 
+                        backgroundColor: TASK_STATUS_COLORS[status] + '22',
+                        color: TASK_STATUS_COLORS[status]
+                      }}
+                    >
+                      <h3 className="kanban-column-title">{TASK_STATUS_LABELS[status]}</h3>
+                      <span className="kanban-column-count">{statusTasks.length}</span>
+                    </div>
+                    <div className="kanban-column-tasks">
+                      {statusTasks.length === 0 ? (
+                        <div className="kanban-empty">
+                          <span>No tasks</span>
+                        </div>
+                      ) : (
+                        statusTasks.map((task, index) => {
+                          const contact = getContact(task.contactId);
+                          return (
+                            <Draggable key={task.id} draggableId={task.id} index={index}>
+                              {(provided, snapshot) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  className={`kanban-task-card ${snapshot.isDragging ? 'dragging' : ''}`}
+                                  onClick={() => handleTaskClick(task)}
+                                >
+                                  <div className="task-card-header">
                                     <div 
-                                      className={`task-card-due-date ${isOverdue(task.dueDate) ? 'overdue' : ''}`}
-                                    >
-                                      {formatDate(task.dueDate)}
-                                    </div>
+                                      className="task-priority-indicator"
+                                      style={{ backgroundColor: TASK_PRIORITY_COLORS[task.priority] }}
+                                    />
+                                    <span className="task-priority-label">{TASK_PRIORITY_LABELS[task.priority]}</span>
+                                  </div>
+                                  <h4 className="task-card-title">{task.title}</h4>
+                                  {task.description && (
+                                    <p className="task-card-description">{task.description}</p>
                                   )}
-                                  {task.category && (
-                                    <div className="task-card-category">{task.category}</div>
-                                  )}
-                                </div>
-                                {task.tags && task.tags.length > 0 && (
-                                  <div className="task-card-tags">
-                                    {task.tags.slice(0, 3).map((tag, index) => (
-                                      <span key={index} className="task-tag">{tag}</span>
-                                    ))}
-                                    {task.tags.length > 3 && (
-                                      <span className="task-tag">+{task.tags.length - 3}</span>
+                                  <div className="task-card-meta">
+                                    {contact && (
+                                      <div className="task-card-contact">{contact.name}</div>
+                                    )}
+                                    {task.dueDate && (
+                                      <div 
+                                        className={`task-card-due-date ${isOverdue(task.dueDate) ? 'overdue' : ''}`}
+                                      >
+                                        {formatDate(task.dueDate)}
+                                      </div>
+                                    )}
+                                    {task.category && (
+                                      <div className="task-card-category">{task.category}</div>
                                     )}
                                   </div>
-                                )}
-                                <div className="task-card-actions">
-                                  <select
-                                    className="task-status-select"
-                                    value={task.status}
-                                    onClick={(e) => e.stopPropagation()}
-                                    onChange={(e) => {
-                                      e.stopPropagation();
-                                      handleStatusChange(task.id, e.target.value);
-                                    }}
-                                  >
-                                    {TASK_STATUS.map(s => (
-                                      <option key={s} value={s}>{TASK_STATUS_LABELS[s]}</option>
-                                    ))}
-                                  </select>
+                                  {task.tags && task.tags.length > 0 && (
+                                    <div className="task-card-tags">
+                                      {task.tags.slice(0, 3).map((tag, index) => (
+                                        <span key={index} className="task-tag">{tag}</span>
+                                      ))}
+                                      {task.tags.length > 3 && (
+                                        <span className="task-tag">+{task.tags.length - 3}</span>
+                                      )}
+                                    </div>
+                                  )}
+                                  <div className="task-card-actions">
+                                    <select
+                                      className="task-status-select"
+                                      value={task.status}
+                                      onClick={(e) => e.stopPropagation()}
+                                      onChange={(e) => {
+                                        e.stopPropagation();
+                                        handleStatusChange(task.id, e.target.value);
+                                      }}
+                                    >
+                                      {TASK_STATUS.map(s => (
+                                        <option key={s} value={s}>{TASK_STATUS_LABELS[s]}</option>
+                                      ))}
+                                    </select>
+                                  </div>
                                 </div>
-                              </div>
-                            )}
-                          </Draggable>
-                        );
-                      })
-                    )}
-                    {provided.placeholder}
+                              )}
+                            </Draggable>
+                          );
+                        })
+                      )}
+                      {provided.placeholder}
+                    </div>
                   </div>
-                </div>
-              )}
-            </Droppable>
-          );
-        })}
-      </div>
-    </DragDropContext>
+                )}
+              </Droppable>
+            );
+          })}
+        </div>
+      </DragDropContext>
 
-    {isFormOpen && (
-      <TaskForm
-        task={selectedTask}
-        contactId={null}
-        onClose={() => {
-          setIsFormOpen(false);
-          setSelectedTask(null);
-        }}
-        onSave={handleSaveTask}
-        onDelete={handleDeleteTask}
-      />
-    )}
-  </div>
-);
+      {isFormOpen && (
+        <TaskForm
+          task={selectedTask}
+          contactId={null}
+          onClose={() => {
+            setIsFormOpen(false);
+            setSelectedTask(null);
+          }}
+          onSave={handleSaveTask}
+          onDelete={handleDeleteTask}
+        />
+      )}
+    </>
+  );
+};
 
 KanbanBoard.propTypes = {
   tasks: PropTypes.array.isRequired,
