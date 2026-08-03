@@ -29,10 +29,17 @@ const apiCall = async (endpoint, options = {}) => {
 // Authentication API
 export const authAPI = {
   register: async (userData, tenantData) => {
-    return apiCall('/auth/register', {
+    const response = await apiCall('/auth/register', {
       method: 'POST',
       body: JSON.stringify({ ...userData, organizationName: tenantData.name }),
     });
+    
+    // Store token
+    if (response.token) {
+      localStorage.setItem('ican-token', response.token);
+    }
+    
+    return response;
   },
 
   login: async (email, password) => {

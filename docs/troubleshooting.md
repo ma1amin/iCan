@@ -5,6 +5,7 @@ Common issues and solutions for the iCan platform.
 ## Table of Contents
 
 - [Installation Issues](#installation-issues)
+- [Database & API Issues](#database--api-issues)
 - [Data Issues](#data-issues)
 - [Performance Issues](#performance-issues)
 - [UI/UX Issues](#uiux-issues)
@@ -68,6 +69,122 @@ npm start -- --reset-cache
 # Or manually clear cache
 rm -rf node_modules/.cache
 npm run build
+```
+
+## Database & API Issues
+
+### Database Connection Failed
+
+**Problem**: API server fails to start with database connection error.
+
+**Solution**:
+1. Ensure Prisma dev server is running:
+```bash
+npx prisma dev
+```
+
+2. Check DATABASE_URL in `.env` file is correct
+3. Verify PostgreSQL is accessible:
+```bash
+# Test database connection
+npx prisma db pull
+```
+
+4. If using Prisma dev server, ensure it's not already running on the same port
+
+### Prisma Migration Failed
+
+**Problem**: Database migration fails with errors.
+
+**Solution**:
+1. Reset database and reapply migrations:
+```bash
+npx prisma migrate reset --force
+```
+
+2. Or resolve specific migration issues:
+```bash
+npx prisma migrate resolve --applied <migration-name>
+```
+
+3. Check schema.prisma for syntax errors:
+```bash
+npx prisma validate
+```
+
+### API Server Not Starting
+
+**Problem**: API server fails to start or crashes immediately.
+
+**Solution**:
+1. Check if port 3001 is already in use:
+```bash
+# Windows
+netstat -ano | findstr :3001
+taskkill /F /PID <PID>
+
+# Mac/Linux
+lsof -ti:3001 | xargs kill -9
+```
+
+2. Check server logs for specific errors
+3. Verify all dependencies are installed:
+```bash
+npm install
+```
+
+4. Check environment variables are set in `.env` file
+
+### 401 Unauthorized Errors
+
+**Problem**: API calls return 401 errors even after login.
+
+**Solution**:
+1. Clear browser localStorage:
+```javascript
+// In browser console
+localStorage.clear()
+location.reload()
+```
+
+2. Re-login to get fresh JWT token
+3. Check token is being stored correctly:
+```javascript
+// In browser console
+localStorage.getItem('ican-token')
+```
+
+4. Verify token is not expired (default 24 hours)
+
+### CORS Errors
+
+**Problem**: Browser shows CORS errors when calling API.
+
+**Solution**:
+1. Ensure API server is running on port 3001
+2. Check CORS configuration in server.js
+3. Verify frontend is calling correct API URL
+4. Check browser console for specific CORS errors
+
+### Prisma Client Generation Failed
+
+**Problem**: Prisma Client fails to generate after schema changes.
+
+**Solution**:
+1. Regenerate Prisma Client:
+```bash
+npx prisma generate
+```
+
+2. If that fails, reset Prisma:
+```bash
+rm -rf node_modules/.prisma
+npx prisma generate
+```
+
+3. Ensure schema.prisma is valid:
+```bash
+npx prisma validate
 ```
 
 ## Data Issues

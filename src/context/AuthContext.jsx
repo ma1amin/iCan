@@ -30,7 +30,9 @@ export const AuthProvider = ({ children }) => {
     const loadAuthState = async () => {
       try {
         const stored = localStorage.getItem(AUTH_STORAGE_KEY);
-        if (stored) {
+        const token = localStorage.getItem('ican-token');
+        
+        if (stored && token) {
           const parsed = JSON.parse(stored);
           
           // Verify token is still valid by fetching current user
@@ -45,10 +47,19 @@ export const AuthProvider = ({ children }) => {
             }));
           } catch (error) {
             // Token invalid, clear auth state
+            console.log('Token validation failed, clearing auth state');
             localStorage.removeItem(AUTH_STORAGE_KEY);
+            localStorage.removeItem('ican-token');
             setState(prev => ({ ...prev, isLoading: false }));
           }
         } else {
+          // Clear inconsistent state
+          if (!token && stored) {
+            localStorage.removeItem(AUTH_STORAGE_KEY);
+          }
+          if (token && !stored) {
+            localStorage.removeItem('ican-token');
+          }
           setState(prev => ({ ...prev, isLoading: false }));
         }
       } catch (error) {
@@ -87,6 +98,7 @@ export const AuthProvider = ({ children }) => {
         throw new Error(response.error || 'Registration failed');
       }
     } catch (error) {
+      console.error('Registration error in AuthContext:', error);
       setState(prev => ({ ...prev, error: error.message, isLoading: false }));
       return { success: false, error: error.message };
     }

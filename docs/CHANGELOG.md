@@ -2,6 +2,50 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [3.0.1] - 2026-08-03
+
+### Fixed - Critical Bug Fixes and Enhancements
+- **Token Storage**: Fixed JWT token storage in registration flow
+  - Added token storage in authAPI.register function
+  - Token now properly stored after both login and registration
+  - Fixed 401 Unauthorized errors on API calls after registration
+  - Enhanced token validation in AuthContext
+
+- **Prisma Configuration**: Fixed PostgreSQL connection with driver adapter
+  - Added @prisma/adapter-pg and pg dependencies
+  - Updated server.js to use Prisma driver adapter (required for Prisma v7)
+  - Fixed database connection issues with Prisma dev server
+  - Added dotenv for environment variable loading
+
+- **Form Component**: Fixed React prop type warning
+  - Added 'password' to allowed Input component prop types
+  - Fixed invalid prop type warning in registration form
+  - Proper support for password input fields
+
+- **Server Stability**: Enhanced API server error handling
+  - Added proper server error handling to prevent immediate exit
+  - Bound server to 0.0.0.0 for better network handling
+  - Added uncaught exception handlers
+  - Enhanced logging for registration and login processes
+  - Added detailed error logging with stack traces
+
+- **Database Management**: Fixed database cleanup and migration
+  - Created database cleanup script for development
+  - Fixed Prisma migration reset issues
+  - Properly cleared all previous test data
+  - Enhanced database connection troubleshooting
+
+- **Authentication Context**: Improved token validation
+  - Enhanced AuthContext to check for both auth state and token consistency
+  - Added better error handling for invalid tokens
+  - Added logging for token validation failures
+  - Fixed inconsistent localStorage state cleanup
+
+### Documentation
+- **Setup Guide**: Updated for new dependencies and configuration
+- **Troubleshooting**: Added database connection troubleshooting steps
+- **Development Guide**: Updated server startup and management instructions
+
 ## [3.0.0] - 2026-08-03
 
 ### Major Release - PostgreSQL Database Implementation

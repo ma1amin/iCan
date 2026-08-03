@@ -37,14 +37,58 @@ This will install all required dependencies including:
 - React Scripts 5.0.1
 - Lucide React 0.263.1
 - date-fns 2.30.0
+- Express.js 5.2.1
+- Prisma 7.9.1
+- @prisma/client 7.9.1
+- @prisma/adapter-pg 7.9.1
+- pg 8.22.0
+- bcryptjs 3.0.3
+- jsonwebtoken 9.0.3
+- cors 2.8.6
+- concurrently 10.0.4
+- dotenv 17.4.2
 
-### 3. Start Development Server
+### 3. Database Setup
+
+The platform uses PostgreSQL with Prisma ORM. To set up the database:
 
 ```bash
+# Start Prisma dev server (for local development)
+npx prisma dev
+
+# Apply database migrations
+npx prisma migrate dev
+
+# Generate Prisma Client
+npx prisma generate
+```
+
+The database connection is configured in the `.env` file. The default setup uses Prisma's local PostgreSQL server.
+
+### 4. Start Development Servers
+
+The platform uses a dual-server architecture (frontend + API):
+
+```bash
+# Start both frontend and API servers together
+npm run dev
+```
+
+This will start:
+- **Frontend**: React development server on `http://localhost:3000`
+- **API**: Express.js API server on `http://localhost:3001`
+
+Alternatively, you can run them separately:
+
+```bash
+# Start API server only
+npm run server
+
+# Start frontend only (in another terminal)
 npm start
 ```
 
-The application will open at `http://localhost:3000`
+### 5. Verify Installation
 
 ### 4. Verify Installation
 

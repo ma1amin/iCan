@@ -1,12 +1,29 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { PrismaClient } = require('@prisma/client');
+const { PrismaPg } = require('@prisma/adapter-pg');
+const pg = require('pg');
 const { hashPassword, comparePassword, generateToken, verifyToken, generateVerificationToken } = require('./src/lib/auth');
 
 const app = express();
-const prisma = new PrismaClient();
+const adapter = new PrismaPg(new pg.Pool({ connectionString: process.env.DATABASE_URL }));
+const prisma = new PrismaClient({ adapter });
 const PORT = process.env.PORT || 3001;
+
+// Graceful shutdown
+process.on('SIGTERM', async () => {
+  console.log('SIGTERM received, shutting down gracefully...');
+  await prisma.$disconnect();
+  process.exit(0);
+});
+
+process.on('SIGINT', async () => {
+  console.log('SIGINT received, shutting down gracefully...');
+  await prisma.$disconnect();
+  process.exit(0);
+});
 
 // Middleware
 app.use(cors());
@@ -48,7 +65,13 @@ app.get('/api/health', (req, res) => {
 // Register
 app.post('/api/auth/register', async (req, res) => {
   try {
+    console.log('Register request received:', { email: req.body.email, name: req.body.name });
     const { email, password, name, organizationName } = req.body;
+
+    if (!email || !password || !name) {
+      console.log('Missing required fields');
+      return res.status(400).json({ error: 'Email, password, and name are required' });
+    }
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
@@ -56,10 +79,12 @@ app.post('/api/auth/register', async (req, res) => {
     });
 
     if (existingUser) {
+      console.log('User already exists:', email);
       return res.status(400).json({ error: 'User already exists' });
     }
 
     // Create tenant
+    console.log('Creating tenant...');
     const tenant = await prisma.tenant.create({
       data: {
         name: organizationName || `${name}'s Organization`,
@@ -68,11 +93,14 @@ app.post('/api/auth/register', async (req, res) => {
         createdBy: email
       }
     });
+    console.log('Tenant created:', tenant.id);
 
     // Hash password
+    console.log('Hashing password...');
     const passwordHash = await hashPassword(password);
 
     // Create user
+    console.log('Creating user...');
     const user = await prisma.user.create({
       data: {
         email,
@@ -85,6 +113,7 @@ app.post('/api/auth/register', async (req, res) => {
     });
 
     // Generate verification token
+    console.log('Generating verification token...');
     const verificationToken = generateVerificationToken();
     await prisma.verificationToken.create({
       data: {
@@ -95,12 +124,14 @@ app.post('/api/auth/register', async (req, res) => {
     });
 
     // Generate JWT token
+    console.log('Generating JWT token...');
     const token = generateToken({
       userId: user.id,
       email: user.email,
       tenantId: tenant.id
     });
 
+    console.log('Registration successful for:', email);
     res.status(201).json({
       success: true,
       user: {
@@ -121,37 +152,52 @@ app.post('/api/auth/register', async (req, res) => {
     });
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ error: 'Registration failed' });
+    console.error('Error details:', error.message);
+    console.error('Error stack:', error.stack);
+    res.status(500).json({ error: 'Registration failed', details: error.message });
   }
 });
 
 // Login
 app.post('/api/auth/login', async (req, res) => {
   try {
+    console.log('Login request received:', { email: req.body.email });
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      console.log('Missing required fields');
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
     // Find user
+    console.log('Finding user...');
     const user = await prisma.user.findUnique({
       where: { email },
       include: { tenant: true }
     });
 
     if (!user) {
+      console.log('User not found:', email);
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     // Verify password
+    console.log('Verifying password...');
     const isValidPassword = await comparePassword(password, user.passwordHash);
     if (!isValidPassword) {
+      console.log('Invalid password for:', email);
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     // Generate JWT token
+    console.log('Generating JWT token...');
     const token = generateToken({
       userId: user.id,
       email: user.email,
       tenantId: user.tenantId
     });
+
+    console.log('Login successful for:', email);
 
     res.json({
       success: true,
@@ -174,7 +220,9 @@ app.post('/api/auth/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ error: 'Login failed' });
+    console.error('Error details:', error.message);
+    console.error('Error stack:', error.stack);
+    res.status(500).json({ error: 'Login failed', details: error.message });
   }
 });
 
@@ -756,13 +804,24 @@ app.delete('/api/deals/:id', authenticateToken, async (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`iCan API server running on port ${PORT}`);
   console.log(`Health check: http://localhost:${PORT}/api/health`);
 });
 
-// Graceful shutdown
-process.on('SIGINT', async () => {
-  await prisma.$disconnect();
-  process.exit(0);
+// Keep server running
+server.on('error', (err) => {
+  console.error('Server error:', err);
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use`);
+  }
+});
+
+// Prevent process from exiting
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });

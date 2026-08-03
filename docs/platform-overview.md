@@ -13,6 +13,24 @@ The name "iCan" represents the four core pillars of the platform:
 
 ## Current Status
 
+### Version 3.0.1 - Bug Fixes and Enhancements (2026-08-03)
+
+**Critical Bug Fixes:**
+- ✅ Fixed JWT token storage in registration flow
+- ✅ Fixed 401 Unauthorized errors after registration
+- ✅ Fixed Prisma PostgreSQL connection with driver adapter
+- ✅ Fixed React prop type warning for password inputs
+- ✅ Enhanced API server error handling and stability
+- ✅ Fixed database cleanup and migration issues
+- ✅ Improved token validation in AuthContext
+
+**Technical Improvements:**
+- ✅ Added @prisma/adapter-pg and pg dependencies
+- ✅ Enhanced logging for registration and login processes
+- ✅ Added detailed error logging with stack traces
+- ✅ Improved server binding to 0.0.0.0 for better network handling
+- ✅ Added dotenv for environment variable loading
+
 ### Version 3.0.0 - PostgreSQL Implementation (2026-08-03)
 
 **Major Release - Complete Database Migration:**
