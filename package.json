@@ -1,6 +1,6 @@
 {
   "name": "ican-platform",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "description": "iCan - Comprehensive digital life and networking organization platform",
   "main": "src/index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node server.js",
-    "dev": "concurrently \"npm run server\" \"npm start\" --kill-others"
+    "dev": "concurrently \"npm run server\" \"npm start\" --kill-others",
+    "migrate:mysql": "node scripts/migrate-to-mysql.js"
   },
   "dependencies": {
     "@prisma/client": "^7.9.1",

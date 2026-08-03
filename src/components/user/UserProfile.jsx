@@ -106,6 +106,13 @@ const UserProfile = () => {
     }
   };
 
+  const handleResetOnboarding = () => {
+    localStorage.removeItem('ican-onboarding-completed');
+    localStorage.removeItem('ican-onboarding-date');
+    setSuccess('Onboarding reset. You will see the onboarding flow on next login.');
+    setTimeout(() => setSuccess(''), 3000);
+  };
+
   const handleAvatarUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -263,6 +270,17 @@ const UserProfile = () => {
           </p>
           <Button variant="danger" onClick={() => setIsDeleteModalOpen(true)}>
             Delete Account
+          </Button>
+        </div>
+
+        {/* Onboarding Reset */}
+        <div className="user-profile-section">
+          <h2 className="user-profile-section-title">Onboarding</h2>
+          <p className="user-profile-section-description">
+            Reset the onboarding flow to see the platform introduction again.
+          </p>
+          <Button variant="ghost" onClick={handleResetOnboarding}>
+            Reset Onboarding
           </Button>
         </div>
       </div>

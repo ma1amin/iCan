@@ -73,9 +73,24 @@ npx prisma generate
 npx prisma migrate dev --name init
 ```
 
+### 5. Data Migration (Optional)
+
+If you need to migrate data or check database status:
+
+```bash
+# Run MySQL migration script
+npm run migrate:mysql
+```
+
+This script will:
+- Verify database connection
+- Check existing data
+- Provide migration guidance
+- Help with data transfer scenarios
+
 The database connection is configured in the `.env` file. The default setup uses local MySQL instance.
 
-### 4. Start Development Servers
+### 6. Start Development Servers
 
 The platform uses a dual-server architecture (frontend + API):
 
