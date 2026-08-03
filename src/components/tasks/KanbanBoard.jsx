@@ -188,23 +188,21 @@ const KanbanBoard = ({ tasks, onTaskUpdate, onTaskDelete }) => {
         })}
       </div>
     </DragDropContext>
-  );
 
-      {isFormOpen && (
-        <TaskForm
-          task={selectedTask}
-          contactId={null}
-          onClose={() => {
-            setIsFormOpen(false);
-            setSelectedTask(null);
-          }}
-          onSave={handleSaveTask}
-          onDelete={handleDeleteTask}
-        />
-      )}
-    </div>
-  );
-};
+    {isFormOpen && (
+      <TaskForm
+        task={selectedTask}
+        contactId={null}
+        onClose={() => {
+          setIsFormOpen(false);
+          setSelectedTask(null);
+        }}
+        onSave={handleSaveTask}
+        onDelete={handleDeleteTask}
+      />
+    )}
+  </div>
+);
 
 KanbanBoard.propTypes = {
   tasks: PropTypes.array.isRequired,
