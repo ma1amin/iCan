@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-line">
-          Developed with ❤️ By InfoLogix
+          Made with ❤️ By InfoLogix
         </div>
         <div className="footer-line">
           All Rights Reserved © 2026

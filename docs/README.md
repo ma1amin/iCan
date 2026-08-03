@@ -94,7 +94,7 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Consistent placement across all pages
   - Better accessibility than sidebar logout
 - **Footer**: Consistent branding across all pages
-  - "Developed with ❤️ By InfoLogix" branding
+  - "Made with ❤️ By InfoLogix" branding
   - "All Rights Reserved © 2026" copyright notice
   - Responsive design
   - Integrated into all authenticated pages

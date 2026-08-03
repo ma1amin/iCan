@@ -525,7 +525,7 @@ All notable changes to the iCan platform will be documented in this file.
   - Flash prevention on page load
 
 - **Footer**: Consistent branding across all pages
-  - "Developed with ❤️ By InfoLogix" branding
+  - "Made with ❤️ By InfoLogix" branding
   - "All Rights Reserved © 2026" copyright notice
   - Responsive design
   - Integrated into all authenticated pages
