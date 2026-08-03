@@ -105,7 +105,6 @@ app.post('/api/auth/register', async (req, res) => {
         passwordHash,
         name,
         tenantId: tenant.id,
-        role: 'admin', // First user in new tenant is always admin
         emailVerified: false
       }
     });
@@ -136,7 +135,6 @@ app.post('/api/auth/register', async (req, res) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role,
         emailVerified: user.emailVerified
       },
       tenant: {
@@ -203,7 +201,6 @@ app.post('/api/auth/login', async (req, res) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role,
         emailVerified: user.emailVerified,
         avatar: user.avatar
       },
@@ -278,7 +275,6 @@ app.get('/api/auth/me', authenticateToken, async (req, res) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role,
         emailVerified: user.emailVerified,
         avatar: user.avatar
       },
@@ -312,7 +308,6 @@ app.put('/api/auth/profile', authenticateToken, async (req, res) => {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role,
         emailVerified: user.emailVerified,
         avatar: user.avatar
       }

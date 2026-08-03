@@ -2,6 +2,28 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [3.0.3] - 2026-08-03
+
+### Complete Role System Removal
+- **Database Schema**: Removed role field from User model in Prisma schema
+- **API Responses**: Removed role from all authentication and user endpoints
+- **Registration Logic**: Removed automatic role assignment during registration
+- **Type Definitions**: Removed role constants (ROLES, ROLE_LABELS) and types
+- **User Interface**: Removed role display from user profile (already done in 3.0.2)
+- **Authentication**: Removed role from token payload and user responses
+- **Documentation**: Updated all documentation to remove role references
+
+**Rationale**: 
+- Role system was causing confusion without proper implementation
+- Multi-tenant architecture needs proper invite system for role management
+- Will be reimplemented later with proper architecture and invite system
+
+**Files Changed**:
+- prisma/schema.prisma (removed role field)
+- server.js (removed role from all responses)
+- src/types/users.js (removed role constants)
+- docs/* (updated all documentation)
+
 ## [3.0.2] - 2026-08-03
 
 ### Database Migration - PostgreSQL to MySQL
@@ -13,11 +35,12 @@ All notable changes to the iCan platform will be documented in this file.
   - Updated server.js to use standard Prisma Client without adapter
   - Regenerated Prisma Client for MySQL
 
-- **Role System Enhancement**: Implemented role-based visibility (Option E)
-  - Admins can see their own role in profile
-  - Members can see their own role in profile
-  - Viewers cannot see role information
-  - Prepared for future team management features where admins can see other users' roles
+- **Role System Removal**: Complete removal of role system
+  - Removed role field from database schema
+  - Removed role from all API responses
+  - Removed role from authentication logic
+  - Removed role constants and types
+  - Role system will be developed later with proper architecture
 
 ### Database Setup
 - MySQL is now the primary database for the platform

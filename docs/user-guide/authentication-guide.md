@@ -118,7 +118,6 @@ In the current development version, email verification is simulated:
 Your profile includes:
 - **Name**: Your full name
 - **Email**: Your registered email address
-- **Role**: Your role in the organization (Admin, Member, Viewer)
 - **Email Verification Status**: Whether your email is verified
 - **Avatar**: Your profile picture
 - **Organization**: Your organization/tenant information
@@ -309,6 +308,5 @@ Coming soon to the authentication system:
 - **Two-Factor Authentication**: Enhanced security with 2FA
 - **Password Strength Meter**: Real-time password strength feedback
 - **Team Invitations**: Invite team members to your organization
-- **Role Management**: Assign and manage user roles
 - **Audit Logs**: Track user activity within organizations
 - **Single Sign-On**: Enterprise SSO integration

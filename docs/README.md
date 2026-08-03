@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 3.0.2** (MySQL migration and role system enhancement - 2026-08-03)
+**Current Version: 3.0.3** (Complete role system removal - 2026-08-03)
 
 ## Vision
 
@@ -40,7 +40,6 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Multi-tenant architecture with organization support
   - Protected routes for authenticated users
   - Session management with JWT tokens
-  - User roles (Admin, Member, Viewer)
   - Logout functionality
 - **Landing Page**: Comprehensive public-facing marketing page
   - Hero section with platform value proposition

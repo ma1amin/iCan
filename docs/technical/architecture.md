@@ -195,7 +195,6 @@ Custom hooks for accessing and manipulating state:
   password: string,
   name: string,
   tenantId: string,
-  role: 'admin' | 'member' | 'viewer',
   emailVerified: boolean,
   avatar: string,
   createdAt: timestamp,

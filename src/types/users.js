@@ -1,24 +1,11 @@
 // User type definitions for iCan platform
 
-export const ROLES = {
-  ADMIN: 'admin',
-  MEMBER: 'member',
-  VIEWER: 'viewer'
-};
-
-export const ROLE_LABELS = {
-  admin: 'Admin',
-  member: 'Member',
-  viewer: 'Viewer'
-};
-
 export const emptyUser = {
   id: '',
   email: '',
   password: '',
   name: '',
   tenantId: '',
-  role: ROLES.MEMBER,
   emailVerified: false,
   avatar: '',
   createdAt: null,

@@ -35,7 +35,6 @@ model User {
   email          String   @unique
   passwordHash   String
   name           String
-  role           String   @default("member") // admin, member, viewer
   emailVerified  Boolean  @default(false)
   avatar         String?
   createdAt      DateTime @default(now())
