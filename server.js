@@ -96,7 +96,8 @@ app.post('/api/auth/register', async (req, res) => {
     console.log('Hashing password...');
     const passwordHash = await hashPassword(password);
 
-    // Create user
+    // First user in tenant becomes admin (current implementation creates new tenant per registration)
+    // Future: Add invite system for admins to add members to existing tenants
     console.log('Creating user...');
     const user = await prisma.user.create({
       data: {
@@ -104,7 +105,7 @@ app.post('/api/auth/register', async (req, res) => {
         passwordHash,
         name,
         tenantId: tenant.id,
-        role: 'admin',
+        role: 'admin', // First user in new tenant is always admin
         emailVerified: false
       }
     });
