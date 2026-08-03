@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import Card from '../common/Card';
 import Button from '../common/Button';
+import Modal from '../common/Modal';
 import { Input, Select } from '../common/Form';
 import AppointmentForm from './AppointmentForm';
 import { APPOINTMENT_TYPES } from '../../types/appointments';

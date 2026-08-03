@@ -6,6 +6,9 @@ package-lock.json
 yarn.lock
 skills-lock.json
 
+# Prisma
+generated/
+
 # Testing
 /coverage
 

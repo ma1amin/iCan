@@ -3,10 +3,23 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { PrismaClient } = require('@prisma/client');
+const { PrismaMariaDb } = require('@prisma/adapter-mariadb');
 const { hashPassword, comparePassword, generateToken, verifyToken, generateVerificationToken } = require('./src/lib/auth');
 
 const app = express();
-const prisma = new PrismaClient();
+
+// Create PrismaClient with MariaDB adapter for MySQL
+const prisma = new PrismaClient({
+  adapter: new PrismaMariaDb({
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT || '3306'),
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'password',
+    database: process.env.DB_NAME || 'ican_db',
+    connectionLimit: 10
+  })
+});
+
 const PORT = process.env.PORT || 3001;
 
 // Graceful shutdown
