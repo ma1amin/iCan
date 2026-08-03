@@ -29,7 +29,11 @@ const LoginForm = () => {
       const result = await login(form.email, form.password);
       
       if (result.success) {
-        navigate('/dashboard');
+        if (result.redirectTo) {
+          navigate(result.redirectTo);
+        } else {
+          navigate('/dashboard');
+        }
       } else {
         setError(result.error);
       }

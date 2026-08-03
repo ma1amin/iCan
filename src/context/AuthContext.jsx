@@ -93,6 +93,19 @@ export const AuthProvider = ({ children }) => {
         // Trigger data reload for the new tenant
         window.dispatchEvent(new Event('storage'));
 
+        // Check if onboarding is needed
+        const onboardingCompleted = localStorage.getItem('ican-onboarding-completed');
+        if (!onboardingCompleted) {
+          // Return redirect to onboarding
+          return { 
+            success: true, 
+            user: response.user, 
+            tenant: response.tenant, 
+            requiresVerification: response.requiresVerification,
+            redirectTo: '/onboarding'
+          };
+        }
+
         return { success: true, user: response.user, tenant: response.tenant, requiresVerification: response.requiresVerification };
       } else {
         throw new Error(response.error || 'Registration failed');
@@ -125,6 +138,18 @@ export const AuthProvider = ({ children }) => {
 
         // Trigger data reload for the new tenant
         window.dispatchEvent(new Event('storage'));
+
+        // Check if onboarding is needed
+        const onboardingCompleted = localStorage.getItem('ican-onboarding-completed');
+        if (!onboardingCompleted) {
+          // Return redirect to onboarding
+          return { 
+            success: true, 
+            user: response.user, 
+            tenant: response.tenant,
+            redirectTo: '/onboarding'
+          };
+        }
 
         return { success: true, user: response.user, tenant: response.tenant };
       } else {

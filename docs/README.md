@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 3.0.3** (Complete role system removal - 2026-08-03)
+**Current Version: 3.0.4** (Onboarding flow implementation - 2026-08-03)
 
 ## Vision
 
@@ -61,6 +61,15 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Type "DELETE ACCOUNT" confirmation (prevents copy/paste)
   - Password verification for account deletion
   - Comprehensive data cleanup on deletion
+- **Onboarding Flow**: Comprehensive new user onboarding
+  - 6-step guided tour through platform features
+  - I-C-A-N philosophy introduction
+  - Feature highlights for each platform pillar
+  - Sample data creation option
+  - Progress indicator and step navigation
+  - Skip onboarding functionality
+  - Automatic detection for first-time users
+  - Integration with authentication flow
 - **Theme Toggle**: Light/dark theme switching
   - Theme toggle button in header (works on all pages)
   - CSS variable-based theming system

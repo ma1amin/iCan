@@ -56,6 +56,8 @@ const RegisterForm = () => {
       if (result.success) {
         if (result.requiresVerification) {
           navigate('/verify-email');
+        } else if (result.redirectTo) {
+          navigate(result.redirectTo);
         } else {
           navigate('/dashboard');
         }
