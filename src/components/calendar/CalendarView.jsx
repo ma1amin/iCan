@@ -14,6 +14,7 @@ const CalendarView = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [showAppointmentsModal, setShowAppointmentsModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [contactFilter, setContactFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
@@ -126,8 +127,12 @@ const CalendarView = () => {
           className={`calendar-day ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`}
           onClick={() => {
             setSelectedDate(date);
-            setIsFormOpen(true);
-            setSelectedAppointment(null);
+            if (dayAppointments.length > 0) {
+              setShowAppointmentsModal(true);
+            } else {
+              setIsFormOpen(true);
+              setSelectedAppointment(null);
+            }
           }}
         >
           <div className="calendar-day-number">{day}</div>
@@ -358,6 +363,80 @@ const CalendarView = () => {
           onSave={handleSaveAppointment}
           onDelete={handleDeleteAppointment}
         />
+      )}
+
+      {showAppointmentsModal && selectedDate && (
+        <Modal
+          isOpen={true}
+          onClose={() => setShowAppointmentsModal(false)}
+          title={`${selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}`}
+          size="medium"
+        >
+          <div className="day-appointments-modal">
+            {getAppointmentsForDate(selectedDate).length === 0 ? (
+              <div className="no-appointments">
+                <p>No appointments on this day</p>
+                <Button variant="primary" onClick={() => {
+                  setShowAppointmentsModal(false);
+                  setIsFormOpen(true);
+                  setSelectedAppointment(null);
+                }}>
+                  Add Appointment
+                </Button>
+              </div>
+            ) : (
+              <div className="appointments-list">
+                {getAppointmentsForDate(selectedDate).map(apt => {
+                  const contact = contacts.find(c => c.id === apt.contactId);
+                  return (
+                    <div key={apt.id} className="appointment-detail-item">
+                      <div className="appointment-detail-time">
+                        {new Date(apt.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {' - '}
+                        {new Date(apt.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </div>
+                      <div className="appointment-detail-title">{apt.title}</div>
+                      {apt.description && (
+                        <div className="appointment-detail-description">{apt.description}</div>
+                      )}
+                      <div className="appointment-detail-meta">
+                        {contact && <span className="appointment-detail-contact">{contact.name}</span>}
+                        <span className="appointment-detail-type">{apt.type}</span>
+                        <span className="appointment-detail-location">{apt.location || 'No location'}</span>
+                      </div>
+                      <div className="appointment-detail-actions">
+                        <Button variant="ghost" size="small" onClick={() => {
+                          setShowAppointmentsModal(false);
+                          setSelectedAppointment(apt);
+                          setIsFormOpen(true);
+                        }}>
+                          Edit
+                        </Button>
+                        <Button variant="danger" size="small" onClick={() => {
+                          if (window.confirm('Are you sure you want to delete this appointment?')) {
+                            deleteAppointment(apt.id);
+                            setShowAppointmentsModal(false);
+                          }
+                        }}>
+                          Delete
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+                <div className="appointments-modal-footer">
+                  <Button variant="primary" onClick={() => {
+                    setShowAppointmentsModal(false);
+                    setIsFormOpen(true);
+                    setSelectedAppointment(null);
+                  }}>
+                    Add New Appointment
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </Modal>
       )}
     </div>
   );

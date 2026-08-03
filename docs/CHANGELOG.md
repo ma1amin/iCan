@@ -2,6 +2,45 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [3.0.6] - 2026-08-03
+
+### Critical Bug Fixes and Enhancements
+
+**Data Persistence Verification:**
+- ✅ Verified all forms save data to MySQL database via API
+- ✅ Confirmed ContactForm, AppointmentForm, TaskForm use API integration
+- ✅ All CRUD operations properly use backend API endpoints
+- ✅ Data is permanently stored in MySQL with tenant isolation
+
+**Calendar View Enhancement:**
+- ✅ Fixed month view click behavior
+- ✅ Clicking on day with appointments now shows appointment details modal
+- ✅ Clicking on empty day opens appointment form to create new appointment
+- ✅ Added appointment details modal with edit/delete functionality
+- ✅ Added "Add New Appointment" button in appointment details modal
+- ✅ Improved user experience for viewing and managing daily appointments
+
+**Tasks Dropdown Fix:**
+- ✅ Fixed event propagation issue in task status dropdown
+- ✅ Changing status no longer opens TaskForm modal
+- ✅ Added onClick stopPropagation to select element
+- ✅ Status changes work correctly without opening card details
+
+**Tasks Drag and Drop:**
+- ✅ Implemented drag and drop functionality for kanban board
+- ✅ Installed @hello-pangea/dnd library
+- ✅ Tasks can be dragged between status columns
+- ✅ Task status automatically updates when dropped in new column
+- ✅ Added visual feedback during drag operations
+- ✅ Improved task management UX with intuitive drag and drop
+
+**Technical Implementation:**
+- CalendarView.jsx: Added appointment details modal with conditional click behavior
+- CalendarView.css: Added styling for appointment details modal
+- KanbanBoard.jsx: Added DragDropContext, Droppable, Draggable components
+- KanbanBoard.css: Added drag and drop visual feedback styling
+- package.json: Added @hello-pangea/dnd dependency
+
 ## [3.0.5] - 2026-08-03
 
 ### Phase 8 Integration and Testing - Complete Plan Implementation
