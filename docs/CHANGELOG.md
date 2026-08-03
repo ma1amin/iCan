@@ -2,6 +2,50 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [3.0.8] - 2026-08-03
+
+### Database Stability and Prisma v6 Migration
+
+**Prisma Version Downgrade:**
+- ✅ Downgraded from Prisma v7.9.1 to Prisma v6.19.3
+- ✅ Removed @prisma/adapter-mariadb dependency (causing connection issues)
+- ✅ Reverted to standard Prisma Client configuration
+- ✅ Updated schema to use v6 format with url in datasource
+- ✅ Changed generator from prisma-client to prisma-client-js
+- ✅ Resolved all database connection timeout issues
+
+**MySQL Service Configuration:**
+- ✅ Configured MySQL as stable Windows service
+- ✅ MySQL now starts automatically and stays running
+- ✅ Removed dependency on manual MySQL server startup
+- ✅ Enhanced connection stability for development
+
+**Connection Improvements:**
+- ✅ Added connection retry logic for resilience
+- ✅ Enabled query logging for debugging
+- ✅ Improved error handling and timeout management
+- ✅ Removed connection pool timeout issues
+
+**Bug Fixes:**
+- ✅ Fixed database connection timeout errors (P2039 pool timeout)
+- ✅ Resolved login functionality issues
+- ✅ All CRUD operations now working correctly
+- ✅ User authentication and data persistence verified
+
+**Technical Implementation:**
+- package.json: Downgraded Prisma to v6.19.3, removed MariaDB adapter
+- server.js: Removed MariaDB adapter, standard Prisma Client configuration
+- prisma/schema.prisma: Reverted to v6 format with url in datasource
+- prisma.config.ts: Maintained for v6 compatibility
+- MySQL: Configured as Windows service for automatic startup
+
+**Database Connection Status:**
+- MySQL Server running as Windows service on port 3306
+- Database connection: mysql://root:password@localhost:3306/ican_db
+- Prisma v6 using standard MySQL connection
+- All database operations executing successfully
+- Login and registration working properly
+
 ## [3.0.7] - 2026-08-03
 
 ### Database Setup and Prisma v7 Migration

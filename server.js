@@ -3,22 +3,27 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { PrismaClient } = require('@prisma/client');
-const { PrismaMariaDb } = require('@prisma/adapter-mariadb');
 const { hashPassword, comparePassword, generateToken, verifyToken, generateVerificationToken } = require('./src/lib/auth');
 
 const app = express();
 
-// Create PrismaClient with MariaDB adapter for MySQL
+// Create PrismaClient with standard MySQL connection
 const prisma = new PrismaClient({
-  adapter: new PrismaMariaDb({
-    host: process.env.DB_HOST || 'localhost',
-    port: parseInt(process.env.DB_PORT || '3306'),
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'password',
-    database: process.env.DB_NAME || 'ican_db',
-    connectionLimit: 10
-  })
+  log: ['query', 'error', 'warn'],
 });
+
+// Database connection retry wrapper
+async function withRetry(fn, maxRetries = 3, delay = 2000) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (i === maxRetries - 1) throw error;
+      console.log(`Database operation failed, retry ${i + 1}/${maxRetries}...`, error.message);
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
 
 const PORT = process.env.PORT || 3001;
 
@@ -84,9 +89,9 @@ app.post('/api/auth/register', async (req, res) => {
     }
 
     // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await withRetry(() => prisma.user.findUnique({
       where: { email }
-    });
+    }));
 
     if (existingUser) {
       console.log('User already exists:', email);
@@ -95,14 +100,14 @@ app.post('/api/auth/register', async (req, res) => {
 
     // Create tenant
     console.log('Creating tenant...');
-    const tenant = await prisma.tenant.create({
+    const tenant = await withRetry(() => prisma.tenant.create({
       data: {
         name: organizationName || `${name}'s Organization`,
         slug: organizationName ? organizationName.toLowerCase().replace(/\s+/g, '-') : `${name.toLowerCase().replace(/\s+/g, '-')}-org`,
         plan: 'free',
         createdBy: email
       }
-    });
+    }));
     console.log('Tenant created:', tenant.id);
 
     // Hash password
@@ -112,7 +117,7 @@ app.post('/api/auth/register', async (req, res) => {
     // First user in tenant becomes admin (current implementation creates new tenant per registration)
     // Future: Add invite system for admins to add members to existing tenants
     console.log('Creating user...');
-    const user = await prisma.user.create({
+    const user = await withRetry(() => prisma.user.create({
       data: {
         email,
         passwordHash,
@@ -120,18 +125,18 @@ app.post('/api/auth/register', async (req, res) => {
         tenantId: tenant.id,
         emailVerified: false
       }
-    });
+    }));
 
     // Generate verification token
     console.log('Generating verification token...');
     const verificationToken = generateVerificationToken();
-    await prisma.verificationToken.create({
+    await withRetry(() => prisma.verificationToken.create({
       data: {
         userId: user.id,
         token: verificationToken,
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
       }
-    });
+    }));
 
     // Generate JWT token
     console.log('Generating JWT token...');
@@ -180,10 +185,10 @@ app.post('/api/auth/login', async (req, res) => {
 
     // Find user
     console.log('Finding user...');
-    const user = await prisma.user.findUnique({
+    const user = await withRetry(() => prisma.user.findUnique({
       where: { email },
       include: { tenant: true }
-    });
+    }));
 
     if (!user) {
       console.log('User not found:', email);

@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 3.0.7** (Database setup and Prisma v7 migration - 2026-08-03)
+**Current Version: 3.0.8** (Database stability and Prisma v6 migration - 2026-08-03)
 
 ## Vision
 
@@ -13,16 +13,16 @@ The iCan platform helps professionals manage their relationships, appointments, 
 ## Features
 
 ### ✅ Implemented
-- **MySQL Database**: Complete database implementation with Prisma ORM v7
-  - MySQL Server 26.7 required for local development
-  - Prisma v7 with MariaDB adapter for MySQL compatibility
+- **MySQL Database**: Complete database implementation with Prisma ORM v6
+  - MySQL Server 26.7 configured as Windows service for stability
+  - Prisma v6.19.3 with standard MySQL connection
   - Multi-tenant architecture with tenant isolation
   - Comprehensive schema with 10 models (users, tenants, contacts, companies, appointments, interactions, tasks, deals, verification tokens, password reset tokens)
   - Performance indexes on frequently queried fields
   - Foreign key relationships with cascade/delete
   - JSON support for flexible data (tags, settings, etc.)
   - Database migration system
-  - Database connection: mysql://root:password@localhost:3306/ican_db?schema=public
+  - Database connection: mysql://root:password@localhost:3306/ican_db
 - **Express.js API Server**: RESTful API with authentication
   - Authentication endpoints (register, login, verify-email, profile management, account deletion)
   - Full CRUD operations for all entities

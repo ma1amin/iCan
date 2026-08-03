@@ -11,7 +11,7 @@ Complete guide for setting up the iCan platform development environment.
 - **Git**: For version control
 - **Code Editor**: VS Code recommended
 - **MySQL Server**: Version 26.7 or higher (for database)
-- **MySQL must be running on port 3306** for local development
+- **MySQL configured as Windows service** for automatic startup
 
 ### Optional but Recommended
 
@@ -40,10 +40,8 @@ This will install all required dependencies including:
 - Lucide React 0.263.1
 - date-fns 2.30.0
 - Express.js 5.2.1
-- Prisma 7.9.1
-- @prisma/client 7.9.1
-- @prisma/adapter-mariadb (Prisma v7 MySQL adapter)
-- mariadb (MySQL driver for Prisma v7)
+- Prisma 6.19.3
+- @prisma/client 6.19.3
 - bcryptjs 3.0.3
 - jsonwebtoken 9.0.3
 - cors 2.8.6
@@ -54,14 +52,15 @@ This will install all required dependencies including:
 
 ### 3. Database Setup
 
-The platform uses MySQL with Prisma ORM v7. To set up the database:
+The platform uses MySQL with Prisma ORM v6. To set up the database:
 
 #### Install MySQL Locally
 1. Download and install MySQL Server 26.7 from https://dev.mysql.com/downloads/mysql/
-2. Start MySQL service (must run as administrator on Windows):
+2. Configure MySQL as Windows service (must run as administrator on Windows):
    ```bash
    # On Windows (run as administrator)
-   Start-Service -Name MySQL*
+   & "C:\Program Files\MySQL\MySQL Server 26.7\bin\mysqld.exe" --install-manual
+   net start MySQL
    ```
 3. Set root password (first-time setup):
    ```bash
@@ -77,12 +76,12 @@ The platform uses MySQL with Prisma ORM v7. To set up the database:
 #### Configure Database Connection
 Update the `.env` file with your MySQL credentials:
 ```
-DATABASE_URL="mysql://root:password@localhost:3306/ican_db?schema=public"
+DATABASE_URL="mysql://root:password@localhost:3306/ican_db"
 ```
 
 #### Apply Database Schema
 ```bash
-# Generate Prisma Client (Prisma v7)
+# Generate Prisma Client (Prisma v6)
 npx prisma generate
 
 # Apply database schema (creates tables)
@@ -90,9 +89,9 @@ npx prisma db push
 ```
 
 **Important Notes:**
-- MySQL must be running on port 3306 before starting the application
-- Prisma v7 requires the MariaDB adapter for MySQL connections
-- The schema generator must use "prisma-client" with output path for v7 compatibility
+- MySQL should be configured as Windows service for automatic startup
+- Prisma v6 uses standard MySQL connection without adapters
+- The schema uses standard v6 format with url in datasource
 - Use `prisma db push` for development (no migration history)
 - Use `prisma migrate dev` for production (creates migration files)
 
