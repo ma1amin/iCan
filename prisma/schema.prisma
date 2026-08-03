@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
 }
 
 // Multi-tenant: Tenants table for organization isolation
@@ -64,7 +64,7 @@ model Company {
   revenue     Float?
   employeeCount Int?
   description String?
-  tags        String[]
+  tags        Json?    // Changed from String[] for MySQL compatibility
   notes       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -90,7 +90,7 @@ model Contact {
   industry        String?
   source          String?  // linkedin, whatsapp, other
   stage           String   @default("new") // new, contacted, meeting, negotiating, collaborating, archived
-  tags            String[]
+  tags            Json?    // Changed from String[] for MySQL compatibility
   lastContactDate DateTime?
   notes           String?
   createdAt       DateTime @default(now())
@@ -181,7 +181,7 @@ model Task {
   estimatedTime Int?
   actualTime  Int?
   category    String?  // follow-up, research, meeting_prep, administrative, development, custom
-  tags        String[]
+  tags        Json?    // Changed from String[] for MySQL compatibility
   linkedItems Json?    // { appointments: [], interactions: [], deals: [] }
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -212,9 +212,9 @@ model Deal {
   expectedCloseDate DateTime?
   stage             String   @default("prospecting") // prospecting, qualification, proposal, negotiation, closing, won, lost
   source            String?
-  competitors       String[]
-  nextSteps         String[]
-  tags              String[]
+  competitors       Json?    // Changed from String[] for MySQL compatibility
+  nextSteps         Json?    // Changed from String[] for MySQL compatibility
+  tags              Json?    // Changed from String[] for MySQL compatibility
   notes             String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt

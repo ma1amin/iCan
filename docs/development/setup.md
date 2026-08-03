@@ -40,8 +40,6 @@ This will install all required dependencies including:
 - Express.js 5.2.1
 - Prisma 7.9.1
 - @prisma/client 7.9.1
-- @prisma/adapter-pg 7.9.1
-- pg 8.22.0
 - bcryptjs 3.0.3
 - jsonwebtoken 9.0.3
 - cors 2.8.6
@@ -50,20 +48,32 @@ This will install all required dependencies including:
 
 ### 3. Database Setup
 
-The platform uses PostgreSQL with Prisma ORM. To set up the database:
+The platform uses MySQL with Prisma ORM. To set up the database:
 
-```bash
-# Start Prisma dev server (for local development)
-npx prisma dev
-
-# Apply database migrations
-npx prisma migrate dev
-
-# Generate Prisma Client
-npx prisma generate
+#### Install MySQL Locally
+1. Download and install MySQL from https://dev.mysql.com/downloads/mysql/
+2. Start MySQL service
+3. Create a database for the application:
+```sql
+CREATE DATABASE ican_db;
 ```
 
-The database connection is configured in the `.env` file. The default setup uses Prisma's local PostgreSQL server.
+#### Configure Database Connection
+Update the `.env` file with your MySQL credentials:
+```
+DATABASE_URL="mysql://root:your_password@localhost:3306/ican_db?schema=public"
+```
+
+#### Apply Database Migrations
+```bash
+# Generate Prisma Client
+npx prisma generate
+
+# Apply database migrations
+npx prisma migrate dev --name init
+```
+
+The database connection is configured in the `.env` file. The default setup uses local MySQL instance.
 
 ### 4. Start Development Servers
 

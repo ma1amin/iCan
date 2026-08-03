@@ -2,6 +2,41 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [3.0.2] - 2026-08-03
+
+### Database Migration - PostgreSQL to MySQL
+- **Database Migration**: Migrated from PostgreSQL to MySQL
+  - Updated Prisma schema provider from "postgresql" to "mysql"
+  - Changed JSON array fields to JSON for MySQL compatibility (tags, competitors, nextSteps)
+  - Updated database connection string format for MySQL
+  - Removed PostgreSQL-specific dependencies (@prisma/adapter-pg, pg)
+  - Updated server.js to use standard Prisma Client without adapter
+  - Regenerated Prisma Client for MySQL
+
+- **Role System Enhancement**: Implemented role-based visibility (Option E)
+  - Admins can see their own role in profile
+  - Members can see their own role in profile
+  - Viewers cannot see role information
+  - Prepared for future team management features where admins can see other users' roles
+
+### Database Setup
+- MySQL is now the primary database for the platform
+- Local MySQL instance required for development
+- Production will use cloud MySQL services (PlanetScale, AWS RDS, Google Cloud SQL)
+- Database connection format: `mysql://username:password@localhost:3306/database_name?schema=public`
+
+### Breaking Changes
+- **Database Provider**: Changed from PostgreSQL to MySQL
+- **Data Format**: JSON arrays converted to JSON fields for MySQL compatibility
+- **Connection String**: New MySQL connection string format required
+- **Dependencies**: Removed PostgreSQL-specific packages
+
+### Migration Notes
+- Existing PostgreSQL data cannot be automatically migrated to MySQL
+- Fresh database setup required
+- Users need to register again after database migration
+- MySQL must be installed and running locally for development
+
 ## [3.0.1] - 2026-08-03
 
 ### Fixed - Critical Bug Fixes and Enhancements

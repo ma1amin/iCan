@@ -78,38 +78,64 @@ npm run build
 **Problem**: API server fails to start with database connection error.
 
 **Solution**:
-1. Ensure Prisma dev server is running:
+1. Ensure MySQL is running:
 ```bash
-npx prisma dev
+# Windows
+net start mysql
+
+# Mac/Linux
+sudo service mysql start
+# or
+sudo systemctl start mysql
 ```
 
 2. Check DATABASE_URL in `.env` file is correct
-3. Verify PostgreSQL is accessible:
+3. Verify MySQL is accessible:
 ```bash
 # Test database connection
 npx prisma db pull
 ```
 
-4. If using Prisma dev server, ensure it's not already running on the same port
+4. Ensure MySQL credentials in .env match your MySQL setup
+5. Create database if it doesn't exist:
+```sql
+CREATE DATABASE ican_db;
+```
+
+6. Check MySQL user permissions:
+```sql
+GRANT ALL PRIVILEGES ON ican_db.* TO 'root'@'localhost';
+FLUSH PRIVILEGES;
+```
 
 ### Prisma Migration Failed
 
 **Problem**: Database migration fails with errors.
 
 **Solution**:
-1. Reset database and reapply migrations:
+1. Ensure MySQL database exists:
+```sql
+CREATE DATABASE ican_db;
+```
+
+2. Reset database and reapply migrations:
 ```bash
 npx prisma migrate reset --force
 ```
 
-2. Or resolve specific migration issues:
+3. Or resolve specific migration issues:
 ```bash
 npx prisma migrate resolve --applied <migration-name>
 ```
 
-3. Check schema.prisma for syntax errors:
+4. Check schema.prisma for syntax errors:
 ```bash
 npx prisma validate
+```
+
+5. Regenerate Prisma Client:
+```bash
+npx prisma generate
 ```
 
 ### API Server Not Starting

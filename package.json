@@ -1,6 +1,6 @@
 {
   "name": "ican-platform",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "iCan - Comprehensive digital life and networking organization platform",
   "main": "src/index.js",
   "scripts": {
@@ -12,7 +12,6 @@
     "dev": "concurrently \"npm run server\" \"npm start\" --kill-others"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "bcryptjs": "^3.0.3",
     "body-parser": "^2.3.0",
@@ -23,7 +22,6 @@
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.263.1",
-    "pg": "^8.22.0",
     "prisma": "^7.9.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

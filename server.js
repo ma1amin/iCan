@@ -3,13 +3,10 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { PrismaClient } = require('@prisma/client');
-const { PrismaPg } = require('@prisma/adapter-pg');
-const pg = require('pg');
 const { hashPassword, comparePassword, generateToken, verifyToken, generateVerificationToken } = require('./src/lib/auth');
 
 const app = express();
-const adapter = new PrismaPg(new pg.Pool({ connectionString: process.env.DATABASE_URL }));
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3001;
 
 // Graceful shutdown

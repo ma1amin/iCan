@@ -206,12 +206,15 @@ const UserProfile = () => {
                   <label className="user-profile-field-label">Email</label>
                   <div className="user-profile-field-value">{user.email}</div>
                 </div>
-                <div className="user-profile-field">
-                  <label className="user-profile-field-label">Role</label>
-                  <div className="user-profile-field-value">
-                    {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                {/* Role-based visibility: Admins and Members see their role, Viewers don't */}
+                {(user.role === 'admin' || user.role === 'member') && (
+                  <div className="user-profile-field">
+                    <label className="user-profile-field-label">Role</label>
+                    <div className="user-profile-field-value">
+                      {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className="user-profile-field">
                   <label className="user-profile-field-label">Email Verified</label>
                   <div className="user-profile-field-value">

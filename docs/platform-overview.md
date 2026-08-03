@@ -13,6 +13,21 @@ The name "iCan" represents the four core pillars of the platform:
 
 ## Current Status
 
+### Version 3.0.2 - MySQL Migration and Role System Enhancement (2026-08-03)
+
+**Database Migration:**
+- ✅ Migrated from PostgreSQL to MySQL
+- ✅ Updated Prisma schema for MySQL compatibility
+- ✅ Removed PostgreSQL-specific dependencies
+- ✅ Updated database connection configuration
+- ✅ Converted JSON arrays to JSON fields for MySQL compatibility
+
+**Role System Enhancement:**
+- ✅ Implemented role-based visibility (Option E)
+- ✅ Admins and Members can see their own role
+- ✅ Viewers cannot see role information
+- ✅ Prepared for team management features
+
 ### Version 3.0.1 - Bug Fixes and Enhancements (2026-08-03)
 
 **Critical Bug Fixes:**

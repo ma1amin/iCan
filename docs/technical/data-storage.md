@@ -2,13 +2,13 @@
 
 ## Overview
 
-The iCan platform uses **PostgreSQL** as the primary database with **Prisma ORM** for data access. This provides a scalable, production-ready backend with multi-tenant architecture, strong data integrity, and complex query capabilities.
+The iCan platform uses **MySQL** as the primary database with **Prisma ORM** for data access. This provides a scalable, production-ready backend with multi-tenant architecture, strong data integrity, and complex query capabilities.
 
 ## Current Storage Implementation
 
-### Storage Technology: PostgreSQL with Prisma ORM
+### Storage Technology: MySQL with Prisma ORM
 
-**Why PostgreSQL with Prisma?**
+**Why MySQL with Prisma?**
 - **Scalability**: Handles large datasets efficiently
 - **Multi-Tenant**: Built-in support for tenant isolation
 - **Data Integrity**: ACID compliance for transaction safety
@@ -16,6 +16,7 @@ The iCan platform uses **PostgreSQL** as the primary database with **Prisma ORM*
 - **Performance**: Proven scalability to billions of records
 - **Type Safety**: Prisma provides type-safe database access
 - **Developer Experience**: Excellent tooling and migrations
+- **Wide Adoption**: Industry-standard with extensive community support
 
 ### Database Schema
 
@@ -93,9 +94,9 @@ The platform uses Express.js with RESTful API endpoints:
 
 ## Data Migration
 
-### localStorage to PostgreSQL Migration
+### localStorage to MySQL Migration
 
-The platform includes a migration script to migrate existing localStorage data to PostgreSQL:
+The platform includes a migration script to migrate existing localStorage data to MySQL:
 
 **Migration Script Location:** `scripts/migrate-local-to-api.js`
 

@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 3.0.1** (Bug fixes and enhancements - 2026-08-03)
+**Current Version: 3.0.2** (MySQL migration and role system enhancement - 2026-08-03)
 
 ## Vision
 
@@ -13,7 +13,7 @@ The iCan platform helps professionals manage their relationships, appointments, 
 ## Features
 
 ### ✅ Implemented
-- **PostgreSQL Database**: Complete database implementation with Prisma ORM
+- **MySQL Database**: Complete database implementation with Prisma ORM
   - Multi-tenant architecture with tenant isolation
   - Comprehensive schema with 10 models (users, tenants, contacts, companies, appointments, interactions, tasks, deals, verification tokens, password reset tokens)
   - Performance indexes on frequently queried fields
