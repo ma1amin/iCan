@@ -10,6 +10,7 @@ Complete guide for setting up the iCan platform development environment.
 - **npm**: Version 7.0 or higher (comes with Node.js)
 - **Git**: For version control
 - **Code Editor**: VS Code recommended
+- **MySQL**: Version 8.0 or higher (for database)
 
 ### Optional but Recommended
 
@@ -45,6 +46,8 @@ This will install all required dependencies including:
 - cors 2.8.6
 - concurrently 10.0.4
 - dotenv 17.4.2
+- @hello-pangea/dnd 16.6.0 (drag and drop for tasks)
+- react-router-dom 6.26.1 (client-side routing)
 
 ### 3. Database Setup
 

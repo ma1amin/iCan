@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 3.0.5** (Complete plan implementation - 2026-08-03)
+**Current Version: 3.0.6** (Critical bug fixes and enhancements - 2026-08-03)
 
 ## Vision
 
@@ -95,6 +95,25 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - "All Rights Reserved © 2026" copyright notice
   - Responsive design
   - Integrated into all authenticated pages
+- **Calendar Enhancements**: Improved calendar UX
+  - Click on day with appointments shows appointment details modal
+  - Click on empty day opens appointment form
+  - Appointment details modal with edit/delete functionality
+  - "Add New Appointment" button in appointment details modal
+  - Better user experience for viewing and managing daily appointments
+- **Tasks Enhancements**: Improved task management
+  - Fixed dropdown menu event propagation issue
+  - Status dropdown no longer opens task form
+  - Full drag and drop functionality for kanban board
+  - Tasks can be dragged between status columns
+  - Task status automatically updates when dropped
+  - Visual feedback during drag operations
+  - Improved task management UX with intuitive drag and drop
+- **Data Persistence**: Verified database integration
+  - All forms save data to MySQL database via API
+  - Confirmed ContactForm, AppointmentForm, TaskForm use API integration
+  - All CRUD operations properly use backend API endpoints
+  - Data is permanently stored with tenant isolation
 - **Contact Management**: Full CRUD operations with comprehensive contact profiles
   - Create, edit, and delete contacts
   - Search and filter by name, company, source, and stage

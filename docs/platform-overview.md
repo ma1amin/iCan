@@ -13,6 +13,21 @@ The name "iCan" represents the four core pillars of the platform:
 
 ## Current Status
 
+### Version 3.0.6 - Critical Bug Fixes and Enhancements (2026-08-03)
+
+**Critical Bug Fixes:**
+- ✅ Verified all forms save data to MySQL database via API
+- ✅ Fixed calendar view to show appointment details on day click
+- ✅ Fixed tasks dropdown menu event propagation
+- ✅ Implemented drag and drop for tasks kanban board
+- ✅ Fixed JSX syntax errors in KanbanBoard component
+
+**Enhancements:**
+- ✅ Calendar month view now shows appointment details modal
+- ✅ Tasks can be dragged between status columns
+- ✅ Improved UX for both calendar and task management
+- ✅ Visual feedback during drag operations
+
 ### Version 3.0.5 - Complete Plan Implementation (2026-08-03)
 
 **Phase 8 Integration & Testing - Complete:**

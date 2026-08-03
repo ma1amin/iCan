@@ -503,11 +503,13 @@ The platform uses CSS variables for theming:
 
 ### Data Privacy
 
-- **Local Storage**: Data stored locally on user device
+- **MySQL Database**: Data stored in MySQL database with Prisma ORM
 - **Multi-Tenant Isolation**: Data isolated by organization
+- **API Integration**: All data operations via secure API endpoints
+- **JWT Authentication**: Token-based authentication for data access
 - **Export Control**: User controls data export
 - **Account Deletion**: User can delete account and data
-- **Backend-Ready**: Designed for secure backend integration
+- **Data Encryption**: Password hashing with bcrypt
 
 ## Accessibility
 

@@ -6,7 +6,7 @@ Complete reference for all functions, hooks, and utilities available in the iCan
 
 ### AppContext
 
-Global application state management using React Context API.
+Global application state management using React Context API with MySQL database integration via API.
 
 #### Context Value
 
@@ -23,25 +23,24 @@ interface AppContextValue {
   loading: boolean;
   error: string | null;
 
-  // Actions
-  addContact: (contact: Contact) => void;
-  updateContact: (id: string, updates: Partial<Contact>) => void;
-  deleteContact: (id: string) => void;
-  addAppointment: (appointment: Appointment) => void;
-  updateAppointment: (id: string, updates: Partial<Appointment>) => void;
-  deleteAppointment: (id: string) => void;
-  addInteraction: (interaction: Interaction) => void;
-  updateInteraction: (id: string, updates: Partial<Interaction>) => void;
-  deleteInteraction: (id: string) => void;
-  addTask: (task: Task) => void;
-  updateTask: (id: string, updates: Partial<Task>) => void;
-  deleteTask: (id: string) => void;
-  addDeal: (deal: Deal) => void;
-  updateDeal: (id: string, updates: Partial<Deal>) => void;
-  deleteDeal: (id: string) => void;
+  // Actions (All API calls to MySQL database)
+  addContact: (contact: Contact) => Promise<{success: boolean, contact?: Contact, error?: string}>;
+  updateContact: (id: string, updates: Partial<Contact>) => Promise<{success: boolean, contact?: Contact, error?: string}>;
+  deleteContact: (id: string) => Promise<{success: boolean, error?: string}>;
+  addAppointment: (appointment: Appointment) => Promise<{success: boolean, appointment?: Appointment, error?: string}>;
+  updateAppointment: (id: string, updates: Partial<Appointment>) => Promise<{success: boolean, appointment?: Appointment, error?: string}>;
+  deleteAppointment: (id: string) => Promise<{success: boolean, error?: string}>;
+  addInteraction: (interaction: Interaction) => Promise<{success: boolean, interaction?: Interaction, error?: string}>;
+  updateInteraction: (id: string, updates: Partial<Interaction>) => Promise<{success: boolean, interaction?: Interaction, error?: string}>;
+  deleteInteraction: (id: string) => Promise<{success: boolean, error?: string}>;
+  addTask: (task: Task) => Promise<{success: boolean, task?: Task, error?: string}>;
+  updateTask: (id: string, updates: Partial<Task>) => Promise<{success: boolean, task?: Task, error?: string}>;
+  deleteTask: (id: string) => Promise<{success: boolean, error?: string}>;
+  addDeal: (deal: Deal) => Promise<{success: boolean, deal?: Deal, error?: string}>;
+  updateDeal: (id: string, updates: Partial<Deal>) => Promise<{success: boolean, deal?: Deal, error?: string}>;
+  deleteDeal: (id: string) => Promise<{success: boolean, error?: string}>;
   setCurrentView: (view: string) => void;
   loadData: () => Promise<void>;
-  saveData: () => Promise<void>;
 }
 ```
 
