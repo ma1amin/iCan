@@ -211,7 +211,7 @@ const Checkbox = ({
 // PropTypes
 Input.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
   type: PropTypes.oneOf(['text', 'email', 'phone', 'date', 'datetime', 'datetime-local', 'number', 'password']),

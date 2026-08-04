@@ -181,8 +181,8 @@ const TaskForm = ({ task, contactId, onClose, onSave, onDelete }) => {
           <Input
             label="Estimated Time (minutes)"
             type="number"
-            value={form.estimatedTime}
-            onChange={(value) => handleChange('estimatedTime', value)}
+            value={form.estimatedTime?.toString() || ''}
+            onChange={(value) => handleChange('estimatedTime', value ? parseInt(value) : null)}
             placeholder="30"
             fullWidth
           />

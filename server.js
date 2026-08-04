@@ -669,20 +669,28 @@ app.get('/api/interactions', authenticateToken, async (req, res) => {
 // Create interaction
 app.post('/api/interactions', authenticateToken, async (req, res) => {
   try {
+    console.log('Create interaction request body:', req.body);
+    console.log('User tenantId:', req.user.tenantId);
+    
     const interactionData = {
       ...req.body,
       tenantId: req.user.tenantId
     };
+
+    console.log('Interaction data to create:', interactionData);
 
     const interaction = await prisma.interaction.create({
       data: interactionData,
       include: { contact: true, user: true, appointment: true }
     });
 
+    console.log('Interaction created successfully:', interaction);
     res.status(201).json({ interaction });
   } catch (error) {
     console.error('Create interaction error:', error);
-    res.status(500).json({ error: 'Failed to create interaction' });
+    console.error('Error details:', error.message);
+    console.error('Error code:', error.code);
+    res.status(500).json({ error: 'Failed to create interaction', details: error.message });
   }
 });
 

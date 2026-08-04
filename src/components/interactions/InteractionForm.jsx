@@ -151,8 +151,8 @@ const InteractionForm = ({ interaction, contactId, onClose, onSave, onDelete, de
           <Input
             label="Duration (minutes)"
             type="number"
-            value={form.duration}
-            onChange={(value) => handleChange('duration', value)}
+            value={form.duration?.toString() || ''}
+            onChange={(value) => handleChange('duration', value ? parseInt(value) : null)}
             placeholder="30"
             fullWidth
           />

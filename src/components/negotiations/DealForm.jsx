@@ -180,8 +180,8 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
             <Input
               label="Value *"
               type="number"
-              value={form.value}
-              onChange={(value) => handleChange('value', value)}
+              value={form.value?.toString() || ''}
+              onChange={(value) => handleChange('value', value ? parseFloat(value) : null)}
               placeholder="10000"
               fullWidth
             />
@@ -199,8 +199,8 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
             type="number"
             min="0"
             max="100"
-            value={form.probability}
-            onChange={(value) => handleChange('probability', value)}
+            value={form.probability?.toString() || ''}
+            onChange={(value) => handleChange('probability', value ? parseInt(value) : null)}
             placeholder="20"
             fullWidth
           />
