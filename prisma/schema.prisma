@@ -70,8 +70,6 @@ model Company {
   updatedAt   DateTime @updatedAt
 
   tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  contacts    Contact[]
-  deals       Deal[]
   
   @@index([tenantId])
   @@index([name])
@@ -82,7 +80,7 @@ model Company {
 model Contact {
   id              String   @id @default(uuid())
   tenantId        String
-  companyId       String?
+  companyName     String?  // Manual company name entry
   name            String
   phone           String?
   email           String?
@@ -97,14 +95,13 @@ model Contact {
   updatedAt       DateTime @updatedAt
 
   tenant          Tenant       @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  company         Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull)
   appointments    Appointment[]
   interactions    Interaction[]
   tasks           Task[]
   deals           Deal[]
   
   @@index([tenantId])
-  @@index([companyId])
+  @@index([companyName])
   @@index([stage])
   @@index([source])
   @@index([name])
@@ -203,8 +200,8 @@ model Deal {
   id                String   @id @default(uuid())
   tenantId          String
   contactId         String?
-  companyId         String?
   userId            String?
+  company           String?  // Manual company name entry
   name              String
   value             Float?
   currency          String   @default("USD")
@@ -220,12 +217,11 @@ model Deal {
   updatedAt         DateTime @updatedAt
 
   contact           Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
-  company           Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
   user              User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   
   @@index([tenantId])
   @@index([contactId])
-  @@index([companyId])
+  @@index([company])
   @@index([stage])
   @@index([probability])
   @@index([expectedCloseDate])

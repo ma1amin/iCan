@@ -429,8 +429,7 @@ app.delete('/api/auth/account', authenticateToken, async (req, res) => {
 app.get('/api/contacts', authenticateToken, async (req, res) => {
   try {
     const contacts = await prisma.contact.findMany({
-      where: { tenantId: req.user.tenantId },
-      include: { company: true }
+      where: { tenantId: req.user.tenantId }
     });
 
     res.json({ contacts });
@@ -449,8 +448,7 @@ app.post('/api/contacts', authenticateToken, async (req, res) => {
     };
 
     const contact = await prisma.contact.create({
-      data: contactData,
-      include: { company: true }
+      data: contactData
     });
 
     res.status(201).json({ contact });
@@ -468,8 +466,7 @@ app.put('/api/contacts/:id', authenticateToken, async (req, res) => {
         id: req.params.id,
         tenantId: req.user.tenantId
       },
-      data: req.body,
-      include: { company: true }
+      data: req.body
     });
 
     res.json({ contact });
@@ -797,7 +794,7 @@ app.get('/api/deals', authenticateToken, async (req, res) => {
   try {
     const deals = await prisma.deal.findMany({
       where: { tenantId: req.user.tenantId },
-      include: { contact: true, company: true, user: true }
+      include: { contact: true, user: true }
     });
 
     res.json({ deals });
@@ -817,7 +814,7 @@ app.post('/api/deals', authenticateToken, async (req, res) => {
 
     const deal = await prisma.deal.create({
       data: dealData,
-      include: { contact: true, company: true, user: true }
+      include: { contact: true, user: true }
     });
 
     res.status(201).json({ deal });
@@ -836,7 +833,7 @@ app.put('/api/deals/:id', authenticateToken, async (req, res) => {
         tenantId: req.user.tenantId
       },
       data: req.body,
-      include: { contact: true, company: true, user: true }
+      include: { contact: true, user: true }
     });
 
     res.json({ deal });

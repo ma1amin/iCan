@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useAppContext } from '../../context/AppContext';
 import Modal from '../common/Modal';
 import { Input, Select, Textarea } from '../common/Form';
 import Button from '../common/Button';
 import { CONTACT_STAGES, CONTACT_SOURCES, SOURCE_META } from '../../types/contacts';
+import { INDUSTRIES, INDUSTRY_LABELS } from '../../types/companies';
 import './ContactForm.css';
 
 const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
-  const { companies } = useAppContext();
   const [form, setForm] = useState({
     name: '',
     phone: '',
     email: '',
-    companyId: '',
+    companyName: '',
     location: '',
     industry: '',
     source: 'whatsapp',
@@ -29,7 +28,7 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
         name: contact.name || '',
         phone: contact.phone || '',
         email: contact.email || '',
-        companyId: contact.companyId || '',
+        companyName: contact.companyName || '',
         location: contact.location || '',
         industry: contact.industry || '',
         source: contact.source || 'whatsapp',
@@ -86,11 +85,6 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
       updatedAt: Date.now()
     };
 
-    // Remove empty companyId to avoid sending empty string
-    if (!contactData.companyId) {
-      delete contactData.companyId;
-    }
-
     console.log('Submitting contact data:', contactData);
     await onSave(contactData);
   };
@@ -107,9 +101,9 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
     value: source,
     label: SOURCE_META[source].label
   }));
-  const companyOptions = [
-    { value: '', label: 'Select a company (optional)' },
-    ...companies.map(c => ({ value: c.id, label: c.name }))
+  const industryOptions = [
+    { value: '', label: 'Select an industry' },
+    ...INDUSTRIES.map(industry => ({ value: industry, label: INDUSTRY_LABELS[industry] }))
   ];
 
   return (
@@ -147,11 +141,11 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
             error={errors.email}
           />
 
-          <Select
+          <Input
             label="Company"
-            value={form.companyId}
-            onChange={(value) => handleChange('companyId', value)}
-            options={companyOptions}
+            value={form.companyName}
+            onChange={(value) => handleChange('companyName', value)}
+            placeholder="Company name"
           />
 
           <Input
@@ -161,11 +155,11 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
             placeholder="City, Country"
           />
 
-          <Input
+          <Select
             label="Industry"
             value={form.industry}
             onChange={(value) => handleChange('industry', value)}
-            placeholder="Technology, Finance, etc."
+            options={industryOptions}
           />
 
           <Select
