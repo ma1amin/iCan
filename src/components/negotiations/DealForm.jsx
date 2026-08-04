@@ -100,7 +100,6 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
 
     const dealData = {
       ...form,
-      id: deal?.id || Date.now().toString(36),
       value: parseFloat(form.value),
       probability: parseInt(form.probability),
       expectedCloseDate: form.expectedCloseDate ? new Date(form.expectedCloseDate).toISOString() : null,
@@ -118,10 +117,13 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
         weaknesses: '',
         offering: '',
         pricing: ''
-      })),
-      createdAt: deal?.createdAt || Date.now(),
-      updatedAt: Date.now()
+      }))
     };
+
+    // Only include id when editing
+    if (deal) {
+      dealData.id = deal.id;
+    }
 
     await onSave(dealData);
   };

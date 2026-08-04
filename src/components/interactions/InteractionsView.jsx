@@ -47,7 +47,7 @@ const InteractionsView = () => {
   const handleSaveInteraction = async (interactionData) => {
     let result;
     if (selectedInteraction) {
-      result = await updateInteraction(selectedInteraction.id, interactionData);
+      result = await updateInteraction(interactionData.id, interactionData);
     } else {
       result = await addInteraction(interactionData);
     }

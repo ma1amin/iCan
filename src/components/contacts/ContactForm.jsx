@@ -79,11 +79,13 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
 
     const contactData = {
       ...form,
-      tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-      id: contact?.id || Date.now().toString(36),
-      createdAt: contact?.createdAt || Date.now(),
-      updatedAt: Date.now()
+      tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean)
     };
+
+    // Only include id when editing (for update operations)
+    if (contact) {
+      contactData.id = contact.id;
+    }
 
     console.log('Submitting contact data:', contactData);
     await onSave(contactData);

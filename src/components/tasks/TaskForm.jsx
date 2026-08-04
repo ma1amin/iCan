@@ -81,7 +81,6 @@ const TaskForm = ({ task, contactId, onClose, onSave, onDelete }) => {
 
     const taskData = {
       ...form,
-      id: task?.id || Date.now().toString(36),
       tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean),
       dueDate: form.dueDate ? new Date(form.dueDate).toISOString() : null,
       estimatedTime: form.estimatedTime ? parseInt(form.estimatedTime) : null,
@@ -90,10 +89,13 @@ const TaskForm = ({ task, contactId, onClose, onSave, onDelete }) => {
         interactions: form.linkedInteractionId ? [form.linkedInteractionId] : [],
         deals: form.linkedDealId ? [form.linkedDealId] : []
       },
-      createdAt: task?.createdAt || Date.now(),
-      updatedAt: Date.now(),
       completedAt: form.status === 'done' ? Date.now() : task?.completedAt || null
     };
+
+    // Only include id when editing
+    if (task) {
+      taskData.id = task.id;
+    }
 
     await onSave(taskData);
   };

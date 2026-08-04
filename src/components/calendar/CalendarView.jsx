@@ -23,7 +23,7 @@ const CalendarView = () => {
   const handleSaveAppointment = async (appointmentData) => {
     let result;
     if (selectedAppointment) {
-      result = await updateAppointment(selectedAppointment.id, appointmentData);
+      result = await updateAppointment(appointmentData.id, appointmentData);
     } else {
       result = await addAppointment(appointmentData);
     }

@@ -73,14 +73,16 @@ const CompanyForm = ({ company, onClose, onSave, onDelete }) => {
 
     const companyData = {
       ...form,
-      id: company?.id || Date.now().toString(36),
       foundedYear: form.foundedYear ? parseInt(form.foundedYear) : null,
       revenue: form.revenue ? parseFloat(form.revenue) : null,
       employeeCount: form.employeeCount ? parseInt(form.employeeCount) : null,
-      tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean),
-      createdAt: company?.createdAt || Date.now(),
-      updatedAt: Date.now()
+      tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean)
     };
+
+    // Only include id when editing
+    if (company) {
+      companyData.id = company.id;
+    }
 
     await onSave(companyData);
   };

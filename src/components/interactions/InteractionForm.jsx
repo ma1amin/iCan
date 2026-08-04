@@ -75,12 +75,14 @@ const InteractionForm = ({ interaction, contactId, onClose, onSave, onDelete, de
 
     const interactionData = {
       ...form,
-      id: interaction?.id || Date.now().toString(36),
       duration: form.duration ? parseInt(form.duration) : null,
-      timestamp: new Date(form.timestamp).toISOString(),
-      createdAt: interaction?.createdAt || Date.now(),
-      updatedAt: Date.now()
+      timestamp: new Date(form.timestamp).toISOString()
     };
+
+    // Only include id when editing
+    if (interaction) {
+      interactionData.id = interaction.id;
+    }
 
     await onSave(interactionData);
   };

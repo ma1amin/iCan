@@ -50,7 +50,7 @@ const DealsView = () => {
   const handleSaveDeal = async (dealData) => {
     let result;
     if (selectedDeal) {
-      result = await updateDeal(selectedDeal.id, dealData);
+      result = await updateDeal(dealData.id, dealData);
     } else {
       result = await addDeal(dealData);
     }

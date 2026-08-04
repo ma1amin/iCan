@@ -71,8 +71,8 @@ const ContactsView = () => {
     console.log('handleSaveContact called with:', contactData);
     let result;
     if (selectedContact) {
-      console.log('Updating existing contact:', contactData.id);
-      result = await updateContact(contactData.id, contactData);
+      console.log('Updating existing contact:', selectedContact.id);
+      result = await updateContact(selectedContact.id, contactData);
     } else {
       console.log('Creating new contact');
       result = await addContact(contactData);

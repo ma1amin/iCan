@@ -55,7 +55,7 @@ const TasksView = () => {
   const handleSaveTask = async (taskData) => {
     let result;
     if (selectedTask) {
-      result = await updateTask(selectedTask.id, taskData);
+      result = await updateTask(taskData.id, taskData);
     } else {
       result = await addTask(taskData);
     }
