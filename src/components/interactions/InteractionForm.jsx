@@ -74,9 +74,16 @@ const InteractionForm = ({ interaction, contactId, onClose, onSave, onDelete, de
     }
 
     const interactionData = {
-      ...form,
+      type: form.type || 'call',
+      direction: form.direction || 'outbound',
+      contactId: form.contactId || null,
+      userId: form.userId || null,
+      appointmentId: form.appointmentId || null,
+      subject: form.subject || '',
+      content: form.content || '',
+      timestamp: new Date(form.timestamp).toISOString(),
       duration: form.duration ? parseInt(form.duration) : null,
-      timestamp: new Date(form.timestamp).toISOString()
+      outcome: form.outcome || null
     };
 
     // Only include id when editing
@@ -84,6 +91,7 @@ const InteractionForm = ({ interaction, contactId, onClose, onSave, onDelete, de
       interactionData.id = interaction.id;
     }
 
+    console.log('Submitting interaction data:', interactionData);
     await onSave(interactionData);
   };
 
