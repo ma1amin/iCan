@@ -214,7 +214,7 @@ Input.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
-  type: PropTypes.oneOf(['text', 'email', 'phone', 'date', 'datetime', 'number', 'password']),
+  type: PropTypes.oneOf(['text', 'email', 'phone', 'date', 'datetime', 'datetime-local', 'number', 'password']),
   disabled: PropTypes.bool,
   error: PropTypes.string,
   required: PropTypes.bool,
