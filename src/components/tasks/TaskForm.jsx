@@ -72,7 +72,7 @@ const TaskForm = ({ task, contactId, onClose, onSave, onDelete }) => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!validate()) {
@@ -95,7 +95,7 @@ const TaskForm = ({ task, contactId, onClose, onSave, onDelete }) => {
       completedAt: form.status === 'done' ? Date.now() : task?.completedAt || null
     };
 
-    onSave(taskData);
+    await onSave(taskData);
   };
 
   const statusOptions = TASK_STATUS.map(status => ({ value: status, label: TASK_STATUS_LABELS[status] }));

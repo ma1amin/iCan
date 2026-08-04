@@ -65,7 +65,7 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!validate()) {
@@ -80,7 +80,7 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
       updatedAt: Date.now()
     };
 
-    onSave(contactData);
+    await onSave(contactData);
   };
 
   const handleDelete = () => {

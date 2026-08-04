@@ -170,8 +170,14 @@ const DealsView = () => {
       ) : (
         <PipelineView
           deals={filteredDeals}
-          onDealUpdate={updateDeal}
-          onDealDelete={deleteDeal}
+          onDealUpdate={async (dealId, dealData) => {
+            const result = await updateDeal(dealId, dealData);
+            return result;
+          }}
+          onDealDelete={async (dealId) => {
+            const result = await deleteDeal(dealId);
+            return result;
+          }}
         />
       )}
 

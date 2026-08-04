@@ -91,7 +91,7 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!validate()) {
@@ -128,7 +128,7 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
       delete dealData.companyId;
     }
 
-    onSave(dealData);
+    await onSave(dealData);
   };
 
   const stageOptions = DEAL_STAGES.map(stage => ({ value: stage, label: DEAL_STAGE_LABELS[stage] }));

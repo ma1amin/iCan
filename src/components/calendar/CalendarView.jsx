@@ -20,21 +20,31 @@ const CalendarView = () => {
   const [contactFilter, setContactFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState('all');
 
-  const handleSaveAppointment = (appointmentData) => {
+  const handleSaveAppointment = async (appointmentData) => {
+    let result;
     if (selectedAppointment) {
-      updateAppointment(selectedAppointment.id, appointmentData);
+      result = await updateAppointment(selectedAppointment.id, appointmentData);
     } else {
-      addAppointment(appointmentData);
+      result = await addAppointment(appointmentData);
     }
-    setIsFormOpen(false);
-    setSelectedAppointment(null);
-  };
-
-  const handleDeleteAppointment = (id) => {
-    if (window.confirm('Are you sure you want to delete this appointment?')) {
-      deleteAppointment(id);
+    
+    if (result.success) {
       setIsFormOpen(false);
       setSelectedAppointment(null);
+    } else {
+      alert(`Failed to save appointment: ${result.error}`);
+    }
+  };
+
+  const handleDeleteAppointment = async (id) => {
+    if (window.confirm('Are you sure you want to delete this appointment?')) {
+      const result = await deleteAppointment(id);
+      if (result.success) {
+        setIsFormOpen(false);
+        setSelectedAppointment(null);
+      } else {
+        alert(`Failed to delete appointment: ${result.error}`);
+      }
     }
   };
 

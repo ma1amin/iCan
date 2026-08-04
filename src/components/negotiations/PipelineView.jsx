@@ -15,7 +15,7 @@ const PipelineView = ({ deals, onDealUpdate, onDealDelete }) => {
     setIsFormOpen(true);
   };
 
-  const handleStageChange = (dealId, newStage) => {
+  const handleStageChange = async (dealId, newStage) => {
     const deal = deals.find(d => d.id === dealId);
     if (deal) {
       const stageProbabilities = {
@@ -27,25 +27,36 @@ const PipelineView = ({ deals, onDealUpdate, onDealDelete }) => {
         'won': 100,
         'lost': 0
       };
-      onDealUpdate(dealId, { 
+      const result = await onDealUpdate(dealId, { 
         ...deal, 
         stage: newStage,
         probability: stageProbabilities[newStage] || deal.probability
       });
+      if (!result.success) {
+        alert(`Failed to update deal stage: ${result.error}`);
+      }
     }
   };
 
-  const handleSaveDeal = (dealData) => {
-    onDealUpdate(dealData.id, dealData);
-    setIsFormOpen(false);
-    setSelectedDeal(null);
-  };
-
-  const handleDeleteDeal = (dealId) => {
-    if (window.confirm('Are you sure you want to delete this deal?')) {
-      onDealDelete(dealId);
+  const handleSaveDeal = async (dealData) => {
+    const result = await onDealUpdate(dealData.id, dealData);
+    if (result.success) {
       setIsFormOpen(false);
       setSelectedDeal(null);
+    } else {
+      alert(`Failed to save deal: ${result.error}`);
+    }
+  };
+
+  const handleDeleteDeal = async (dealId) => {
+    if (window.confirm('Are you sure you want to delete this deal?')) {
+      const result = await onDealDelete(dealId);
+      if (result.success) {
+        setIsFormOpen(false);
+        setSelectedDeal(null);
+      } else {
+        alert(`Failed to delete deal: ${result.error}`);
+      }
     }
   };
 

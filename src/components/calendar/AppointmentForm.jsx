@@ -76,7 +76,7 @@ const AppointmentForm = ({ appointment, contactId, onClose, onSave, onDelete }) 
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!validate()) {
@@ -93,7 +93,7 @@ const AppointmentForm = ({ appointment, contactId, onClose, onSave, onDelete }) 
       updatedAt: Date.now()
     };
 
-    onSave(appointmentData);
+    await onSave(appointmentData);
   };
 
   const typeOptions = APPOINTMENT_TYPES.map(type => ({ value: type, label: type.charAt(0).toUpperCase() + type.slice(1) }));

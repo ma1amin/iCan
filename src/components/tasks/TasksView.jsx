@@ -168,15 +168,11 @@ const TasksView = () => {
           tasks={filteredTasks}
           onTaskUpdate={async (taskId, taskData) => {
             const result = await updateTask(taskId, taskData);
-            if (!result.success) {
-              alert(`Failed to update task: ${result.error}`);
-            }
+            return result;
           }}
           onTaskDelete={async (taskId) => {
             const result = await deleteTask(taskId);
-            if (!result.success) {
-              alert(`Failed to delete task: ${result.error}`);
-            }
+            return result;
           }}
         />
       )}

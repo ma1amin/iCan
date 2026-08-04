@@ -64,7 +64,7 @@ const CompanyForm = ({ company, onClose, onSave, onDelete }) => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!validate()) {
@@ -82,7 +82,7 @@ const CompanyForm = ({ company, onClose, onSave, onDelete }) => {
       updatedAt: Date.now()
     };
 
-    onSave(companyData);
+    await onSave(companyData);
   };
 
   const sizeOptions = COMPANY_SIZES.map(size => ({ value: size, label: COMPANY_SIZE_LABELS[size] }));

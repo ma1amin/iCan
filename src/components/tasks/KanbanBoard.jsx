@@ -19,7 +19,10 @@ const KanbanBoard = ({ tasks, onTaskUpdate, onTaskDelete }) => {
   const handleStatusChange = async (taskId, newStatus) => {
     const task = tasks.find(t => t.id === taskId);
     if (task) {
-      await onTaskUpdate(taskId, { ...task, status: newStatus });
+      const result = await onTaskUpdate(taskId, { ...task, status: newStatus });
+      if (!result.success) {
+        alert(`Failed to update task status: ${result.error}`);
+      }
     }
   };
 
@@ -40,21 +43,32 @@ const KanbanBoard = ({ tasks, onTaskUpdate, onTaskDelete }) => {
     const task = tasks.find(t => t.id === draggableId);
     if (task) {
       // Update task status to match the destination column
-      await onTaskUpdate(draggableId, { ...task, status: destination.droppableId });
+      const updateResult = await onTaskUpdate(draggableId, { ...task, status: destination.droppableId });
+      if (!updateResult.success) {
+        alert(`Failed to update task status: ${updateResult.error}`);
+      }
     }
   };
 
   const handleSaveTask = async (taskData) => {
-    await onTaskUpdate(taskData.id, taskData);
-    setIsFormOpen(false);
-    setSelectedTask(null);
+    const result = await onTaskUpdate(taskData.id, taskData);
+    if (result.success) {
+      setIsFormOpen(false);
+      setSelectedTask(null);
+    } else {
+      alert(`Failed to save task: ${result.error}`);
+    }
   };
 
   const handleDeleteTask = async (taskId) => {
     if (window.confirm('Are you sure you want to delete this task?')) {
-      await onTaskDelete(taskId);
-      setIsFormOpen(false);
-      setSelectedTask(null);
+      const result = await onTaskDelete(taskId);
+      if (result.success) {
+        setIsFormOpen(false);
+        setSelectedTask(null);
+      } else {
+        alert(`Failed to delete task: ${result.error}`);
+      }
     }
   };
 

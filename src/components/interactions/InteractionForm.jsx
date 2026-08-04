@@ -66,7 +66,7 @@ const InteractionForm = ({ interaction, contactId, onClose, onSave, onDelete, de
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!validate()) {
@@ -82,7 +82,7 @@ const InteractionForm = ({ interaction, contactId, onClose, onSave, onDelete, de
       updatedAt: Date.now()
     };
 
-    onSave(interactionData);
+    await onSave(interactionData);
   };
 
   const typeOptions = INTERACTION_TYPES.map(type => ({ value: type, label: INTERACTION_TYPE_LABELS[type] }));
