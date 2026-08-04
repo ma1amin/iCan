@@ -6,9 +6,10 @@ import Modal from '../common/Modal';
 import './UserProfile.css';
 
 const UserProfile = () => {
-  const { user, tenant, updateUserProfile, logout, deleteAccount } = useAuthContext();
+  const { user, tenant, updateUserProfile, logout, deleteAccount, updateEmail } = useAuthContext();
   const [isEditing, setIsEditing] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [editForm, setEditForm] = useState({
     name: user?.name || '',
@@ -18,6 +19,11 @@ const UserProfile = () => {
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
+  });
+  const [emailForm, setEmailForm] = useState({
+    currentPassword: '',
+    newEmail: '',
+    confirmEmail: ''
   });
   const [deleteForm, setDeleteForm] = useState({
     confirmationText: '',
@@ -76,6 +82,45 @@ const UserProfile = () => {
     });
     setIsPasswordModalOpen(false);
     setTimeout(() => setSuccess(''), 3000);
+  };
+
+  const handleEmailChange = async () => {
+    setError('');
+    setSuccess('');
+
+    if (emailForm.newEmail !== emailForm.confirmEmail) {
+      setError('Email addresses do not match');
+      return;
+    }
+
+    if (!emailForm.currentPassword) {
+      setError('Current password is required');
+      return;
+    }
+
+    if (!emailForm.newEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailForm.newEmail)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    try {
+      const result = await updateEmail(emailForm.currentPassword, emailForm.newEmail);
+      
+      if (result.success) {
+        setSuccess('Email updated successfully');
+        setEmailForm({
+          currentPassword: '',
+          newEmail: '',
+          confirmEmail: ''
+        });
+        setIsEmailModalOpen(false);
+        setTimeout(() => setSuccess(''), 3000);
+      } else {
+        setError(result.error);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
+    }
   };
 
   const handleDeleteAccount = async () => {
@@ -256,8 +301,8 @@ const UserProfile = () => {
             <Button variant="secondary" onClick={() => setIsPasswordModalOpen(true)}>
               Change Password
             </Button>
-            <Button variant="ghost" onClick={logout}>
-              Logout
+            <Button variant="secondary" onClick={() => setIsEmailModalOpen(true)}>
+              Change Email
             </Button>
           </div>
         </div>
@@ -284,6 +329,46 @@ const UserProfile = () => {
           </Button>
         </div>
       </div>
+
+      {/* Email Change Modal */}
+      <Modal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        title="Change Email"
+        size="small"
+      >
+        <div className="user-profile-password-form">
+          <Input
+            label="Current Password"
+            type="password"
+            value={emailForm.currentPassword}
+            onChange={(value) => setEmailForm(prev => ({ ...prev, currentPassword: value }))}
+            fullWidth
+          />
+          <Input
+            label="New Email"
+            type="email"
+            value={emailForm.newEmail}
+            onChange={(value) => setEmailForm(prev => ({ ...prev, newEmail: value }))}
+            fullWidth
+          />
+          <Input
+            label="Confirm New Email"
+            type="email"
+            value={emailForm.confirmEmail}
+            onChange={(value) => setEmailForm(prev => ({ ...prev, confirmEmail: value }))}
+            fullWidth
+          />
+          <div className="user-profile-modal-actions">
+            <Button variant="ghost" onClick={() => setIsEmailModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleEmailChange}>
+              Update Email
+            </Button>
+          </div>
+        </div>
+      </Modal>
 
       {/* Password Change Modal */}
       <Modal

@@ -336,6 +336,55 @@ app.put('/api/auth/profile', authenticateToken, async (req, res) => {
   }
 });
 
+// Update user email
+app.put('/api/auth/email', authenticateToken, async (req, res) => {
+  try {
+    const { currentPassword, newEmail } = req.body;
+
+    // Verify current password
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.userId }
+    });
+
+    const isValidPassword = await comparePassword(currentPassword, user.passwordHash);
+    if (!isValidPassword) {
+      return res.status(401).json({ error: 'Invalid password' });
+    }
+
+    // Check if new email is already taken
+    const existingUser = await prisma.user.findUnique({
+      where: { email: newEmail }
+    });
+
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email already in use' });
+    }
+
+    // Update email and mark as unverified
+    const updatedUser = await prisma.user.update({
+      where: { id: req.user.userId },
+      data: { 
+        email: newEmail,
+        emailVerified: false
+      }
+    });
+
+    res.json({
+      success: true,
+      user: {
+        id: updatedUser.id,
+        email: updatedUser.email,
+        name: updatedUser.name,
+        emailVerified: updatedUser.emailVerified,
+        avatar: updatedUser.avatar
+      }
+    });
+  } catch (error) {
+    console.error('Update email error:', error);
+    res.status(500).json({ error: 'Failed to update email' });
+  }
+});
+
 // Delete account
 app.delete('/api/auth/account', authenticateToken, async (req, res) => {
   try {

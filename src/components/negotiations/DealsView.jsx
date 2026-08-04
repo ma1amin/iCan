@@ -47,21 +47,31 @@ const DealsView = () => {
     });
   }, [deals, searchQuery, contactFilter, stageFilter, currencyFilter]);
 
-  const handleSaveDeal = (dealData) => {
+  const handleSaveDeal = async (dealData) => {
+    let result;
     if (selectedDeal) {
-      updateDeal(selectedDeal.id, dealData);
+      result = await updateDeal(selectedDeal.id, dealData);
     } else {
-      addDeal(dealData);
+      result = await addDeal(dealData);
     }
-    setIsFormOpen(false);
-    setSelectedDeal(null);
-  };
-
-  const handleDeleteDeal = (dealId) => {
-    if (window.confirm('Are you sure you want to delete this deal?')) {
-      deleteDeal(dealId);
+    
+    if (result.success) {
       setIsFormOpen(false);
       setSelectedDeal(null);
+    } else {
+      alert(`Failed to save deal: ${result.error}`);
+    }
+  };
+
+  const handleDeleteDeal = async (dealId) => {
+    if (window.confirm('Are you sure you want to delete this deal?')) {
+      const result = await deleteDeal(dealId);
+      if (result.success) {
+        setIsFormOpen(false);
+        setSelectedDeal(null);
+      } else {
+        alert(`Failed to delete deal: ${result.error}`);
+      }
     }
   };
 

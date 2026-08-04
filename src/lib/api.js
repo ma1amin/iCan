@@ -79,6 +79,13 @@ export const authAPI = {
     });
   },
 
+  updateEmail: async (currentPassword, newEmail) => {
+    return apiCall('/auth/email', {
+      method: 'PUT',
+      body: JSON.stringify({ currentPassword, newEmail }),
+    });
+  },
+
   deleteAccount: async (password) => {
     return apiCall('/auth/account', {
       method: 'DELETE',

@@ -16,14 +16,14 @@ const KanbanBoard = ({ tasks, onTaskUpdate, onTaskDelete }) => {
     setIsFormOpen(true);
   };
 
-  const handleStatusChange = (taskId, newStatus) => {
+  const handleStatusChange = async (taskId, newStatus) => {
     const task = tasks.find(t => t.id === taskId);
     if (task) {
-      onTaskUpdate(taskId, { ...task, status: newStatus });
+      await onTaskUpdate(taskId, { ...task, status: newStatus });
     }
   };
 
-  const handleDragEnd = (result) => {
+  const handleDragEnd = async (result) => {
     const { destination, source, draggableId } = result;
 
     // Dropped outside the board
@@ -40,19 +40,19 @@ const KanbanBoard = ({ tasks, onTaskUpdate, onTaskDelete }) => {
     const task = tasks.find(t => t.id === draggableId);
     if (task) {
       // Update task status to match the destination column
-      onTaskUpdate(draggableId, { ...task, status: destination.droppableId });
+      await onTaskUpdate(draggableId, { ...task, status: destination.droppableId });
     }
   };
 
-  const handleSaveTask = (taskData) => {
-    onTaskUpdate(taskData.id, taskData);
+  const handleSaveTask = async (taskData) => {
+    await onTaskUpdate(taskData.id, taskData);
     setIsFormOpen(false);
     setSelectedTask(null);
   };
 
-  const handleDeleteTask = (taskId) => {
+  const handleDeleteTask = async (taskId) => {
     if (window.confirm('Are you sure you want to delete this task?')) {
-      onTaskDelete(taskId);
+      await onTaskDelete(taskId);
       setIsFormOpen(false);
       setSelectedTask(null);
     }

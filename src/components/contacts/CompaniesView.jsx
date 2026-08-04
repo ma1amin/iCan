@@ -42,21 +42,31 @@ const CompaniesView = () => {
     });
   }, [companies, searchQuery, industryFilter, sizeFilter]);
 
-  const handleSaveCompany = (companyData) => {
+  const handleSaveCompany = async (companyData) => {
+    let result;
     if (selectedCompany) {
-      updateCompany(selectedCompany.id, companyData);
+      result = await updateCompany(selectedCompany.id, companyData);
     } else {
-      addCompany(companyData);
+      result = await addCompany(companyData);
     }
-    setIsFormOpen(false);
-    setSelectedCompany(null);
-  };
-
-  const handleDeleteCompany = (companyId) => {
-    if (window.confirm('Are you sure you want to delete this company?')) {
-      deleteCompany(companyId);
+    
+    if (result.success) {
       setIsFormOpen(false);
       setSelectedCompany(null);
+    } else {
+      alert(`Failed to save company: ${result.error}`);
+    }
+  };
+
+  const handleDeleteCompany = async (companyId) => {
+    if (window.confirm('Are you sure you want to delete this company?')) {
+      const result = await deleteCompany(companyId);
+      if (result.success) {
+        setIsFormOpen(false);
+        setSelectedCompany(null);
+      } else {
+        alert(`Failed to delete company: ${result.error}`);
+      }
     }
   };
 

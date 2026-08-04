@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 import { useAuthContext } from '../../context/AuthContext';
 import './Sidebar.css';
@@ -30,8 +30,9 @@ const NAV_ITEMS = [
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { contacts } = useAppContext();
-  const { logout } = useAuthContext();
+  const { logout, user } = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleNavClick = () => {
@@ -113,10 +114,34 @@ const Sidebar = () => {
         </nav>
 
         <div className="sidebar-footer">
-          <div className="sidebar-stats">
-            <div className="sidebar-stat">
-              <span className="sidebar-stat-value">{contacts.length}</span>
-              <span className="sidebar-stat-label">Contacts</span>
+          <div className="sidebar-user-section">
+            <div className="sidebar-user-info">
+              <div className="sidebar-user-avatar">
+                {user?.name?.charAt(0).toUpperCase() || 'U'}
+              </div>
+              <div className="sidebar-user-details">
+                <div className="sidebar-user-name">{user?.name || 'User'}</div>
+                <div className="sidebar-user-email">{user?.email || ''}</div>
+              </div>
+            </div>
+            <div className="sidebar-user-actions">
+              <button 
+                className="sidebar-user-action"
+                onClick={() => {
+                  navigate('/profile');
+                  setIsOpen(false);
+                }}
+                title="Profile"
+              >
+                <span>👤</span>
+              </button>
+              <button 
+                className="sidebar-user-action"
+                onClick={handleLogout}
+                title="Logout"
+              >
+                <span>🚪</span>
+              </button>
             </div>
           </div>
         </div>

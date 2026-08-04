@@ -8,11 +8,11 @@ import { DEAL_STAGES, DEAL_STAGE_LABELS, CURRENCIES } from '../../types/deals';
 import './DealForm.css';
 
 const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
-  const { contacts } = useAppContext();
+  const { contacts, companies } = useAppContext();
   const [form, setForm] = useState({
     name: '',
     contactId: '',
-    company: '',
+    companyId: '',
     stage: 'prospecting',
     value: '',
     currency: 'USD',
@@ -30,7 +30,7 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
       setForm({
         name: deal.name || '',
         contactId: deal.contactId || '',
-        company: deal.company || '',
+        companyId: deal.companyId || '',
         stage: deal.stage || 'prospecting',
         value: deal.value || '',
         currency: deal.currency || 'USD',
@@ -80,8 +80,8 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
       alert('Contact is required');
       return false;
     }
-    if (!form.value || parseFloat(form.value) < 0) {
-      alert('Valid deal value is required');
+    if (form.value && parseFloat(form.value) < 0) {
+      alert('Deal value must be positive');
       return false;
     }
     if (!form.probability || parseFloat(form.probability) < 0 || parseFloat(form.probability) > 100) {
@@ -123,6 +123,11 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
       updatedAt: Date.now()
     };
 
+    // Remove empty companyId to avoid sending empty string
+    if (!dealData.companyId) {
+      delete dealData.companyId;
+    }
+
     onSave(dealData);
   };
 
@@ -131,6 +136,10 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
   const contactOptions = [
     { value: '', label: 'Select a contact', disabled: true },
     ...contacts.map(c => ({ value: c.id, label: c.name }))
+  ];
+  const companyOptions = [
+    { value: '', label: 'Select a company (optional)' },
+    ...companies.map(c => ({ value: c.id, label: c.name }))
   ];
 
   return (
@@ -158,11 +167,11 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
             fullWidth
           />
 
-          <Input
+          <Select
             label="Company"
-            value={form.company}
-            onChange={(value) => handleChange('company', value)}
-            placeholder="Acme Corp"
+            value={form.companyId}
+            onChange={(value) => handleChange('companyId', value)}
+            options={companyOptions}
             fullWidth
           />
 

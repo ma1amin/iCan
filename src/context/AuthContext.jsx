@@ -254,6 +254,35 @@ export const AuthProvider = ({ children }) => {
     }
   }, [state.user, state.tenant, saveAuthState]);
 
+  // Update user email
+  const updateEmail = useCallback(async (currentPassword, newEmail) => {
+    try {
+      if (!state.user) {
+        throw new Error('No user logged in');
+      }
+
+      setState(prev => ({ ...prev, isLoading: true, error: null }));
+
+      const response = await authAPI.updateEmail(currentPassword, newEmail);
+      
+      if (response.success) {
+        setState(prev => ({
+          ...prev,
+          user: response.user,
+          isLoading: false
+        }));
+        saveAuthState(response.user, state.tenant);
+
+        return { success: true, user: response.user };
+      } else {
+        throw new Error(response.error || 'Email update failed');
+      }
+    } catch (error) {
+      setState(prev => ({ ...prev, error: error.message, isLoading: false }));
+      return { success: false, error: error.message };
+    }
+  }, [state.user, state.tenant, saveAuthState]);
+
   // Delete account
   const deleteAccount = useCallback(async (password) => {
     try {
@@ -288,6 +317,7 @@ export const AuthProvider = ({ children }) => {
     verifyEmail,
     resendVerificationEmail,
     updateUserProfile,
+    updateEmail,
     deleteAccount
   };
 

@@ -2,6 +2,80 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [3.0.9] - 2026-08-04
+
+### Platform Enhancements
+
+**Data Persistence Fixes:**
+- ✅ Fixed interaction form data persistence with proper async/await handling
+- ✅ Fixed deal form data persistence with company field correction
+- ✅ Fixed company form data persistence with proper error handling
+- ✅ Fixed contact form data persistence with error notifications
+- ✅ Fixed task form data persistence with async operations
+- ✅ All forms now properly save data to database with user feedback
+
+**UI Cleanup:**
+- ✅ Removed all duplicate buttons from navbar (Import, Add Contact, New Appointment, Log Interaction, New Task, New Deal)
+- ✅ Header now shows only ThemeToggle for cleaner interface
+- ✅ Replaced contact count in sidebar footer with user profile section
+- ✅ Added user avatar, name, and email display in sidebar
+- ✅ Added profile and logout buttons in sidebar footer
+- ✅ Improved sidebar footer styling and layout
+
+**Calendar Improvements:**
+- ✅ Enhanced appointment display in calendar cells
+- ✅ Added appointment time indicators on calendar days
+- ✅ Added color coding for appointment types (call, meeting, video, email, task, other)
+- ✅ Improved appointment display with hover effects
+- ✅ Better appointment titles and time preview
+- ✅ More professional calendar grid layout
+
+**Tasks Enhancement:**
+- ✅ Fixed drag-and-drop functionality with proper async handling
+- ✅ Fixed dropdown menu interaction with z-index improvements
+- ✅ Enhanced dropdown styling with better focus states
+- ✅ Fixed task status changes via dropdown
+- ✅ Improved drag-and-drop performance and reliability
+
+**Export Enhancements:**
+- ✅ Added BOM (Byte Order Mark) for CSV to ensure proper Excel encoding
+- ✅ Enhanced JSON export with metadata (export date, contact count, version)
+- ✅ Improved file naming with detailed timestamp format
+- ✅ Added confirmation dialogs before export
+- ✅ Better error handling for empty contact lists
+
+**Profile Security Enhancement:**
+- ✅ Replaced logout button with email change button in security section
+- ✅ Added email change modal with current password verification
+- ✅ Implemented email update API endpoint in server
+- ✅ Added email validation and duplicate email checking
+- ✅ Email change marks email as unverified for security
+- ✅ Added email change function to AuthContext
+
+**Technical Implementation:**
+- InteractionsView.jsx: Fixed async/await for save/delete operations
+- DealsView.jsx: Fixed async/await for deal operations
+- CompaniesView.jsx: Fixed async/await for company operations
+- ContactsView.jsx: Fixed async/await for contact operations with error alerts
+- TasksView.jsx: Fixed async/await for task operations
+- KanbanBoard.jsx: Fixed async drag-and-drop and dropdown handling
+- DealForm.jsx: Fixed company field handling (companyId instead of company name)
+- Header.jsx: Removed all page-specific action buttons
+- Sidebar.jsx: Replaced contact count with user profile section
+- Sidebar.css: Added user profile styling
+- CalendarView.jsx: Enhanced appointment display with time and color coding
+- CalendarView.css: Improved appointment item styling
+- importExport.js: Enhanced CSV/JSON export with BOM and metadata
+- UserProfile.jsx: Added email change modal and functionality
+- AuthContext.jsx: Added updateEmail function
+- api.js: Added updateEmail API call
+- server.js: Added email change API endpoint with password verification
+
+**Database Updates:**
+- Enhanced email update endpoint with password verification
+- Added email uniqueness checking for email changes
+- Email changes reset emailVerified flag for security
+
 ## [3.0.8] - 2026-08-03
 
 ### Database Stability and Prisma v6 Migration

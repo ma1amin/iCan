@@ -42,6 +42,18 @@ const CalendarView = () => {
     'July', 'August', 'September', 'October', 'November', 'December'];
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+  const getAppointmentTypeColor = (type) => {
+    const colors = {
+      call: '#3b82f6',
+      meeting: '#10b981',
+      video: '#8b5cf6',
+      email: '#f59e0b',
+      task: '#ef4444',
+      other: '#6b7280'
+    };
+    return colors[type] || colors.other;
+  };
+
   const typeOptions = [
     { value: 'all', label: 'All Types' },
     ...APPOINTMENT_TYPES.map(type => ({ value: type, label: type.charAt(0).toUpperCase() + type.slice(1) }))
@@ -138,11 +150,26 @@ const CalendarView = () => {
         >
           <div className="calendar-day-number">{day}</div>
           <div className="calendar-day-appointments">
-            {dayAppointments.slice(0, 3).map(apt => (
-              <div key={apt.id} className="calendar-appointment-dot" title={apt.title}></div>
-            ))}
+            {dayAppointments.slice(0, 3).map(apt => {
+              const startTime = new Date(apt.startTime);
+              const timeStr = startTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+              return (
+                <div 
+                  key={apt.id} 
+                  className="calendar-appointment-item"
+                  style={{ 
+                    backgroundColor: getAppointmentTypeColor(apt.type) + '20',
+                    borderLeft: `3px solid ${getAppointmentTypeColor(apt.type)}`
+                  }}
+                  title={`${apt.title} - ${timeStr}`}
+                >
+                  <div className="calendar-appointment-time">{timeStr}</div>
+                  <div className="calendar-appointment-title">{apt.title}</div>
+                </div>
+              );
+            })}
             {dayAppointments.length > 3 && (
-              <div className="calendar-appointment-more">+{dayAppointments.length - 3}</div>
+              <div className="calendar-appointment-more">+{dayAppointments.length - 3} more</div>
             )}
           </div>
         </div>

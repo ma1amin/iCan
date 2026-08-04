@@ -52,21 +52,31 @@ const TasksView = () => {
     });
   }, [tasks, searchQuery, contactFilter, statusFilter, priorityFilter, categoryFilter]);
 
-  const handleSaveTask = (taskData) => {
+  const handleSaveTask = async (taskData) => {
+    let result;
     if (selectedTask) {
-      updateTask(selectedTask.id, taskData);
+      result = await updateTask(selectedTask.id, taskData);
     } else {
-      addTask(taskData);
+      result = await addTask(taskData);
     }
-    setIsFormOpen(false);
-    setSelectedTask(null);
-  };
-
-  const handleDeleteTask = (taskId) => {
-    if (window.confirm('Are you sure you want to delete this task?')) {
-      deleteTask(taskId);
+    
+    if (result.success) {
       setIsFormOpen(false);
       setSelectedTask(null);
+    } else {
+      alert(`Failed to save task: ${result.error}`);
+    }
+  };
+
+  const handleDeleteTask = async (taskId) => {
+    if (window.confirm('Are you sure you want to delete this task?')) {
+      const result = await deleteTask(taskId);
+      if (result.success) {
+        setIsFormOpen(false);
+        setSelectedTask(null);
+      } else {
+        alert(`Failed to delete task: ${result.error}`);
+      }
     }
   };
 
@@ -156,8 +166,18 @@ const TasksView = () => {
       ) : (
         <KanbanBoard
           tasks={filteredTasks}
-          onTaskUpdate={updateTask}
-          onTaskDelete={deleteTask}
+          onTaskUpdate={async (taskId, taskData) => {
+            const result = await updateTask(taskId, taskData);
+            if (!result.success) {
+              alert(`Failed to update task: ${result.error}`);
+            }
+          }}
+          onTaskDelete={async (taskId) => {
+            const result = await deleteTask(taskId);
+            if (!result.success) {
+              alert(`Failed to delete task: ${result.error}`);
+            }
+          }}
         />
       )}
 

@@ -124,16 +124,30 @@ export const downloadFile = (content, filename, mimeType) => {
  */
 export const exportContactsCSV = (contacts) => {
   const csv = contactsToCSV(contacts);
-  const filename = `contacts-export-${new Date().toISOString().split('T')[0]}.csv`;
-  downloadFile(csv, filename, 'text/csv');
+  // Add BOM for proper Excel encoding
+  const bom = '\uFEFF';
+  const csvWithBom = bom + csv;
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+  const filename = `contacts-export-${timestamp}.csv`;
+  downloadFile(csvWithBom, filename, 'text/csv;charset=utf-8');
 };
 
 /**
  * Export contacts to JSON
  */
 export const exportContactsJSON = (contacts) => {
-  const json = contactsToJSON(contacts);
-  const filename = `contacts-export-${new Date().toISOString().split('T')[0]}.json`;
+  const metadata = {
+    exportDate: new Date().toISOString(),
+    contactCount: contacts.length,
+    version: '1.0'
+  };
+  const jsonData = {
+    metadata,
+    contacts
+  };
+  const json = JSON.stringify(jsonData, null, 2);
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, -5);
+  const filename = `contacts-export-${timestamp}.json`;
   downloadFile(json, filename, 'application/json');
 };
 

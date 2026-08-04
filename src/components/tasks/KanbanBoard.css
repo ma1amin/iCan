@@ -177,6 +177,8 @@
   color: #E6E9F0;
   font-size: 12px;
   cursor: pointer;
+  position: relative;
+  z-index: 10;
 }
 
 .task-status-select:hover {
@@ -186,6 +188,7 @@
 .task-status-select:focus {
   outline: none;
   border-color: #5B8DEF;
+  box-shadow: 0 0 0 2px rgba(91, 141, 239, 0.2);
 }
 
 /* Responsive */

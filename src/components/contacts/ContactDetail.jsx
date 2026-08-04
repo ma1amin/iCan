@@ -203,7 +203,7 @@ const ContactDetail = ({ contact, onClose, onEdit, onDelete }) => {
           <Button variant="danger" onClick={handleDelete}>
             Delete Contact
           </Button>
-          <Button variant="primary" onClick={onEdit}>
+          <Button variant="primary" onClick={() => onEdit(contact)}>
             Edit Contact
           </Button>
         </div>

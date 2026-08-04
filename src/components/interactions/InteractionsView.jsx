@@ -44,21 +44,31 @@ const InteractionsView = () => {
     }).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
   }, [interactions, searchQuery, contactFilter, typeFilter, outcomeFilter]);
 
-  const handleSaveInteraction = (interactionData) => {
+  const handleSaveInteraction = async (interactionData) => {
+    let result;
     if (selectedInteraction) {
-      updateInteraction(selectedInteraction.id, interactionData);
+      result = await updateInteraction(selectedInteraction.id, interactionData);
     } else {
-      addInteraction(interactionData);
+      result = await addInteraction(interactionData);
     }
-    setIsFormOpen(false);
-    setSelectedInteraction(null);
-  };
-
-  const handleDeleteInteraction = (id) => {
-    if (window.confirm('Are you sure you want to delete this interaction?')) {
-      deleteInteraction(id);
+    
+    if (result.success) {
       setIsFormOpen(false);
       setSelectedInteraction(null);
+    } else {
+      alert(`Failed to save interaction: ${result.error}`);
+    }
+  };
+
+  const handleDeleteInteraction = async (id) => {
+    if (window.confirm('Are you sure you want to delete this interaction?')) {
+      const result = await deleteInteraction(id);
+      if (result.success) {
+        setIsFormOpen(false);
+        setSelectedInteraction(null);
+      } else {
+        alert(`Failed to delete interaction: ${result.error}`);
+      }
     }
   };
 

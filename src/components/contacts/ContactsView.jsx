@@ -67,18 +67,29 @@ const ContactsView = () => {
     setIsDetailOpen(true);
   };
 
-  const handleSaveContact = (contactData) => {
+  const handleSaveContact = async (contactData) => {
+    let result;
     if (selectedContact) {
-      updateContact(contactData.id, contactData);
+      result = await updateContact(contactData.id, contactData);
     } else {
-      addContact(contactData);
+      result = await addContact(contactData);
     }
-    setIsFormOpen(false);
-    setSelectedContact(null);
+    
+    if (result.success) {
+      setIsFormOpen(false);
+      setSelectedContact(null);
+    } else {
+      alert(`Failed to save contact: ${result.error}`);
+    }
   };
 
-  const handleDeleteContact = (id) => {
-    deleteContact(id);
+  const handleDeleteContact = async (id) => {
+    if (window.confirm('Are you sure you want to delete this contact?')) {
+      const result = await deleteContact(id);
+      if (!result.success) {
+        alert(`Failed to delete contact: ${result.error}`);
+      }
+    }
   };
 
   const handleFormClose = () => {
@@ -151,11 +162,23 @@ const ContactsView = () => {
   };
 
   const handleExportCSV = () => {
-    exportContactsCSV(contacts);
+    if (contacts.length === 0) {
+      alert('No contacts to export');
+      return;
+    }
+    if (window.confirm(`Export ${contacts.length} contact(s) to CSV?`)) {
+      exportContactsCSV(contacts);
+    }
   };
 
   const handleExportJSON = () => {
-    exportContactsJSON(contacts);
+    if (contacts.length === 0) {
+      alert('No contacts to export');
+      return;
+    }
+    if (window.confirm(`Export ${contacts.length} contact(s) to JSON?`)) {
+      exportContactsJSON(contacts);
+    }
   };
 
   return (
