@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useAppContext } from '../../context/AppContext';
 import Modal from '../common/Modal';
 import { Input, Select, Textarea } from '../common/Form';
 import Button from '../common/Button';
@@ -7,11 +8,12 @@ import { CONTACT_STAGES, CONTACT_SOURCES, SOURCE_META } from '../../types/contac
 import './ContactForm.css';
 
 const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
+  const { companies } = useAppContext();
   const [form, setForm] = useState({
     name: '',
     phone: '',
     email: '',
-    company: '',
+    companyId: '',
     location: '',
     industry: '',
     source: 'whatsapp',
@@ -27,7 +29,7 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
         name: contact.name || '',
         phone: contact.phone || '',
         email: contact.email || '',
-        company: contact.company || '',
+        companyId: contact.companyId || '',
         location: contact.location || '',
         industry: contact.industry || '',
         source: contact.source || 'whatsapp',
@@ -49,7 +51,7 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
   const validate = () => {
     const newErrors = {};
 
-    if (!form.name.trim()) {
+    if (!form.name || !form.name.trim()) {
       newErrors.name = 'Name is required';
     }
 
@@ -62,7 +64,11 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    const isValid = Object.keys(newErrors).length === 0;
+    if (!isValid) {
+      console.log('Validation errors:', newErrors);
+    }
+    return isValid;
   };
 
   const handleSubmit = async (e) => {
@@ -80,6 +86,12 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
       updatedAt: Date.now()
     };
 
+    // Remove empty companyId to avoid sending empty string
+    if (!contactData.companyId) {
+      delete contactData.companyId;
+    }
+
+    console.log('Submitting contact data:', contactData);
     await onSave(contactData);
   };
 
@@ -95,6 +107,10 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
     value: source,
     label: SOURCE_META[source].label
   }));
+  const companyOptions = [
+    { value: '', label: 'Select a company (optional)' },
+    ...companies.map(c => ({ value: c.id, label: c.name }))
+  ];
 
   return (
     <Modal
@@ -131,11 +147,11 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
             error={errors.email}
           />
 
-          <Input
+          <Select
             label="Company"
-            value={form.company}
-            onChange={(value) => handleChange('company', value)}
-            placeholder="Company name"
+            value={form.companyId}
+            onChange={(value) => handleChange('companyId', value)}
+            options={companyOptions}
           />
 
           <Input

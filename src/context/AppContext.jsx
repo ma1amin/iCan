@@ -97,7 +97,9 @@ export const AppProvider = ({ children }) => {
   // Contact CRUD operations
   const addContact = useCallback(async (contactData) => {
     try {
+      console.log('AppContext addContact called with:', contactData);
       const response = await contactsAPI.create(contactData);
+      console.log('API response:', response);
       setState(prev => ({
         ...prev,
         contacts: [...prev.contacts, response.contact]

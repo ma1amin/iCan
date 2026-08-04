@@ -68,13 +68,17 @@ const ContactsView = () => {
   };
 
   const handleSaveContact = async (contactData) => {
+    console.log('handleSaveContact called with:', contactData);
     let result;
     if (selectedContact) {
+      console.log('Updating existing contact:', contactData.id);
       result = await updateContact(contactData.id, contactData);
     } else {
+      console.log('Creating new contact');
       result = await addContact(contactData);
     }
     
+    console.log('Save result:', result);
     if (result.success) {
       setIsFormOpen(false);
       setSelectedContact(null);
