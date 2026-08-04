@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useAuthContext } from './AuthContext';
-import { contactsAPI, companiesAPI, appointmentsAPI, interactionsAPI, tasksAPI, dealsAPI } from '../lib/api';
+import { contactsAPI, appointmentsAPI, interactionsAPI, tasksAPI, dealsAPI } from '../lib/api';
 
 const AppContext = createContext(null);
 
@@ -50,9 +50,8 @@ export const AppProvider = ({ children }) => {
       setState(prev => ({ ...prev, loading: true, error: null }));
 
       // Load all data in parallel
-      const [contactsRes, companiesRes, appointmentsRes, interactionsRes, tasksRes, dealsRes] = await Promise.all([
+      const [contactsRes, appointmentsRes, interactionsRes, tasksRes, dealsRes] = await Promise.all([
         contactsAPI.getAll(),
-        companiesAPI.getAll(),
         appointmentsAPI.getAll(),
         interactionsAPI.getAll(),
         tasksAPI.getAll(),
@@ -62,7 +61,7 @@ export const AppProvider = ({ children }) => {
       setState(prev => ({
         ...prev,
         contacts: contactsRes.contacts || [],
-        companies: companiesRes.companies || [],
+        companies: [],
         appointments: appointmentsRes.appointments || [],
         interactions: interactionsRes.interactions || [],
         tasks: tasksRes.tasks || [],
@@ -135,49 +134,6 @@ export const AppProvider = ({ children }) => {
       return { success: true };
     } catch (error) {
       console.error('Error deleting contact:', error);
-      return { success: false, error: error.message };
-    }
-  }, []);
-
-  // Company CRUD operations
-  const addCompany = useCallback(async (companyData) => {
-    try {
-      const response = await companiesAPI.create(companyData);
-      setState(prev => ({
-        ...prev,
-        companies: [...prev.companies, response.company]
-      }));
-      return { success: true, company: response.company };
-    } catch (error) {
-      console.error('Error adding company:', error);
-      return { success: false, error: error.message };
-    }
-  }, []);
-
-  const updateCompany = useCallback(async (id, companyData) => {
-    try {
-      const response = await companiesAPI.update(id, companyData);
-      setState(prev => ({
-        ...prev,
-        companies: prev.companies.map(c => c.id === id ? response.company : c)
-      }));
-      return { success: true, company: response.company };
-    } catch (error) {
-      console.error('Error updating company:', error);
-      return { success: false, error: error.message };
-    }
-  }, []);
-
-  const deleteCompany = useCallback(async (id) => {
-    try {
-      await companiesAPI.delete(id);
-      setState(prev => ({
-        ...prev,
-        companies: prev.companies.filter(c => c.id !== id)
-      }));
-      return { success: true };
-    } catch (error) {
-      console.error('Error deleting company:', error);
       return { success: false, error: error.message };
     }
   }, []);
@@ -383,9 +339,6 @@ export const AppProvider = ({ children }) => {
     addContact,
     updateContact,
     deleteContact,
-    addCompany,
-    updateCompany,
-    deleteCompany,
     addAppointment,
     updateAppointment,
     deleteAppointment,

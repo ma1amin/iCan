@@ -1,21 +1,20 @@
-import React, { useState, useMemo } from 'react';
-import { useAppContext } from '../../context/AppContext';
+import React from 'react';
 import Card from '../common/Card';
-import Button from '../common/Button';
-import { Input, Select } from '../common/Form';
-import CompanyForm from './CompanyForm';
-import CompanyDetail from './CompanyDetail';
-import { COMPANY_SIZES, INDUSTRIES, COMPANY_SIZE_LABELS, INDUSTRY_LABELS } from '../../types/companies';
 import './CompaniesView.css';
 
 const CompaniesView = () => {
-  const { companies, contacts, deals, addCompany, updateCompany, deleteCompany } = useAppContext();
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState(null);
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [industryFilter, setIndustryFilter] = useState('all');
-  const [sizeFilter, setSizeFilter] = useState('all');
+  return (
+    <div className="companies-view">
+      <Card padding="large" className="companies-disabled">
+        <div className="empty-state">
+          <h3>Company Management Disabled</h3>
+          <p>Company management has been simplified. Companies are now entered directly in Contact and Deal forms as text fields.</p>
+          <p>Use the Contacts page to manage contact information including company names.</p>
+        </div>
+      </Card>
+    </div>
+  );
+};
 
   const sizeOptions = [
     { value: 'all', label: 'All Sizes' },

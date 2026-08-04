@@ -16,7 +16,6 @@ import CalendarView from './components/calendar/CalendarView';
 import InteractionsView from './components/interactions/InteractionsView';
 import TasksView from './components/tasks/TasksView';
 import DealsView from './components/negotiations/DealsView';
-import CompaniesView from './components/contacts/CompaniesView';
 
 function AppContent() {
   const { currentView, loading } = useAppContext();
@@ -36,7 +35,6 @@ function AppContent() {
     interactions: <InteractionsView />,
     tasks: <TasksView />,
     pipeline: <DealsView />,
-    companies: <CompaniesView />,
     profile: <ProfilePage />
   };
 
@@ -118,16 +116,6 @@ function App() {
             />
             <Route
               path="/pipeline"
-              element={
-                <ProtectedRoute>
-                  <AppShell>
-                    <AppContent />
-                  </AppShell>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/companies"
               element={
                 <ProtectedRoute>
                   <AppShell>

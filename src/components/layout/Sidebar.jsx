@@ -24,7 +24,6 @@ const NAV_ITEMS = [
   { id: 'interactions', label: 'Interactions', icon: '💬', path: '/interactions' },
   { id: 'tasks', label: 'Tasks', icon: '✅', path: '/tasks' },
   { id: 'pipeline', label: 'Pipeline', icon: '🌿', path: '/pipeline' },
-  { id: 'companies', label: 'Companies', icon: '🏢', path: '/companies' },
   { id: 'profile', label: 'Profile', icon: '👤', path: '/profile' }
 ];
 
