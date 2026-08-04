@@ -1,12 +1,12 @@
 // Contact data type definitions and constants
 
 export const CONTACT_STAGES = [
-  'New',
-  'Contacted', 
-  'Meeting',
-  'Negotiating',
-  'Collaborating',
-  'Archived'
+  'new',
+  'contacted', 
+  'meeting',
+  'negotiating',
+  'collaborating',
+  'archived'
 ];
 
 export const CONTACT_SOURCES = [
@@ -16,12 +16,21 @@ export const CONTACT_SOURCES = [
 ];
 
 export const STAGE_COLORS = {
-  'New': '#5B8DEF',
-  'Contacted': '#8B92A8',
-  'Meeting': '#F0B429',
-  'Negotiating': '#F0B429',
-  'Collaborating': '#34D399',
-  'Archived': '#4B5266'
+  'new': '#5B8DEF',
+  'contacted': '#8B92A8',
+  'meeting': '#F0B429',
+  'negotiating': '#F0B429',
+  'collaborating': '#34D399',
+  'archived': '#4B5266'
+};
+
+export const STAGE_LABELS = {
+  'new': 'New',
+  'contacted': 'Contacted',
+  'meeting': 'Meeting',
+  'negotiating': 'Negotiating',
+  'collaborating': 'Collaborating',
+  'archived': 'Archived'
 };
 
 export const SOURCE_META = {
@@ -63,7 +72,7 @@ export const emptyContact = () => ({
   location: '',
   industry: '',
   source: 'whatsapp',
-  stage: 'New',
+  stage: 'new',
   tags: [],
   lastContactDate: null,
   notes: '',

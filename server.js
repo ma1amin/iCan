@@ -442,19 +442,27 @@ app.get('/api/contacts', authenticateToken, async (req, res) => {
 // Create contact
 app.post('/api/contacts', authenticateToken, async (req, res) => {
   try {
+    console.log('Create contact request body:', req.body);
+    console.log('User tenantId:', req.user.tenantId);
+    
     const contactData = {
       ...req.body,
       tenantId: req.user.tenantId
     };
 
+    console.log('Contact data to create:', contactData);
+
     const contact = await prisma.contact.create({
       data: contactData
     });
 
+    console.log('Contact created successfully:', contact);
     res.status(201).json({ contact });
   } catch (error) {
     console.error('Create contact error:', error);
-    res.status(500).json({ error: 'Failed to create contact' });
+    console.error('Error details:', error.message);
+    console.error('Error code:', error.code);
+    res.status(500).json({ error: 'Failed to create contact', details: error.message });
   }
 });
 

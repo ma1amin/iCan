@@ -16,7 +16,7 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
     location: '',
     industry: '',
     source: 'whatsapp',
-    stage: 'New',
+    stage: 'new',
     tags: '',
     notes: ''
   });
@@ -32,7 +32,7 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
         location: contact.location || '',
         industry: contact.industry || '',
         source: contact.source || 'whatsapp',
-        stage: contact.stage || 'New',
+        stage: contact.stage || 'new',
         tags: (contact.tags || []).join(', '),
         notes: contact.notes || ''
       });
@@ -96,7 +96,7 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
     }
   };
 
-  const stageOptions = CONTACT_STAGES.map(stage => ({ value: stage, label: stage }));
+  const stageOptions = CONTACT_STAGES.map(stage => ({ value: stage, label: stage.charAt(0).toUpperCase() + stage.slice(1) }));
   const sourceOptions = CONTACT_SOURCES.map(source => ({
     value: source,
     label: SOURCE_META[source].label

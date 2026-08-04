@@ -6,7 +6,7 @@ import { Input, Select, Textarea } from '../common/Form';
 import Modal from '../common/Modal';
 import ContactForm from './ContactForm';
 import ContactDetail from './ContactDetail';
-import { SOURCE_META, STAGE_COLORS, CONTACT_SOURCES, CONTACT_STAGES } from '../../types/contacts';
+import { SOURCE_META, STAGE_COLORS, CONTACT_SOURCES, CONTACT_STAGES, STAGE_LABELS } from '../../types/contacts';
 import { parseCSV, exportContactsCSV, exportContactsJSON, validateContact } from '../../utils/importExport';
 import './ContactsView.css';
 
@@ -32,7 +32,7 @@ const ContactsView = () => {
 
   const stageOptions = [
     { value: 'all', label: 'All Stages' },
-    ...CONTACT_STAGES.map(stage => ({ value: stage, label: stage }))
+    ...CONTACT_STAGES.map(stage => ({ value: stage, label: STAGE_LABELS[stage] }))
   ];
 
   const filteredContacts = useMemo(() => {
@@ -40,9 +40,9 @@ const ContactsView = () => {
       const query = searchQuery.toLowerCase();
       const matchesSearch = !query || 
         contact.name.toLowerCase().includes(query) ||
-        contact.company.toLowerCase().includes(query) ||
-        contact.email.toLowerCase().includes(query) ||
-        contact.phone.toLowerCase().includes(query);
+        (contact.companyName && contact.companyName.toLowerCase().includes(query)) ||
+        (contact.email && contact.email.toLowerCase().includes(query)) ||
+        (contact.phone && contact.phone.toLowerCase().includes(query));
       
       const matchesSource = sourceFilter === 'all' || contact.source === sourceFilter;
       const matchesStage = stageFilter === 'all' || contact.stage === stageFilter;
@@ -251,7 +251,7 @@ const ContactsView = () => {
               >
                 <div className="contact-main">
                   <div className="contact-name">{contact.name}</div>
-                  <div className="contact-company">{contact.company || '—'}</div>
+                  <div className="contact-company">{contact.companyName || '—'}</div>
                 </div>
                 <div className="contact-details">
                   <div className="contact-email">{contact.email || '—'}</div>

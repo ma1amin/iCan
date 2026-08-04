@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useAppContext } from '../../context/AppContext';
 import Modal from '../common/Modal';
 import Button from '../common/Button';
-import { SOURCE_META, STAGE_COLORS } from '../../types/contacts';
+import { SOURCE_META, STAGE_COLORS, STAGE_LABELS } from '../../types/contacts';
 import InteractionForm from '../interactions/InteractionForm';
 import './ContactDetail.css';
 
@@ -69,7 +69,7 @@ const ContactDetail = ({ contact, onClose, onEdit, onDelete }) => {
             </div>
             <div className="contact-detail-item">
               <label>Company</label>
-              <div className="contact-detail-value">{contact.company || '—'}</div>
+              <div className="contact-detail-value">{contact.companyName || '—'}</div>
             </div>
             <div className="contact-detail-item">
               <label>Location</label>
@@ -88,7 +88,7 @@ const ContactDetail = ({ contact, onClose, onEdit, onDelete }) => {
                   color: STAGE_COLORS[contact.stage]
                 }}
               >
-                {contact.stage}
+                {STAGE_LABELS[contact.stage] || contact.stage}
               </div>
             </div>
             <div className="contact-detail-item">
