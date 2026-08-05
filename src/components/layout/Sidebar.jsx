@@ -33,10 +33,13 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const { contacts } = useAppContext();
   const { logout, user } = useAuthContext();
+  const { setCurrentView } = useAppContext();
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleNavClick = () => {
+  const handleNavClick = (viewId, path) => {
+    setCurrentView(viewId);
     setIsOpen(false);
+    navigate(path);
   };
 
   const handleLogout = () => {
@@ -103,7 +106,7 @@ const Sidebar = () => {
               <Link
                 key={item.id}
                 to={item.path}
-                onClick={handleNavClick}
+                onClick={() => handleNavClick(item.id, item.path)}
                 className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
                 aria-current={isActive ? 'page' : undefined}
               >
