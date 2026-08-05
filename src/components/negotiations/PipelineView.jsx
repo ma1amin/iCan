@@ -28,7 +28,6 @@ const PipelineView = ({ deals, onDealUpdate, onDealDelete }) => {
         'lost': 0
       };
       const result = await onDealUpdate(dealId, { 
-        ...deal, 
         stage: newStage,
         probability: stageProbabilities[newStage] || deal.probability
       });

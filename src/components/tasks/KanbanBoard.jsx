@@ -17,12 +17,9 @@ const KanbanBoard = ({ tasks, onTaskUpdate, onTaskDelete }) => {
   };
 
   const handleStatusChange = async (taskId, newStatus) => {
-    const task = tasks.find(t => t.id === taskId);
-    if (task) {
-      const result = await onTaskUpdate(taskId, { ...task, status: newStatus });
-      if (!result.success) {
-        alert(`Failed to update task status: ${result.error}`);
-      }
+    const result = await onTaskUpdate(taskId, { status: newStatus });
+    if (!result.success) {
+      alert(`Failed to update task status: ${result.error}`);
     }
   };
 
@@ -43,7 +40,7 @@ const KanbanBoard = ({ tasks, onTaskUpdate, onTaskDelete }) => {
     const task = tasks.find(t => t.id === draggableId);
     if (task) {
       // Update task status to match the destination column
-      const updateResult = await onTaskUpdate(draggableId, { ...task, status: destination.droppableId });
+      const updateResult = await onTaskUpdate(draggableId, { status: destination.droppableId });
       if (!updateResult.success) {
         alert(`Failed to update task status: ${updateResult.error}`);
       }
