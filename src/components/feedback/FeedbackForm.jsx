@@ -54,16 +54,16 @@ const FeedbackForm = ({ onSubmit, onCancel }) => {
             id="subject"
             value={formData.subject}
             onChange={(e) => handleChange('subject', e.target.value)}
+            options={[
+              { value: '', label: 'Select a subject' },
+              ...FEEDBACK_SUBJECTS.map(subject => ({
+                value: subject.value,
+                label: subject.label
+              })),
+              { value: 'other', label: 'Other (specify below)' }
+            ]}
             required
-          >
-            <option value="">Select a subject</option>
-            {FEEDBACK_SUBJECTS.map(subject => (
-              <option key={subject.value} value={subject.value}>
-                {subject.label}
-              </option>
-            ))}
-            <option value="other">Other (specify below)</option>
-          </Select>
+          />
         </div>
 
         {formData.subject === 'other' && (
@@ -86,15 +86,15 @@ const FeedbackForm = ({ onSubmit, onCancel }) => {
               id="category"
               value={formData.category}
               onChange={(e) => handleChange('category', e.target.value)}
+              options={[
+                { value: '', label: 'Select a category' },
+                ...categories.map(category => ({
+                  value: category.value,
+                  label: category.label
+                }))
+              ]}
               required
-            >
-              <option value="">Select a category</option>
-              {categories.map(category => (
-                <option key={category.value} value={category.value}>
-                  {category.label}
-                </option>
-              ))}
-            </Select>
+            />
           </div>
         )}
 
@@ -104,13 +104,11 @@ const FeedbackForm = ({ onSubmit, onCancel }) => {
             id="priority"
             value={formData.priority}
             onChange={(e) => handleChange('priority', e.target.value)}
-          >
-            {FEEDBACK_PRIORITIES.map(priority => (
-              <option key={priority.value} value={priority.value}>
-                {priority.label}
-              </option>
-            ))}
-          </Select>
+            options={FEEDBACK_PRIORITIES.map(priority => ({
+              value: priority.value,
+              label: priority.label
+            }))}
+          />
         </div>
 
         <div className="feedback-form-field">
