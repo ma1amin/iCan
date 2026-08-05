@@ -16,6 +16,8 @@ const User = () => <span>👤</span>;
 const X = () => <span>✕</span>;
 const Menu = () => <span>☰</span>;
 const LogOut = () => <span>🚪</span>;
+const ChevronLeft = () => <span>◀</span>;
+const ChevronRight = () => <span>▶</span>;
 
 // Hamburger menu icon component
 const HamburgerIcon = ({ isOpen }) => (
@@ -37,15 +39,18 @@ const NAV_ITEMS = [
   { id: 'profile', label: 'Profile', icon: '👤', path: '/profile' }
 ];
 
-const Sidebar = ({ isOpen, onToggle }) => {
+const Sidebar = ({ isOpen, onToggle, isCollapsed, onCollapse }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { contacts } = useAppContext();
   const { logout, user } = useAuthContext();
   const { setCurrentView } = useAppContext();
   const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const [internalIsCollapsed, setInternalIsCollapsed] = useState(false);
   const actualIsOpen = isOpen !== undefined ? isOpen : internalIsOpen;
   const actualOnToggle = onToggle || (() => setInternalIsOpen(!internalIsOpen));
+  const actualIsCollapsed = isCollapsed !== undefined ? isCollapsed : internalIsCollapsed;
+  const actualOnCollapse = onCollapse || (() => setInternalIsCollapsed(!internalIsCollapsed));
 
   const handleNavClick = (viewId, path) => {
     setCurrentView(viewId);
@@ -92,7 +97,7 @@ const Sidebar = ({ isOpen, onToggle }) => {
       </button>
 
       {/* Sidebar */}
-      <aside className={`sidebar ${actualIsOpen ? 'open' : ''}`}>
+      <aside className={`sidebar ${actualIsOpen ? 'open' : ''} ${actualIsCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-header">
           <div>
             <Link to="/dashboard" className="sidebar-brand-link">
@@ -100,13 +105,23 @@ const Sidebar = ({ isOpen, onToggle }) => {
               <div className="sidebar-tagline">Interact · Contact · Arrange · Negotiate</div>
             </Link>
           </div>
-          <button 
-            className="sidebar-close mobile-only"
-            onClick={actualOnToggle}
-            aria-label="Close menu"
-          >
-            <HamburgerIcon isOpen={true} />
-          </button>
+          <div className="sidebar-header-actions">
+            <button 
+              className="sidebar-collapse desktop-only"
+              onClick={actualOnCollapse}
+              aria-label={actualIsCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              title={actualIsCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              {actualIsCollapsed ? <ChevronRight /> : <ChevronLeft />}
+            </button>
+            <button 
+              className="sidebar-close mobile-only"
+              onClick={actualOnToggle}
+              aria-label="Close menu"
+            >
+              <HamburgerIcon isOpen={true} />
+            </button>
+          </div>
         </div>
 
         <nav className="sidebar-nav">

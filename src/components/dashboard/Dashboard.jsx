@@ -1,6 +1,8 @@
 import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import Card from '../common/Card';
+import ScrollReveal from '../common/ScrollReveal';
+import AnimatedCounter from '../common/AnimatedCounter';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -19,52 +21,76 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <div className="dashboard-header">
-        <h2>Welcome to iCan</h2>
-        <p className="dashboard-subtitle">Your networking command center</p>
-      </div>
+      <ScrollReveal animation="fadeInSlideUp">
+        <div className="dashboard-header">
+          <h2>Welcome to iCan</h2>
+          <p className="dashboard-subtitle">Your networking command center</p>
+        </div>
+      </ScrollReveal>
 
       <div className="dashboard-stats">
-        <Card padding="medium">
-          <div className="stat-card">
-            <div className="stat-label">Total Contacts</div>
-            <div className="stat-value">{stats.totalContacts}</div>
-            <div className="stat-sub">{stats.activeContacts} active</div>
-          </div>
-        </Card>
+        <ScrollReveal animation="fadeInSlideUp" delay={0.1} className="stagger-1">
+          <Card padding="medium">
+            <div className="stat-card">
+              <div className="stat-icon animate-pulse">👥</div>
+              <div className="stat-label">Total Contacts</div>
+              <div className="stat-value">
+                <AnimatedCounter end={stats.totalContacts} duration={1000} />
+              </div>
+              <div className="stat-sub">{stats.activeContacts} active</div>
+            </div>
+          </Card>
+        </ScrollReveal>
 
-        <Card padding="medium">
-          <div className="stat-card">
-            <div className="stat-label">Appointments</div>
-            <div className="stat-value">{stats.totalAppointments}</div>
-            <div className="stat-sub">{stats.upcomingAppointments} upcoming</div>
-          </div>
-        </Card>
+        <ScrollReveal animation="fadeInSlideUp" delay={0.2} className="stagger-2">
+          <Card padding="medium">
+            <div className="stat-card">
+              <div className="stat-icon animate-pulse">📅</div>
+              <div className="stat-label">Appointments</div>
+              <div className="stat-value">
+                <AnimatedCounter end={stats.totalAppointments} duration={1000} />
+              </div>
+              <div className="stat-sub">{stats.upcomingAppointments} upcoming</div>
+            </div>
+          </Card>
+        </ScrollReveal>
 
-        <Card padding="medium">
-          <div className="stat-card">
-            <div className="stat-label">Tasks</div>
-            <div className="stat-value">{stats.totalTasks}</div>
-            <div className="stat-sub">{stats.pendingTasks} pending</div>
-          </div>
-        </Card>
+        <ScrollReveal animation="fadeInSlideUp" delay={0.3} className="stagger-3">
+          <Card padding="medium">
+            <div className="stat-card">
+              <div className="stat-icon animate-pulse">✅</div>
+              <div className="stat-label">Tasks</div>
+              <div className="stat-value">
+                <AnimatedCounter end={stats.totalTasks} duration={1000} />
+              </div>
+              <div className="stat-sub">{stats.pendingTasks} pending</div>
+            </div>
+          </Card>
+        </ScrollReveal>
 
-        <Card padding="medium">
-          <div className="stat-card">
-            <div className="stat-label">Active Deals</div>
-            <div className="stat-value">{stats.activeDeals}</div>
-            <div className="stat-sub">in pipeline</div>
-          </div>
-        </Card>
+        <ScrollReveal animation="fadeInSlideUp" delay={0.4} className="stagger-4">
+          <Card padding="medium">
+            <div className="stat-card">
+              <div className="stat-icon animate-pulse">🌿</div>
+              <div className="stat-label">Active Deals</div>
+              <div className="stat-value">
+                <AnimatedCounter end={stats.activeDeals} duration={1000} />
+              </div>
+              <div className="stat-sub">in pipeline</div>
+            </div>
+          </Card>
+        </ScrollReveal>
       </div>
 
       {stats.totalContacts === 0 && (
-        <Card padding="large" className="dashboard-empty">
-          <div className="empty-state">
-            <h3>Get Started</h3>
-            <p>Add your first contact to begin organizing your network.</p>
-          </div>
-        </Card>
+        <ScrollReveal animation="fadeInSlideUp" delay={0.5}>
+          <Card padding="large" className="dashboard-empty">
+            <div className="empty-state">
+              <h3>Get Started</h3>
+              <p>Add your first contact to begin organizing your network.</p>
+            </div>
+          </Card>
+        </ScrollReveal>
       )}
     </div>
   );

@@ -11,14 +11,14 @@
   font-family: 'Space Grotesk', sans-serif;
   font-size: 28px;
   font-weight: 700;
-  color: #E6E9F0;
+  color: var(--text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.02em;
 }
 
 .dashboard-subtitle {
   font-size: 14px;
-  color: #8B92A8;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -33,11 +33,18 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  position: relative;
+}
+
+.stat-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+  display: inline-block;
 }
 
 .stat-label {
   font-size: 12px;
-  color: #8B92A8;
+  color: var(--text-secondary);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -47,13 +54,13 @@
   font-family: 'Space Grotesk', sans-serif;
   font-size: 32px;
   font-weight: 700;
-  color: #E6E9F0;
+  color: var(--text-primary);
   line-height: 1;
 }
 
 .stat-sub {
   font-size: 13px;
-  color: #545B70;
+  color: var(--text-muted);
 }
 
 .dashboard-empty {
@@ -65,13 +72,13 @@
   font-family: 'Space Grotesk', sans-serif;
   font-size: 20px;
   font-weight: 600;
-  color: #E6E9F0;
+  color: var(--text-primary);
   margin: 0 0 8px 0;
 }
 
 .empty-state p {
   font-size: 14px;
-  color: #8B92A8;
+  color: var(--text-secondary);
   margin: 0;
 }
 
