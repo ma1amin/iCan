@@ -100,11 +100,11 @@ const InteractionForm = ({ interaction, contactId, onClose, onSave, onDelete, de
   const outcomeOptions = INTERACTION_OUTCOMES.map(outcome => ({ value: outcome, label: INTERACTION_OUTCOME_LABELS[outcome] }));
   const contactOptions = [
     { value: '', label: 'Select a contact', disabled: true },
-    ...contacts.map(c => ({ value: c.id, label: c.name }))
+    ...contacts.map(c => ({ value: c.id, label: c.name || 'Unnamed Contact' }))
   ];
   const appointmentOptions = [
     { value: '', label: 'No Appointment' },
-    ...appointments.map(a => ({ value: a.id, label: a.title }))
+    ...appointments.map(a => ({ value: a.id, label: a.title || 'Untitled Appointment' }))
   ];
 
   return (

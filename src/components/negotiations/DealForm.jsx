@@ -138,7 +138,7 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
   const currencyOptions = CURRENCIES.map(currency => ({ value: currency, label: currency }));
   const contactOptions = [
     { value: '', label: 'Select a contact', disabled: true },
-    ...contacts.map(c => ({ value: c.id, label: c.name }))
+    ...contacts.map(c => ({ value: c.id, label: c.name || 'Unnamed Contact' }))
   ];
 
   return (

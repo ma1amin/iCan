@@ -118,19 +118,19 @@ const TaskForm = ({ task, contactId, onClose, onSave, onDelete }) => {
   ];
   const contactOptions = [
     { value: '', label: 'No Contact' },
-    ...contacts.map(c => ({ value: c.id, label: c.name }))
+    ...contacts.map(c => ({ value: c.id, label: c.name || 'Unnamed Contact' }))
   ];
   const appointmentOptions = [
     { value: '', label: 'No Appointment' },
-    ...appointments.map(a => ({ value: a.id, label: a.title }))
+    ...appointments.map(a => ({ value: a.id, label: a.title || 'Untitled Appointment' }))
   ];
   const interactionOptions = [
     { value: '', label: 'No Interaction' },
-    ...interactions.map(i => ({ value: i.id, label: i.subject }))
+    ...interactions.map(i => ({ value: i.id, label: i.subject || 'Untitled Interaction' }))
   ];
   const dealOptions = [
     { value: '', label: 'No Deal' },
-    ...deals.map(d => ({ value: d.id, label: d.title }))
+    ...deals.map(d => ({ value: d.id, label: d.name || 'Untitled Deal' }))
   ];
 
   return (

@@ -119,7 +119,7 @@ const AppointmentForm = ({ appointment, contactId, onClose, onSave, onDelete }) 
   ];
   const contactOptions = [
     { value: '', label: 'No Contact' },
-    ...contacts.map(c => ({ value: c.id, label: c.name }))
+    ...contacts.map(c => ({ value: c.id, label: c.name || 'Unnamed Contact' }))
   ];
 
   return (
