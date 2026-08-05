@@ -2,41 +2,32 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 import { useAuthContext } from '../../context/AuthContext';
+import {
+  LayoutDashboard,
+  Users,
+  Calendar,
+  MessageSquare,
+  CheckSquare,
+  GitBranch,
+  Building2,
+  User,
+  LogOut,
+  Menu,
+  X,
+  ChevronLeft,
+  ChevronRight
+} from 'lucide-react';
 import './Sidebar.css';
 
-// Simple icon components as placeholders
-const LayoutDashboard = () => <span>📊</span>;
-const Users = () => <span>👥</span>;
-const Calendar = () => <span>📅</span>;
-const MessageSquare = () => <span>💬</span>;
-const CheckSquare = () => <span>✅</span>;
-const GitBranch = () => <span>🌿</span>;
-const Building2 = () => <span>🏢</span>;
-const User = () => <span>👤</span>;
-const X = () => <span>✕</span>;
-const Menu = () => <span>☰</span>;
-const LogOut = () => <span>🚪</span>;
-const ChevronLeft = () => <span>◀</span>;
-const ChevronRight = () => <span>▶</span>;
-
-// Hamburger menu icon component
-const HamburgerIcon = ({ isOpen }) => (
-  <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
-    <span className="hamburger-line"></span>
-    <span className="hamburger-line"></span>
-    <span className="hamburger-line"></span>
-  </div>
-);
-
 const NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: '📊', path: '/dashboard' },
-  { id: 'contacts', label: 'Contacts', icon: '👥', path: '/contacts' },
-  { id: 'calendar', label: 'Calendar', icon: '📅', path: '/calendar' },
-  { id: 'interactions', label: 'Interactions', icon: '💬', path: '/interactions' },
-  { id: 'tasks', label: 'Tasks', icon: '✅', path: '/tasks' },
-  { id: 'pipeline', label: 'Pipeline', icon: '🌿', path: '/pipeline' },
-  { id: 'feedback', label: 'Feedback', icon: '📝', path: '/feedback' },
-  { id: 'profile', label: 'Profile', icon: '👤', path: '/profile' }
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
+  { id: 'contacts', label: 'Contacts', icon: Users, path: '/contacts' },
+  { id: 'calendar', label: 'Calendar', icon: Calendar, path: '/calendar' },
+  { id: 'interactions', label: 'Interactions', icon: MessageSquare, path: '/interactions' },
+  { id: 'tasks', label: 'Tasks', icon: CheckSquare, path: '/tasks' },
+  { id: 'pipeline', label: 'Pipeline', icon: GitBranch, path: '/pipeline' },
+  { id: 'feedback', label: 'Feedback', icon: MessageSquare, path: '/feedback' },
+  { id: 'profile', label: 'Profile', icon: User, path: '/profile' }
 ];
 
 const Sidebar = ({ isOpen, onToggle, isCollapsed, onCollapse }) => {
@@ -93,7 +84,7 @@ const Sidebar = ({ isOpen, onToggle, isCollapsed, onCollapse }) => {
         onClick={actualOnToggle}
         aria-label="Open menu"
       >
-        <HamburgerIcon isOpen={false} />
+        <Menu size={24} />
       </button>
 
       {/* Sidebar */}
@@ -119,7 +110,7 @@ const Sidebar = ({ isOpen, onToggle, isCollapsed, onCollapse }) => {
               onClick={actualOnToggle}
               aria-label="Close menu"
             >
-              <HamburgerIcon isOpen={true} />
+              <X size={24} />
             </button>
           </div>
         </div>
@@ -136,7 +127,7 @@ const Sidebar = ({ isOpen, onToggle, isCollapsed, onCollapse }) => {
                 className={`sidebar-nav-item ${isActive ? 'active' : ''}`}
                 aria-current={isActive ? 'page' : undefined}
               >
-                <span className="sidebar-nav-icon">{item.icon}</span>
+                <item.icon className="sidebar-nav-icon" size={20} />
                 <span>{item.label}</span>
               </Link>
             );
@@ -163,14 +154,14 @@ const Sidebar = ({ isOpen, onToggle, isCollapsed, onCollapse }) => {
                 }}
                 title="Profile"
               >
-                <span>👤</span>
+                <User size={20} />
               </button>
               <button 
                 className="sidebar-user-action"
                 onClick={handleLogout}
                 title="Logout"
               >
-                <span>🚪</span>
+                <LogOut size={20} />
               </button>
             </div>
           </div>
