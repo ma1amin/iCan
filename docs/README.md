@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 3.1.0** (Bug fixes and UI improvements - 2026-08-05)
+**Current Version: 3.2.0** (Admin dashboard and feedback system - 2026-08-05)
 
 ## Vision
 
@@ -17,7 +17,7 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - MySQL Server 26.7 configured as Windows service for stability
   - Prisma v6.19.3 with standard MySQL connection
   - Multi-tenant architecture with tenant isolation
-  - Comprehensive schema with 10 models (users, tenants, contacts, companies, appointments, interactions, tasks, deals, verification tokens, password reset tokens)
+  - Comprehensive schema with 13 models (users, tenants, contacts, companies, appointments, interactions, tasks, deals, verification tokens, password reset tokens, admins, notifications, feedback)
   - Performance indexes on frequently queried fields
   - Foreign key relationships with cascade/delete
   - JSON support for flexible data (tags, settings, etc.)
@@ -206,6 +206,21 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Existing users can login without seeing onboarding
   - Uses isNewRegistration flag instead of localStorage
   - Better user experience for returning users
+- **Admin Dashboard**: Platform management system
+  - Separate admin authentication system (/admin route)
+  - Platform statistics (users, subscription tiers, feedback metrics)
+  - User management with basic profile viewing only
+  - Admin cannot access user data counts or actual data
+  - In-app notifications for new feedback
+  - Secure admin account with dedicated credentials
+- **Feedback System**: User feedback and support
+  - User feedback submission with subject/category dropdowns
+  - 5-star rating system
+  - Priority levels (High, Medium, Low) for admin triage
+  - Admin can view, reply, delete, and close/archive feedback
+  - Feedback privacy (only submitter and admin can see)
+  - Unlimited feedback submissions per user
+  - In-app admin notifications for new feedback
 - **Prop Type Fixes**: Fixed React prop type warnings
   - Added datetime-local to Input component types
   - Fixed number field handling in forms

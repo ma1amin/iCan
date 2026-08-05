@@ -2,6 +2,47 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [3.2.0] - 2026-08-05
+
+### Admin Dashboard and Feedback System - Phase 1: Database Schema
+
+**Database Schema Changes:**
+- ✅ Added Admin model for platform management
+  - Fields: id, username, passwordHash, email, name, createdAt, updatedAt
+  - Unique constraints on username and email
+  - Indexes for performance
+- ✅ Added Notification model for admin notifications
+  - Fields: id, adminId, type, message, read, createdAt
+  - Relation to Admin model with cascade delete
+  - Indexes on adminId and read status
+- ✅ Added Feedback model for user feedback system
+  - Fields: id, userId, tenantId, subject, category, content, rating, priority, status, adminReply, replyDate, createdAt, updatedAt
+  - Priority levels: high, medium, low
+  - Status workflow: open, in_progress, resolved, closed, archived
+  - Rating system: 1-5 stars
+  - Indexes on userId, tenantId, status, priority, rating
+- ✅ Updated database schema with db push
+- ✅ Created admin account setup script
+- ✅ Created initial admin account:
+  - Username: admin
+  - Email: admin@ican.com
+  - Name: Mohammed Al Amin
+  - Password: Security_2026@@##
+
+**Technical Implementation:**
+- prisma/schema.prisma: Added Admin, Notification, and Feedback models
+- scripts/create-admin.js: Admin account creation script
+- Database: Synchronized schema with MySQL using db push
+- Documentation: Updated README.md with new features
+
+**Database Models Summary:**
+- Total models: 13 (up from 10)
+- New admin-specific models: Admin, Notification
+- New user-facing models: Feedback
+- Admin authentication: Separate from user authentication
+- Feedback privacy: Only submitter and admin can view
+- Admin data access: Limited to basic user profiles only
+
 ## [3.1.0] - 2026-08-05
 
 ### Bug Fixes and UI Improvements

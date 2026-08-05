@@ -252,3 +252,57 @@ model PasswordResetToken {
   @@index([token])
   @@index([userId])
 }
+
+// Admin accounts for platform management
+model Admin {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  email        String   @unique
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  notifications Notification[]
+  
+  @@index([username])
+  @@index([email])
+}
+
+// Admin notifications
+model Notification {
+  id        String   @id @default(uuid())
+  adminId   String
+  type      String   // feedback, user, system
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  
+  @@index([adminId])
+  @@index([read])
+}
+
+// User feedback system
+model Feedback {
+  id           String   @id @default(uuid())
+  userId       String
+  tenantId     String
+  subject      String   // category from dropdown or custom
+  category     String   // subcategory based on subject
+  content      String
+  rating       Int      // 1-5 stars
+  priority     String   @default("medium") // high, medium, low
+  status       String   @default("open") // open, in_progress, resolved, closed, archived
+  adminReply   String?
+  replyDate    DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
+  @@index([tenantId])
+  @@index([status])
+  @@index([priority])
+  @@index([rating])
+}
