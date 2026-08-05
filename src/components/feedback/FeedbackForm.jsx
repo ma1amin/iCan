@@ -53,7 +53,7 @@ const FeedbackForm = ({ onSubmit, onCancel }) => {
           <Select
             id="subject"
             value={formData.subject}
-            onChange={(e) => handleChange('subject', e.target.value)}
+            onChange={(value) => handleChange('subject', value)}
             options={[
               { value: '', label: 'Select a subject' },
               ...FEEDBACK_SUBJECTS.map(subject => ({
@@ -85,7 +85,7 @@ const FeedbackForm = ({ onSubmit, onCancel }) => {
             <Select
               id="category"
               value={formData.category}
-              onChange={(e) => handleChange('category', e.target.value)}
+              onChange={(value) => handleChange('category', value)}
               options={[
                 { value: '', label: 'Select a category' },
                 ...categories.map(category => ({
@@ -103,7 +103,7 @@ const FeedbackForm = ({ onSubmit, onCancel }) => {
           <Select
             id="priority"
             value={formData.priority}
-            onChange={(e) => handleChange('priority', e.target.value)}
+            onChange={(value) => handleChange('priority', value)}
             options={FEEDBACK_PRIORITIES.map(priority => ({
               value: priority.value,
               label: priority.label
