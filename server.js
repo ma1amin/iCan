@@ -1216,14 +1216,17 @@ app.post('/api/feedback', authenticateToken, async (req, res) => {
     }));
 
     // Create notification for admin
-    await withRetry(() => prisma.notification.create({
-      data: {
-        adminId: (await prisma.admin.findFirst())?.id,
-        type: 'feedback',
-        message: `New feedback submitted: ${subject} - ${category}`,
-        read: false
-      }
-    }));
+    const admin = await withRetry(() => prisma.admin.findFirst());
+    if (admin) {
+      await withRetry(() => prisma.notification.create({
+        data: {
+          adminId: admin.id,
+          type: 'feedback',
+          message: `New feedback submitted: ${subject} - ${category}`,
+          read: false
+        }
+      }));
+    }
 
     res.json({ success: true, feedback });
   } catch (error) {

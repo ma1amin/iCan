@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../common/Button';
 import FeedbackForm from './FeedbackForm';
+import { feedbackAPI } from '../../lib/api';
 import { getPriorityLabel, getPriorityColor, getStatusLabel } from '../../types/feedback';
 import './FeedbackList.css';
 
@@ -17,21 +18,10 @@ const FeedbackList = () => {
 
   const fetchFeedback = async () => {
     try {
-      const token = localStorage.getItem('ican-token');
-      const response = await fetch('http://localhost:3001/api/feedback', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setFeedback(data.feedback);
-      } else {
-        setError('Failed to fetch feedback');
-      }
+      const data = await feedbackAPI.getAll();
+      setFeedback(data.feedback);
     } catch (err) {
-      setError('Network error');
+      setError(err.message || 'Failed to fetch feedback');
     } finally {
       setLoading(false);
     }
@@ -162,10 +152,14 @@ const FeedbackList = () => {
         <div className="feedback-form-modal">
           <div className="feedback-form-modal-content">
             <FeedbackForm
-              onSubmit={(data) => {
-                // Handle form submission
-                setIsFormOpen(false);
-                fetchFeedback();
+              onSubmit={async (data) => {
+                try {
+                  await feedbackAPI.submit(data);
+                  setIsFormOpen(false);
+                  fetchFeedback();
+                } catch (err) {
+                  alert('Failed to submit feedback: ' + err.message);
+                }
               }}
               onCancel={() => setIsFormOpen(false)}
             />

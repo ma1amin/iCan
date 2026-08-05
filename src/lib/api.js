@@ -255,3 +255,21 @@ export const dealsAPI = {
     });
   },
 };
+
+// Feedback API
+export const feedbackAPI = {
+  getAll: async () => {
+    return apiCall('/feedback');
+  },
+
+  getById: async (id) => {
+    return apiCall(`/feedback/${id}`);
+  },
+
+  submit: async (feedbackData) => {
+    return apiCall('/feedback', {
+      method: 'POST',
+      body: JSON.stringify(feedbackData),
+    });
+  },
+};
