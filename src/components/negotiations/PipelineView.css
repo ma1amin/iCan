@@ -2,8 +2,10 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 16px;
-  overflow-x: auto;
   padding-bottom: 16px;
+  min-height: 400px;
+  height: calc(100vh - 200px);
+  overflow: hidden;
 }
 
 .pipeline-column {
@@ -12,7 +14,8 @@
   background: #141821;
   border-radius: 8px;
   min-height: 400px;
-  max-height: calc(100vh - 200px);
+  height: 100%;
+  overflow: hidden;
 }
 
 .pipeline-column-header {
@@ -52,11 +55,11 @@
 
 .pipeline-column-deals {
   flex: 1;
-  overflow-y: auto;
   padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  overflow-y: auto;
 }
 
 .pipeline-empty {

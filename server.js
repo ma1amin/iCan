@@ -162,7 +162,8 @@ app.post('/api/auth/register', async (req, res) => {
         plan: tenant.plan
       },
       token,
-      requiresVerification: true
+      requiresVerification: true,
+      isNewRegistration: true // Flag to trigger onboarding for new users
     });
   } catch (error) {
     console.error('Registration error:', error);

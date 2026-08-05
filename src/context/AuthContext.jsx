@@ -93,10 +93,11 @@ export const AuthProvider = ({ children }) => {
         // Trigger data reload for the new tenant
         window.dispatchEvent(new Event('storage'));
 
-        // Check if onboarding is needed
-        const onboardingCompleted = localStorage.getItem('ican-onboarding-completed');
-        if (!onboardingCompleted) {
-          // Return redirect to onboarding
+        // Check if onboarding is needed for new users only
+        // We'll check if this is a new registration by checking if it's the first time this tenant is being created
+        const isNewRegistration = response.isNewRegistration || false;
+        if (isNewRegistration) {
+          // Return redirect to onboarding for new users
           return { 
             success: true, 
             user: response.user, 
@@ -139,18 +140,7 @@ export const AuthProvider = ({ children }) => {
         // Trigger data reload for the new tenant
         window.dispatchEvent(new Event('storage'));
 
-        // Check if onboarding is needed
-        const onboardingCompleted = localStorage.getItem('ican-onboarding-completed');
-        if (!onboardingCompleted) {
-          // Return redirect to onboarding
-          return { 
-            success: true, 
-            user: response.user, 
-            tenant: response.tenant,
-            redirectTo: '/onboarding'
-          };
-        }
-
+        // Only new registrations should see onboarding, not existing users logging in
         return { success: true, user: response.user, tenant: response.tenant };
       } else {
         throw new Error(response.error || 'Login failed');
