@@ -21,6 +21,7 @@ const Header = () => {
       '/interactions': 'Interactions',
       '/tasks': 'Tasks',
       '/pipeline': 'Pipeline',
+      '/feedback': 'Feedback',
       '/companies': 'Companies',
       '/profile': 'Profile'
     };
@@ -41,6 +42,7 @@ const Header = () => {
       '/interactions': 'interactions',
       '/tasks': 'tasks',
       '/pipeline': 'pipeline',
+      '/feedback': 'feedback',
       '/companies': 'companies',
       '/profile': 'profile'
     };

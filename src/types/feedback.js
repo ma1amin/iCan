@@ -83,3 +83,23 @@ export const getStatusLabel = (status) => {
   const found = FEEDBACK_STATUS.find(s => s.value === status);
   return found ? found.label : status;
 };
+
+// Format feedback subject from database value to display label
+export const formatFeedbackSubject = (subject) => {
+  const found = FEEDBACK_SUBJECTS.find(s => s.value === subject);
+  if (found) return found.label;
+  
+  // Fallback: capitalize and replace underscores with spaces
+  return subject
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+// Format feedback category from database value to display label
+export const formatFeedbackCategory = (category) => {
+  return category
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};

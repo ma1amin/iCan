@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '../common/Button';
 import FeedbackForm from './FeedbackForm';
 import { feedbackAPI } from '../../lib/api';
-import { getPriorityLabel, getPriorityColor, getStatusLabel } from '../../types/feedback';
+import { getPriorityLabel, getPriorityColor, getStatusLabel, formatFeedbackSubject, formatFeedbackCategory } from '../../types/feedback';
 import './FeedbackList.css';
 
 const FeedbackList = () => {
@@ -76,7 +76,7 @@ const FeedbackList = () => {
               onClick={() => handleViewFeedback(item)}
             >
               <div className="feedback-item-header">
-                <h3 className="feedback-item-subject">{item.subject}</h3>
+                <h3 className="feedback-item-subject">{formatFeedbackSubject(item.subject)}</h3>
                 <span 
                   className="feedback-item-priority"
                   style={{ color: getPriorityColor(item.priority) }}
@@ -85,7 +85,7 @@ const FeedbackList = () => {
                 </span>
               </div>
               <div className="feedback-item-meta">
-                <span className="feedback-item-category">{item.category}</span>
+                <span className="feedback-item-category">{formatFeedbackCategory(item.category)}</span>
                 <span className="feedback-item-status">{getStatusLabel(item.status)}</span>
                 <span className="feedback-item-rating">
                   {'★'.repeat(item.rating)}
@@ -108,14 +108,14 @@ const FeedbackList = () => {
         <div className="feedback-detail-modal" onClick={handleCloseDetail}>
           <div className="feedback-detail-content" onClick={(e) => e.stopPropagation()}>
             <div className="feedback-detail-header">
-              <h2>{selectedFeedback.subject}</h2>
+              <h2>{formatFeedbackSubject(selectedFeedback.subject)}</h2>
               <button className="feedback-detail-close" onClick={handleCloseDetail}>
                 ✕
               </button>
             </div>
             <div className="feedback-detail-body">
               <div className="feedback-detail-meta">
-                <span className="feedback-detail-category">{selectedFeedback.category}</span>
+                <span className="feedback-detail-category">{formatFeedbackCategory(selectedFeedback.category)}</span>
                 <span 
                   className="feedback-detail-priority"
                   style={{ color: getPriorityColor(selectedFeedback.priority) }}

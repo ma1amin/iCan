@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getPriorityLabel, getPriorityColor, getStatusLabel } from '../../types/feedback';
+import { getPriorityLabel, getPriorityColor, getStatusLabel, formatFeedbackSubject, formatFeedbackCategory } from '../../types/feedback';
 import './AdminFeedbackManagement.css';
 
 const AdminFeedbackManagement = () => {
@@ -40,10 +40,11 @@ const AdminFeedbackManagement = () => {
         setFeedback(data.feedback);
         setPagination(data.pagination);
       } else {
-        setError('Failed to fetch feedback');
+        const errorData = await response.json();
+        setError(errorData.error || 'Failed to fetch feedback');
       }
     } catch (err) {
-      setError('Network error');
+      setError(err.message || 'Network error');
     } finally {
       setLoading(false);
     }
@@ -190,7 +191,7 @@ const AdminFeedbackManagement = () => {
                 onClick={() => handleViewFeedback(item)}
               >
                 <div className="admin-feedback-item-header">
-                  <h3 className="admin-feedback-item-subject">{item.subject}</h3>
+                  <h3 className="admin-feedback-item-subject">{formatFeedbackSubject(item.subject)}</h3>
                   <div className="admin-feedback-item-badges">
                     <span 
                       className="admin-feedback-item-priority"
@@ -204,7 +205,7 @@ const AdminFeedbackManagement = () => {
                   </div>
                 </div>
                 <div className="admin-feedback-item-meta">
-                  <span className="admin-feedback-item-category">{item.category}</span>
+                  <span className="admin-feedback-item-category">{formatFeedbackCategory(item.category)}</span>
                   <span className="admin-feedback-item-rating">
                     Rating: {'★'.repeat(item.rating)}
                   </span>
@@ -255,14 +256,14 @@ const AdminFeedbackManagement = () => {
         <div className="admin-feedback-detail-modal" onClick={handleCloseDetail}>
           <div className="admin-feedback-detail-content" onClick={(e) => e.stopPropagation()}>
             <div className="admin-feedback-detail-header">
-              <h2>{selectedFeedback.subject}</h2>
+              <h2>{formatFeedbackSubject(selectedFeedback.subject)}</h2>
               <button className="admin-feedback-detail-close" onClick={handleCloseDetail}>
                 ✕
               </button>
             </div>
             <div className="admin-feedback-detail-body">
               <div className="admin-feedback-detail-meta">
-                <span className="admin-feedback-detail-category">{selectedFeedback.category}</span>
+                <span className="admin-feedback-detail-category">{formatFeedbackCategory(selectedFeedback.category)}</span>
                 <span 
                   className="admin-feedback-detail-priority"
                   style={{ color: getPriorityColor(selectedFeedback.priority) }}
