@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 3.2.2** (Admin dashboard and feedback system - Bug fixes and improvements - 2026-08-05)
+**Current Version: 3.2.3** (Admin dashboard and feedback system - Critical fixes - 2026-08-05)
 
 ## Vision
 

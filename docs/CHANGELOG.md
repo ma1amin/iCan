@@ -94,6 +94,33 @@ Successfully implemented complete admin dashboard and feedback system with 7 pha
 - Version updated to 3.2.0
 - All changes committed and pushed to GitHub
 
+## [3.2.3] - 2026-08-05
+
+### Critical Fixes
+
+**Feedback System Linking Fix:**
+- ✅ Added missing database relations between Feedback, User, and Tenant models
+- ✅ Fixed admin feedback page error (500 Internal Server Error)
+- ✅ Admin can now properly view all feedback with user and tenant information
+- ✅ Feedback system now fully functional between user and admin panels
+
+**Admin Logout Performance Fix:**
+- ✅ Added immediate navigation to /admin/login after admin logout
+- ✅ Fixed slow logout experience by instantly redirecting to login page
+- ✅ Previously logout would clear state but keep user on admin page causing confusion
+
+**Database Schema Updates:**
+- ✅ Added Feedback relation to User model
+- ✅ Added Feedback relation to Tenant model
+- ✅ Added User and Tenant relations to Feedback model
+- ✅ Ran prisma db push to sync schema with database
+- ✅ Ran prisma generate to regenerate Prisma Client
+
+**Files Modified:**
+- prisma/schema.prisma - Added relations between Feedback, User, and Tenant
+- src/components/admin/AdminHeader.jsx - Added immediate navigation on logout
+- package.json - Version bumped to 3.2.3
+
 ## [3.2.2] - 2026-08-05
 
 ### Bug Fixes and Improvements
