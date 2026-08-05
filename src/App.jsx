@@ -26,6 +26,15 @@ import AdminFeedbackManagement from './components/admin/AdminFeedbackManagement'
 import AdminNotificationsList from './components/admin/AdminNotificationsList';
 import FeedbackList from './components/feedback/FeedbackList';
 
+// Apply theme immediately to prevent flash
+const applyTheme = () => {
+  const savedTheme = localStorage.getItem('ican-theme');
+  const theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', theme);
+};
+
+applyTheme();
+
 function AppContent() {
   const { currentView, loading, settings } = useAppContext();
 
@@ -33,6 +42,7 @@ function AppContent() {
   useEffect(() => {
     if (settings?.theme) {
       document.documentElement.setAttribute('data-theme', settings.theme);
+      localStorage.setItem('ican-theme', settings.theme);
     }
   }, [settings?.theme]);
 

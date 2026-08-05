@@ -50,7 +50,14 @@ const EmailVerification = () => {
   };
 
   const handleContinue = () => {
-    navigate('/dashboard');
+    // Check if this is a new registration that needs onboarding
+    const isNewRegistration = localStorage.getItem('ican-new-registration') === 'true';
+    if (isNewRegistration) {
+      localStorage.removeItem('ican-new-registration');
+      navigate('/onboarding');
+    } else {
+      navigate('/dashboard');
+    }
   };
 
   if (status === 'loading') {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './AdminNotification.css';
 
 const AdminNotification = () => {
@@ -6,6 +6,7 @@ const AdminNotification = () => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     fetchNotifications();
@@ -13,6 +14,23 @@ const AdminNotification = () => {
     const interval = setInterval(fetchNotifications, 30000);
     return () => clearInterval(interval);
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   const fetchNotifications = async () => {
     try {
@@ -44,6 +62,8 @@ const AdminNotification = () => {
           'Authorization': `Bearer ${token}`
         }
       });
+      // Remove from local state immediately for better UX
+      setNotifications(prev => prev.filter(n => n.id !== id));
       fetchNotifications();
     } catch (err) {
       console.error('Failed to mark as read:', err);
@@ -93,7 +113,7 @@ const AdminNotification = () => {
       </button>
 
       {isOpen && (
-        <div className="admin-notification-dropdown">
+        <div className="admin-notification-dropdown" ref={dropdownRef}>
           <div className="admin-notification-header">
             <h3>Notifications</h3>
             {unreadCount > 0 && (
@@ -125,24 +145,15 @@ const AdminNotification = () => {
                       {notification.message}
                     </span>
                   </div>
-                  <div className="admin-notification-actions">
-                    {!notification.read && (
-                      <button 
-                        className="notification-action-button"
-                        onClick={() => markAsRead(notification.id)}
-                        title="Mark as read"
-                      >
-                        ✓
-                      </button>
-                    )}
+                  {!notification.read && (
                     <button 
-                      className="notification-action-button delete"
-                      onClick={() => deleteNotification(notification.id)}
-                      title="Delete"
+                      className="notification-action-button"
+                      onClick={() => markAsRead(notification.id)}
+                      title="Mark as read"
                     >
-                      ✕
+                      ✓
                     </button>
-                  </div>
+                  )}
                   <div className="admin-notification-time">
                     {new Date(notification.createdAt).toLocaleString()}
                   </div>

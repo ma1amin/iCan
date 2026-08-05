@@ -59,7 +59,14 @@ const RegisterForm = () => {
         } else if (result.redirectTo) {
           navigate(result.redirectTo);
         } else {
-          navigate('/dashboard');
+          // Check if it's a new registration
+          const isNewRegistration = localStorage.getItem('ican-new-registration') === 'true';
+          if (isNewRegistration) {
+            localStorage.removeItem('ican-new-registration');
+            navigate('/onboarding');
+          } else {
+            navigate('/dashboard');
+          }
         }
       } else {
         setError(result.error);

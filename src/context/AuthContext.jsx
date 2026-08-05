@@ -97,6 +97,8 @@ export const AuthProvider = ({ children }) => {
         // We'll check if this is a new registration by checking if it's the first time this tenant is being created
         const isNewRegistration = response.isNewRegistration || false;
         if (isNewRegistration) {
+          // Set flag for onboarding
+          localStorage.setItem('ican-new-registration', 'true');
           // Return redirect to onboarding for new users
           return { 
             success: true, 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAdminAuthContext } from '../../context/AdminAuthContext';
 import AdminSidebar from './AdminSidebar';
 import AdminHeader from './AdminHeader';
+import Footer from '../common/Footer';
 import './AdminShell.css';
 
 const AdminShell = ({ children }) => {
@@ -22,6 +23,7 @@ const AdminShell = ({ children }) => {
         <main className="admin-content">
           {children}
         </main>
+        <Footer />
       </div>
     </div>
   );
