@@ -1,13 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAdminAuthContext } from '../../context/AdminAuthContext';
 import AdminNotification from './AdminNotification';
 import './AdminHeader.css';
 
 const AdminHeader = () => {
   const { admin, adminLogout } = useAdminAuthContext();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     adminLogout();
+    navigate('/admin/login');
   };
 
   return (
