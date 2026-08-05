@@ -19,6 +19,9 @@ import CalendarView from './components/calendar/CalendarView';
 import InteractionsView from './components/interactions/InteractionsView';
 import TasksView from './components/tasks/TasksView';
 import DealsView from './components/negotiations/DealsView';
+import AdminShell from './components/admin/AdminShell';
+import AdminDashboard from './components/admin/AdminDashboard';
+import UserManagement from './components/admin/UserManagement';
 
 function AppContent() {
   const { currentView, loading } = useAppContext();
@@ -145,7 +148,19 @@ function App() {
                 path="/admin/dashboard"
                 element={
                   <AdminProtectedRoute>
-                    <div>Admin Dashboard - Coming Soon</div>
+                    <AdminShell>
+                      <AdminDashboard />
+                    </AdminShell>
+                  </AdminProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/users"
+                element={
+                  <AdminProtectedRoute>
+                    <AdminShell>
+                      <UserManagement />
+                    </AdminShell>
                   </AdminProtectedRoute>
                 }
               />

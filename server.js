@@ -985,6 +985,212 @@ app.post('/api/admin/logout', authenticateAdminToken, (req, res) => {
   res.json({ success: true, message: 'Admin logged out successfully' });
 });
 
+// Admin Statistics
+app.get('/api/admin/stats', authenticateAdminToken, async (req, res) => {
+  try {
+    // Get total users count
+    const totalUsers = await withRetry(() => prisma.user.count());
+    
+    // Get users by subscription tier
+    const usersByPlan = await withRetry(() => prisma.tenant.groupBy({
+      by: ['plan'],
+      _count: true
+    }));
+    
+    // Get total feedback count
+    const totalFeedback = await withRetry(() => prisma.feedback.count());
+    
+    // Get feedback by status
+    const feedbackByStatus = await withRetry(() => prisma.feedback.groupBy({
+      by: ['status'],
+      _count: true
+    }));
+    
+    // Get feedback by priority
+    const feedbackByPriority = await withRetry(() => prisma.feedback.groupBy({
+      by: ['priority'],
+      _count: true
+    }));
+
+    res.json({
+      success: true,
+      stats: {
+        totalUsers,
+        usersByPlan: usersByPlan.reduce((acc, item) => {
+          acc[item.plan] = item._count;
+          return acc;
+        }, {}),
+        totalFeedback,
+        feedbackByStatus: feedbackByStatus.reduce((acc, item) => {
+          acc[item.status] = item._count;
+          return acc;
+        }, {}),
+        feedbackByPriority: feedbackByPriority.reduce((acc, item) => {
+          acc[item.priority] = item._count;
+          return acc;
+        }, {})
+      }
+    });
+  } catch (error) {
+    console.error('Admin stats error:', error);
+    res.status(500).json({ error: 'Failed to fetch admin statistics' });
+  }
+});
+
+// Admin User Management - List users
+app.get('/api/admin/users', authenticateAdminToken, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, search = '' } = req.query;
+    const skip = (page - 1) * limit;
+
+    const where = search ? {
+      OR: [
+        { name: { contains: search } },
+        { email: { contains: search } }
+      ]
+    } : {};
+
+    const [users, total] = await Promise.all([
+      withRetry(() => prisma.user.findMany({
+        where,
+        include: {
+          tenant: {
+            select: {
+              id: true,
+              name: true,
+              plan: true,
+              createdAt: true
+            }
+          }
+        },
+        skip,
+        take: parseInt(limit),
+        orderBy: { createdAt: 'desc' }
+      })),
+      withRetry(() => prisma.user.count({ where }))
+    ]);
+
+    const formattedUsers = users.map(user => ({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      organization: user.tenant.name,
+      plan: user.tenant.plan,
+      emailVerified: user.emailVerified,
+      createdAt: user.createdAt
+    }));
+
+    res.json({
+      success: true,
+      users: formattedUsers,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    });
+  } catch (error) {
+    console.error('Admin users list error:', error);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
+
+// Admin User Management - Get user details
+app.get('/api/admin/users/:id', authenticateAdminToken, async (req, res) => {
+  try {
+    const user = await withRetry(() => prisma.user.findUnique({
+      where: { id: req.params.id },
+      include: {
+        tenant: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+            plan: true,
+            createdAt: true
+          }
+        }
+      }
+    }));
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Only return basic profile info, no data counts or actual data
+    res.json({
+      success: true,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        emailVerified: user.emailVerified,
+        avatar: user.avatar,
+        createdAt: user.createdAt,
+        tenant: user.tenant
+      }
+    });
+  } catch (error) {
+    console.error('Admin user details error:', error);
+    res.status(500).json({ error: 'Failed to fetch user details' });
+  }
+});
+
+// Admin User Management - Update user plan
+app.put('/api/admin/users/:id/plan', authenticateAdminToken, async (req, res) => {
+  try {
+    const { plan } = req.body;
+
+    if (!plan || !['free', 'pro', 'enterprise'].includes(plan)) {
+      return res.status(400).json({ error: 'Invalid plan' });
+    }
+
+    const user = await withRetry(() => prisma.user.findUnique({
+      where: { id: req.params.id },
+      include: { tenant: true }
+    }));
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Update tenant plan
+    await withRetry(() => prisma.tenant.update({
+      where: { id: user.tenantId },
+      data: { plan }
+    }));
+
+    res.json({ success: true, message: 'User plan updated successfully' });
+  } catch (error) {
+    console.error('Admin update user plan error:', error);
+    res.status(500).json({ error: 'Failed to update user plan' });
+  }
+});
+
+// Admin User Management - Delete user
+app.delete('/api/admin/users/:id', authenticateAdminToken, async (req, res) => {
+  try {
+    const user = await withRetry(() => prisma.user.findUnique({
+      where: { id: req.params.id }
+    }));
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Delete user (cascade will handle related data)
+    await withRetry(() => prisma.user.delete({
+      where: { id: req.params.id }
+    }));
+
+    res.json({ success: true, message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Admin delete user error:', error);
+    res.status(500).json({ error: 'Failed to delete user' });
+  }
+});
+
 // Keep server running
 server.on('error', (err) => {
   console.error('Server error:', err);

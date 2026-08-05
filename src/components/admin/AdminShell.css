@@ -1,0 +1,18 @@
+.admin-shell {
+  display: flex;
+  min-height: 100vh;
+  background: #141821;
+}
+
+.admin-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
