@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 import { useAuthContext } from '../../context/AuthContext';
 import Button from '../common/Button';
+import ScrollReveal from '../common/ScrollReveal';
 import './OnboardingFlow.css';
 
 const OnboardingFlow = () => {
@@ -20,26 +21,32 @@ const OnboardingFlow = () => {
       icon: '🚀',
       content: (
         <div className="onboarding-welcome">
-          <h2>Organize Your Digital Life & Professional Network</h2>
-          <p>The name "iCan" represents our four core pillars:</p>
-          <div className="ican-philosophy">
-            <div className="ican-item">
-              <span className="ican-letter">I</span>
-              <span className="ican-meaning">Interact</span>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
+            <h2>Organize Your Digital Life & Professional Network</h2>
+          </ScrollReveal>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.2}>
+            <p>The name "iCan" represents our four core pillars:</p>
+          </ScrollReveal>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.3}>
+            <div className="ican-philosophy">
+              <div className="ican-item animate-float stagger-1">
+                <span className="ican-letter">I</span>
+                <span className="ican-meaning">Interact</span>
+              </div>
+              <div className="ican-item animate-float stagger-2">
+                <span className="ican-letter">C</span>
+                <span className="ican-meaning">Contact/Connect</span>
+              </div>
+              <div className="ican-item animate-float stagger-3">
+                <span className="ican-letter">A</span>
+                <span className="ican-meaning">Arrange/Appointment</span>
+              </div>
+              <div className="ican-item animate-float stagger-4">
+                <span className="ican-letter">N</span>
+                <span className="ican-meaning">Negotiate</span>
+              </div>
             </div>
-            <div className="ican-item">
-              <span className="ican-letter">C</span>
-              <span className="ican-meaning">Contact/Connect</span>
-            </div>
-            <div className="ican-item">
-              <span className="ican-letter">A</span>
-              <span className="ican-meaning">Arrange/Appointment</span>
-            </div>
-            <div className="ican-item">
-              <span className="ican-letter">N</span>
-              <span className="ican-meaning">Negotiate</span>
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
       )
     },
@@ -49,14 +56,18 @@ const OnboardingFlow = () => {
       icon: '👥',
       content: (
         <div className="onboarding-feature">
-          <h3>Track Your Connections</h3>
-          <ul className="feature-list">
-            <li>✓ Detailed contact profiles with notes and tags</li>
-            <li>✓ Company information and industry tracking</li>
-            <li>✓ Interaction history and communication logs</li>
-            <li>✓ Search and filter by multiple criteria</li>
-            <li>✓ Import/export contacts for easy management</li>
-          </ul>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
+            <h3>Track Your Connections</h3>
+          </ScrollReveal>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.2}>
+            <ul className="feature-list">
+              <li>✓ Detailed contact profiles with notes and tags</li>
+              <li>✓ Company information and industry tracking</li>
+              <li>✓ Interaction history and communication logs</li>
+              <li>✓ Search and filter by multiple criteria</li>
+              <li>✓ Import/export contacts for easy management</li>
+            </ul>
+          </ScrollReveal>
         </div>
       )
     },
@@ -66,14 +77,18 @@ const OnboardingFlow = () => {
       icon: '📅',
       content: (
         <div className="onboarding-feature">
-          <h3>Smart Scheduling</h3>
-          <ul className="feature-list">
-            <li>✓ Multiple calendar views (Month, Week, Day)</li>
-            <li>✓ Recurring events and reminders</li>
-            <li>✓ Integration with contacts and interactions</li>
-            <li>✓ Location and meeting details</li>
-            <li>✓ Color-coded appointment types</li>
-          </ul>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
+            <h3>Smart Scheduling</h3>
+          </ScrollReveal>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.2}>
+            <ul className="feature-list">
+              <li>✓ Multiple calendar views (Month, Week, Day)</li>
+              <li>✓ Recurring events and reminders</li>
+              <li>✓ Integration with contacts and interactions</li>
+              <li>✓ Location and meeting details</li>
+              <li>✓ Color-coded appointment types</li>
+            </ul>
+          </ScrollReveal>
         </div>
       )
     },
@@ -83,14 +98,18 @@ const OnboardingFlow = () => {
       icon: '✅',
       content: (
         <div className="onboarding-feature">
-          <h3>Track Your Progress</h3>
-          <ul className="feature-list">
-            <li>✓ Kanban board with four stages (To Do, In Progress, Review, Done)</li>
-            <li>✓ Priority levels and due date tracking</li>
-            <li>✓ Task categories and tags</li>
-            <li>✓ Link tasks to contacts, appointments, and deals</li>
-            <li>✓ Estimated vs actual time tracking</li>
-          </ul>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
+            <h3>Track Your Progress</h3>
+          </ScrollReveal>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.2}>
+            <ul className="feature-list">
+              <li>✓ Kanban board with four stages (To Do, In Progress, Review, Done)</li>
+              <li>✓ Priority levels and due date tracking</li>
+              <li>✓ Task categories and tags</li>
+              <li>✓ Link tasks to contacts, appointments, and deals</li>
+              <li>✓ Estimated vs actual time tracking</li>
+            </ul>
+          </ScrollReveal>
         </div>
       )
     },
@@ -100,14 +119,18 @@ const OnboardingFlow = () => {
       icon: '💼',
       content: (
         <div className="onboarding-feature">
-          <h3>Close More Deals</h3>
-          <ul className="feature-list">
-            <li>✓ Seven-stage sales pipeline</li>
-            <li>✓ Deal value and probability tracking</li>
-            <li>✓ Competitor and next steps management</li>
-            <li>✓ Integration with contacts and companies</li>
-            <li>✓ Sales funnel visualization</li>
-          </ul>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
+            <h3>Close More Deals</h3>
+          </ScrollReveal>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.2}>
+            <ul className="feature-list">
+              <li>✓ Seven-stage sales pipeline</li>
+              <li>✓ Deal value and probability tracking</li>
+              <li>✓ Competitor and next steps management</li>
+              <li>✓ Integration with contacts and companies</li>
+              <li>✓ Sales funnel visualization</li>
+            </ul>
+          </ScrollReveal>
         </div>
       )
     },
@@ -117,20 +140,24 @@ const OnboardingFlow = () => {
       icon: '🎯',
       content: (
         <div className="onboarding-setup">
-          <h3>Setup Your Workspace</h3>
-          <div className="setup-options">
-            <label className="setup-option">
-              <input
-                type="checkbox"
-                checked={createSampleData}
-                onChange={(e) => setCreateSampleData(e.target.checked)}
-              />
-              <span>Create sample data to explore features</span>
-            </label>
-            <p className="setup-hint">
-              This will add sample contacts, appointments, and tasks to help you get started.
-            </p>
-          </div>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
+            <h3>Setup Your Workspace</h3>
+          </ScrollReveal>
+          <ScrollReveal animation="fadeInSlideUp" delay={0.2}>
+            <div className="setup-options">
+              <label className="setup-option">
+                <input
+                  type="checkbox"
+                  checked={createSampleData}
+                  onChange={(e) => setCreateSampleData(e.target.checked)}
+                />
+                <span>Create sample data to explore features</span>
+              </label>
+              <p className="setup-hint">
+                This will add sample contacts, appointments, and tasks to help you get started.
+              </p>
+            </div>
+          </ScrollReveal>
         </div>
       )
     }
@@ -234,58 +261,64 @@ const OnboardingFlow = () => {
   return (
     <div className="onboarding-flow">
       <div className="onboarding-container">
-        <div className="onboarding-header">
-          <div className="onboarding-progress">
-            <div 
-              className="progress-bar" 
-              style={{ width: `${progress}%` }}
-            />
+        <ScrollReveal animation="fadeInSlideUp">
+          <div className="onboarding-header">
+            <div className="onboarding-progress">
+              <div 
+                className="progress-bar animate-progress" 
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <div className="onboarding-steps">
+              {steps.map((s, index) => (
+                <div
+                  key={index}
+                  className={`step-indicator ${
+                    index === currentStep ? 'active' : ''
+                  } ${index < currentStep ? 'completed' : ''}`}
+                >
+                  {index < currentStep ? '✓' : index + 1}
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="onboarding-steps">
-            {steps.map((s, index) => (
-              <div
-                key={index}
-                className={`step-indicator ${
-                  index === currentStep ? 'active' : ''
-                } ${index < currentStep ? 'completed' : ''}`}
+        </ScrollReveal>
+
+        <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
+          <div className="onboarding-content">
+            <div className="onboarding-icon animate-pulse">{step.icon}</div>
+            <h1 className="onboarding-title">{step.title}</h1>
+            <p className="onboarding-description">{step.description}</p>
+            <div className="onboarding-body">
+              {step.content}
+            </div>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal animation="fadeInSlideUp" delay={0.2}>
+          <div className="onboarding-footer">
+            <div className="onboarding-actions">
+              {currentStep > 0 && (
+                <Button variant="ghost" onClick={handleBack}>
+                  Back
+                </Button>
+              )}
+              <Button 
+                variant="primary" 
+                onClick={handleNext}
               >
-                {index < currentStep ? '✓' : index + 1}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="onboarding-content">
-          <div className="onboarding-icon">{step.icon}</div>
-          <h1 className="onboarding-title">{step.title}</h1>
-          <p className="onboarding-description">{step.description}</p>
-          <div className="onboarding-body">
-            {step.content}
-          </div>
-        </div>
-
-        <div className="onboarding-footer">
-          <div className="onboarding-actions">
-            {currentStep > 0 && (
-              <Button variant="ghost" onClick={handleBack}>
-                Back
+                {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
               </Button>
-            )}
+            </div>
             <Button 
-              variant="primary" 
-              onClick={handleNext}
+              variant="ghost" 
+              className="skip-button"
+              onClick={handleSkip}
             >
-              {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
+              Skip Onboarding
             </Button>
           </div>
-          <Button 
-            variant="ghost" 
-            className="skip-button"
-            onClick={handleSkip}
-          >
-            Skip Onboarding
-          </Button>
-        </div>
+        </ScrollReveal>
       </div>
     </div>
   );
