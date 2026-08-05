@@ -22,13 +22,15 @@ The iCan platform follows a modern React-based architecture with:
 - **Frontend Framework**: React 18.2.0
 - **Build Tool**: React Scripts 5.0.1
 - **Routing**: React Router DOM
-- **State Management**: React Context API (AppContext, AuthContext)
-- **Authentication**: Custom multi-tenant auth system
+- **State Management**: React Context API (AppContext, AuthContext, AdminAuthContext)
+- **Authentication**: Custom multi-tenant auth system with separate admin authentication
 - **Styling**: CSS with custom design system and CSS variables
 - **Icons**: Lucide React 0.263.1
 - **Date Handling**: date-fns 2.30.0
 - **Type Safety**: PropTypes (with TypeScript interfaces in types/)
 - **Storage**: LocalStorage with backend-ready architecture
+- **Database**: MySQL with Prisma ORM
+- **Backend**: Express.js API server
 
 ## Project Structure
 
@@ -44,14 +46,16 @@ ican/
 │   │   ├── tasks/           # Task management (TasksView, TaskForm, KanbanBoard)
 │   │   ├── negotiations/    # Deal tracking (DealsView, DealForm, PipelineView)
 │   │   ├── user/            # User profile (UserProfile)
-│   │   ├── auth/            # Authentication (LoginForm, RegisterForm, AuthLayout, EmailVerification, ProtectedRoute)
+│   │   ├── auth/            # Authentication (LoginForm, RegisterForm, AuthLayout, EmailVerification, ProtectedRoute, AdminProtectedRoute)
 │   │   ├── landing/         # Landing page (LandingPage)
+│   │   ├── admin/           # Admin dashboard (AdminShell, AdminHeader, AdminSidebar, AdminDashboard, UserManagement, AdminFeedbackManagement, AdminNotification, AdminNotificationsList)
+│   │   ├── feedback/        # Feedback system (FeedbackForm, FeedbackList, StarRating)
 │   │   └── dashboard/       # Dashboard and analytics
 │   ├── pages/               # Page components (LoginPage, RegisterPage, VerifyEmailPage, ProfilePage)
 │   ├── hooks/               # Custom React hooks
 │   ├── utils/               # Utility functions
-│   ├── context/             # React Context providers (AppContext, AuthContext)
-│   ├── types/               # Type definitions (contacts, appointments, interactions, tasks, deals, companies, users, tenants)
+│   ├── context/             # React Context providers (AppContext, AuthContext, AdminAuthContext)
+│   ├── types/               # Type definitions (contacts, appointments, interactions, tasks, deals, companies, users, tenants, feedback)
 │   ├── styles/              # Global styles
 │   ├── App.jsx              # Main application component with routing
 │   └── index.js             # Application entry point
@@ -67,6 +71,18 @@ ican/
 ```
 App (with React Router)
 ├── AuthProvider (Authentication Context)
+│   ├── AdminAuthProvider (Admin Authentication Context)
+│   │   ├── Admin Public Routes
+│   │   │   └── AdminLoginPage
+│   │   └── Admin Protected Routes (with AdminProtectedRoute)
+│   │       └── AdminShell
+│   │           ├── AdminSidebar
+│   │           ├── AdminHeader
+│   │           ├── Main Content Area
+│   │           │   ├── AdminDashboard
+│   │           │   ├── UserManagement
+│   │           │   ├── AdminFeedbackManagement
+│   │           │   └── AdminNotificationsList
 │   ├── Public Routes
 │   │   ├── LandingPage
 │   │   ├── LoginPage
@@ -84,6 +100,7 @@ App (with React Router)
 │               │   ├── Interactions
 │               │   ├── Tasks
 │               │   ├── Pipeline
+│               │   ├── Feedback
 │               │   ├── Companies
 │               │   └── ProfilePage
 │               └── Footer
@@ -133,7 +150,7 @@ Domain-specific components for each feature area:
 
 ### Context Architecture
 
-The application uses React Context API for state management with two main contexts:
+The application uses React Context API for state management with three main contexts:
 
 #### AuthContext
 Authentication and user management state:
@@ -153,6 +170,32 @@ Authentication and user management state:
 - **updateUserProfile**: Update user profile information
 - **deleteAccount**: Delete user account and all associated data
 
+#### AdminAuthContext
+Platform administrator authentication and management state:
+
+- **admin**: Current authenticated admin object
+- **isAuthenticated**: Admin authentication status
+- **isLoading**: Loading state for admin auth operations
+- **error**: Admin authentication error state
+
+#### AdminAuthContext Actions
+- **adminLogin**: Authenticate admin with username/password
+- **adminLogout**: End admin session
+
+#### AppContext
+Application-wide state management for user data:
+
+- **contacts**: User's contact database
+- **appointments**: User's scheduled appointments
+- **interactions**: User's interaction history
+- **tasks**: User's task list
+- **deals**: User's deals and negotiations
+- **companies**: User's company database
+- **settings**: User's application settings
+- **currentView**: Currently active view
+- **loading**: Loading state for data operations
+- **error**: Error state for data operations
+
 ### Custom Hooks
 
 Custom hooks for accessing and manipulating state:
@@ -163,6 +206,11 @@ Custom hooks for accessing and manipulating state:
 - Profile management
 - Email verification
 - Account deletion
+
+#### useAdminAuthContext
+- Access admin authentication state
+- Admin login/logout operations
+- Admin token management
 
 #### useAppContext
 - Access application state

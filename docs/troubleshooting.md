@@ -13,6 +13,8 @@ Common issues and solutions for the iCan platform.
 - [Sync Issues](#sync-issues)
 - [Browser Issues](#browser-issues)
 - [Mobile Issues](#mobile-issues)
+- [Admin Authentication Issues](#admin-authentication-issues)
+- [Feedback System Issues](#feedback-system-issues)
 
 ## Installation Issues
 
@@ -494,6 +496,95 @@ console.log('Appointments:', data.appointments.length)
 3. Check for keyboard suppression
 4. Ensure proper input types
 5. Test on different mobile devices
+
+## Admin Authentication Issues
+
+### Admin Login Fails with 500 Error
+
+**Problem**: Admin login fails with 500 Internal Server Error.
+
+**Solution**:
+1. Check that ADMIN_JWT_SECRET is set in .env file
+2. Verify admin account exists in database
+3. Check server logs for detailed error information
+4. Ensure MySQL connection is working
+5. Try logging out and logging back in to generate new token
+
+### Admin Auto-Logout on Page Refresh
+
+**Problem**: Admin gets logged out when refreshing the page.
+
+**Solution**:
+1. Clear browser localStorage and try again
+2. Log out and log back in to generate new token
+3. Check that ADMIN_JWT_SECRET is consistent across server restarts
+4. Verify token expiration time (24 hours)
+5. Check browser console for specific error messages
+
+### Admin Logout Takes Too Long
+
+**Problem**: Admin logout is slow or doesn't redirect properly.
+
+**Solution**:
+1. This was fixed in v3.2.3 with immediate navigation
+2. If still experiencing issues, clear browser cache
+3. Check that /admin/login route is properly configured
+4. Verify AdminProtectedRoute is working correctly
+
+## Feedback System Issues
+
+### Feedback Page Shows Dashboard Instead
+
+**Problem**: Clicking Feedback in sidebar shows Dashboard instead of feedback list.
+
+**Solution**:
+1. This was fixed in v3.2.2 with direct route rendering
+2. Clear browser cache and reload
+3. Check that /feedback route is properly configured in App.jsx
+4. Verify setCurrentView is being called correctly
+
+### Admin Feedback Page Shows Error
+
+**Problem**: Admin feedback page shows "Failed to fetch feedback" error.
+
+**Solution**:
+1. This was fixed in v3.2.3 with database relations
+2. Verify Feedback model has relations to User and Tenant
+3. Run `npx prisma db push` to sync schema
+4. Run `npx prisma generate` to regenerate Prisma Client
+5. Check server logs for detailed error information
+
+### Feedback Formatting Issues
+
+**Problem**: Feedback subjects and categories show underscores or lowercase.
+
+**Solution**:
+1. This was fixed in v3.2.2 with formatting functions
+2. Check that formatFeedbackSubject and formatFeedbackCategory are being used
+3. Verify feedback types configuration is correct
+4. Clear browser cache and reload
+
+### Feedback Submission Fails
+
+**Problem**: User cannot submit feedback form.
+
+**Solution**:
+1. Check that user is authenticated
+2. Verify API endpoint is accessible
+3. Check form validation is working correctly
+4. Look for onChange handler errors in console
+5. Ensure all required fields are filled
+
+### Admin Notifications Not Working
+
+**Problem**: Admin notifications don't appear or update.
+
+**Solution**:
+1. Check that Notification model has admin relation
+2. Verify admin account exists in database
+3. Check that notifications are being created on feedback submission
+4. Verify admin JWT token is valid
+5. Check browser console for specific errors
 
 ### App Crashes on Mobile
 

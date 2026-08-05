@@ -13,6 +13,46 @@ The name "iCan" represents the four core pillars of the platform:
 
 ## Current Status
 
+### Version 3.2.3 - Admin Dashboard and Feedback System (2026-08-05)
+
+**Admin Dashboard Features:**
+- ✅ Separate admin authentication system (/admin/login)
+- ✅ Platform statistics dashboard with real-time data
+- ✅ User management with basic profile viewing only
+- ✅ Admin cannot access user data counts or actual data
+- ✅ Subscription tier management (Free/Pro/Enterprise)
+- ✅ User deletion with cascade
+- ✅ Professional admin UI with dark theme
+- ✅ Mobile-responsive design
+
+**Feedback System Features:**
+- ✅ User feedback submission with subject/category dropdowns
+- ✅ Dynamic categories based on subject selection
+- ✅ 5-star rating system
+- ✅ Priority levels (High, Medium, Low) for admin triage
+- ✅ Admin can view, reply, delete, and close/archive feedback
+- ✅ Feedback privacy (only submitter and admin can see)
+- ✅ Unlimited feedback submissions per user
+- ✅ In-app admin notifications for new feedback
+- ✅ Real-time notification badge with unread count
+- ✅ Notification dropdown in admin header
+- ✅ Full notifications page with management
+- ✅ Proper capitalization and formatting of feedback subjects and categories
+
+**Critical Fixes:**
+- ✅ Fixed feedback system linking between user and admin panels
+- ✅ Added missing database relations between Feedback, User, and Tenant
+- ✅ Fixed admin logout performance with immediate navigation
+- ✅ Fixed admin auto-logout on page refresh
+- ✅ Enhanced error handling and logging for admin endpoints
+
+**Database Schema Updates:**
+- ✅ Added Admin model for platform management
+- ✅ Added Notification model for admin notifications
+- ✅ Added Feedback model for user feedback system
+- ✅ Added proper relations between Feedback, User, and Tenant
+- ✅ MySQL database with Prisma ORM
+
 ### Version 3.0.6 - Critical Bug Fixes and Enhancements (2026-08-03)
 
 **Critical Bug Fixes:**

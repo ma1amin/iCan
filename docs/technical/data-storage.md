@@ -17,16 +17,20 @@ The iCan platform uses **MySQL** as the primary database with **Prisma ORM** for
 - **Type Safety**: Prisma provides type-safe database access
 - **Developer Experience**: Excellent tooling and migrations
 - **Wide Adoption**: Industry-standard with extensive community support
+- **Admin Management**: Separate admin authentication and management system
+- **Feedback System**: User feedback with ratings and priority management
 
 ### Database Schema
 
-The platform uses 10 main models:
+The platform uses 13 main models:
 
 #### Core Models
 - **Tenant**: Multi-tenant organization management
 - **User**: User accounts with authentication
 - **VerificationToken**: Email verification system
 - **PasswordResetToken**: Password recovery system
+- **Admin**: Platform administrator accounts for management
+- **Notification**: Admin notifications for feedback and system events
 
 #### Business Models
 - **Contact**: Contact management
@@ -35,6 +39,7 @@ The platform uses 10 main models:
 - **Interaction**: Communication logging
 - **Task**: Task management
 - **Deal**: Pipeline and negotiations
+- **Feedback**: User feedback system with ratings and priorities
 
 ### Multi-Tenant Data Isolation
 
