@@ -33,6 +33,7 @@
 
 .btn-primary:hover:not(:disabled) {
   filter: brightness(1.08);
+  box-shadow: 0 0 20px rgba(91, 141, 239, 0.4);
 }
 
 .btn-primary:active:not(:disabled) {

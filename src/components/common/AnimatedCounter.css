@@ -1,0 +1,11 @@
+.animated-counter {
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .animated-counter {
+    /* Counter will jump to final value immediately */
+  }
+}

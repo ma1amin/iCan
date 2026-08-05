@@ -1,0 +1,47 @@
+.shimmer-border {
+  position: relative;
+  border-radius: var(--border-radius, 8px);
+  overflow: hidden;
+}
+
+.shimmer-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--border-radius, 8px);
+  padding: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--shimmer-color, var(--accent-primary)),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-border::before {
+    animation: none;
+    background: var(--shimmer-color, var(--accent-primary));
+  }
+}
