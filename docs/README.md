@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 3.2.1** (Admin dashboard and feedback system - 2026-08-05)
+**Current Version: 3.2.2** (Admin dashboard and feedback system - Bug fixes and improvements - 2026-08-05)
 
 ## Vision
 
@@ -233,6 +233,8 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Full notifications page with management
   - Professional feedback UI with dark theme
   - Feedback list with admin reply display
+  - Proper capitalization and formatting of feedback subjects and categories
+  - UI/UX properly displayed instead of ui_ux
 - **Prop Type Fixes**: Fixed React prop type warnings
   - Added datetime-local to Input component types
   - Fixed number field handling in forms

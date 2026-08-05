@@ -16,6 +16,25 @@ To access the iCan platform:
 
 **Note**: Each organization has its own isolated data. Your contacts, appointments, and other data are separate from other organizations.
 
+### For Admins
+
+To access the admin dashboard for platform management:
+
+1. **Visit Admin Login**: Navigate to `/admin/login`
+2. **Enter Admin Credentials**: Use the admin credentials provided by the platform administrator
+3. **Access Admin Dashboard**: Upon successful login, you'll have access to:
+   - Platform statistics and metrics
+   - User management (viewing profiles and managing plans)
+   - Feedback management (viewing, replying to, and managing user feedback)
+   - Admin notifications (in-app notifications for new feedback)
+
+**Default Admin Credentials** (for development):
+- Username: `admin`
+- Email: `admin@ican.com`
+- Password: `Security_2026@@##`
+
+**Note**: Admin authentication is completely separate from user authentication. Admin accounts have their own login system and JWT tokens.
+
 ### For Developers
 
 #### Prerequisites
@@ -124,8 +143,25 @@ The sidebar provides access to all main features:
 - **Interactions**: Log and view interaction history
 - **Tasks**: Manage your task list and workflow
 - **Pipeline**: Track deals and negotiations
+- **Feedback**: Submit feedback and view your feedback history
 - **Profile**: Manage your account settings and profile
 - **Logout**: Sign out of your account
+
+### Submit Feedback
+
+To provide feedback about the platform:
+
+1. Navigate to the "Feedback" view from the sidebar
+2. Click the "+ New Feedback" button
+3. Fill in the feedback form:
+   - **Subject**: Choose from Bug Report, Feature Request, General Feedback, Support, UI/UX, or Performance
+   - **Category**: Select a specific category based on your subject
+   - **Priority**: Choose High, Medium, or Low priority
+   - **Your Feedback**: Describe your feedback in detail
+   - **Rating**: Rate your experience with 1-5 stars
+4. Click "Submit Feedback" to send your feedback
+
+**Note**: Feedback is only visible to you and the platform administrators. Admins can view, reply to, and manage all feedback submissions.
 
 **Note**: Company management has been simplified. Company names are now entered directly in Contact and Deal forms as text fields with industry dropdowns for categorization.
 

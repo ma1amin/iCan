@@ -44,6 +44,53 @@ interface AppContextValue {
 }
 ```
 
+### AdminAuthContext
+
+Admin authentication context for platform management access.
+
+#### Context Value
+
+```typescript
+interface AdminAuthContextValue {
+  // State
+  admin: Admin | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+
+  // Actions
+  adminLogin: (username: string, password: string) => Promise<{success: boolean, error?: string}>;
+  adminLogout: () => void;
+}
+```
+
+#### Usage
+
+```jsx
+import { useAdminAuthContext } from '../context/AdminAuthContext';
+
+function AdminLogin() {
+  const { adminLogin, admin, isAuthenticated } = useAdminAuthContext();
+
+  const handleLogin = async () => {
+    const result = await adminLogin('admin', 'password');
+    if (result.success) {
+      // Admin logged in successfully
+    }
+  };
+
+  return (
+    <div>
+      {isAuthenticated ? (
+        <div>Welcome, {admin?.name}</div>
+      ) : (
+        <button onClick={handleLogin}>Admin Login</button>
+      )}
+    </div>
+  );
+}
+```
+
 #### Usage
 
 ```jsx
@@ -180,6 +227,64 @@ function useDeals(): {
   getPipelineValue: () => { total: number; weighted: number };
   getWonDeals: () => Deal[];
   getLostDeals: () => Deal[];
+}
+```
+
+## API Functions
+
+### Feedback API
+
+Functions for user feedback submission and management.
+
+```typescript
+const feedbackAPI = {
+  getAll: () => Promise<{feedback: Feedback[]}>;
+  getById: (id: string) => Promise<{feedback: Feedback}>;
+  submit: (feedbackData: FeedbackData) => Promise<{feedback: Feedback}>;
+}
+```
+
+#### Usage
+
+```jsx
+import { feedbackAPI } from '../lib/api';
+
+async function submitFeedback() {
+  try {
+    const result = await feedbackAPI.submit({
+      subject: 'bug_report',
+      category: 'login',
+      content: 'Login page is not working',
+      rating: 3,
+      priority: 'high'
+    });
+    console.log('Feedback submitted:', result.feedback);
+  } catch (error) {
+    console.error('Failed to submit feedback:', error);
+  }
+}
+```
+
+### Admin API
+
+Functions for admin platform management.
+
+```typescript
+const adminAPI = {
+  getStats: () => Promise<{stats: AdminStats}>;
+  getUsers: (filters?: UserFilters) => Promise<{users: User[], pagination: Pagination}>;
+  getUserById: (id: string) => Promise<{user: User}>;
+  updateUserPlan: (id: string, plan: string) => Promise<{success: boolean}>;
+  deleteUser: (id: string) => Promise<{success: boolean}>;
+  getFeedback: (filters?: FeedbackFilters) => Promise<{feedback: Feedback[], pagination: Pagination}>;
+  replyToFeedback: (id: string, reply: string) => Promise<{feedback: Feedback}>;
+  updateFeedbackStatus: (id: string, status: string) => Promise<{feedback: Feedback}>;
+  updateFeedbackPriority: (id: string, priority: string) => Promise<{feedback: Feedback}>;
+  deleteFeedback: (id: string) => Promise<{success: boolean}>;
+  getNotifications: () => Promise<{notifications: Notification[], unreadCount: number}>;
+  markNotificationRead: (id: string) => Promise<{success: boolean}>;
+  markAllNotificationsRead: () => Promise<{success: boolean}>;
+  deleteNotification: (id: string) => Promise<{success: boolean}>;
 }
 ```
 

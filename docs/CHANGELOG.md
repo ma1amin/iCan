@@ -94,6 +94,47 @@ Successfully implemented complete admin dashboard and feedback system with 7 pha
 - Version updated to 3.2.0
 - All changes committed and pushed to GitHub
 
+## [3.2.2] - 2026-08-05
+
+### Bug Fixes and Improvements
+
+**User Feedback System Fixes:**
+- ✅ Fixed sidebar navigation to update currentView properly when clicking navigation items
+- ✅ Fixed Select component prop type error in FeedbackForm by using options prop
+- ✅ Fixed onChange handlers to accept value directly instead of event object
+- ✅ Fixed Input and Textarea onChange handlers in FeedbackForm
+- ✅ Fixed Feedback page routing to render FeedbackList directly instead of using AppContent
+- ✅ Fixed Header title to show 'Feedback' instead of 'Dashboard' on feedback page
+- ✅ Added formatFeedbackSubject and formatFeedbackCategory functions for proper display
+- ✅ Feedback subjects and categories now display with proper capitalization
+- ✅ Underscores in feedback titles replaced with spaces
+- ✅ UI/UX subject properly displayed as 'UI/UX' instead of 'ui_ux'
+
+**Admin Feedback System Fixes:**
+- ✅ Improved error handling in AdminFeedbackManagement with better error messages
+- ✅ Fixed admin auto-logout on page refresh by improving token validation logic
+- ✅ Added withRetry wrapper to admin verify endpoint for database connection handling
+- ✅ Added logging to admin verify endpoint for debugging
+- ✅ Added logging to admin feedback endpoint for debugging
+
+**Admin Authentication Improvements:**
+- ✅ Changed token validation to keep admin logged in on network errors
+- ✅ Keep admin logged in on non-401 errors using cached data
+- ✅ Prevents admin auto-logout when server is temporarily unavailable
+
+**Files Modified:**
+- src/components/layout/Sidebar.jsx - Fixed navigation to update currentView
+- src/components/feedback/FeedbackForm.jsx - Fixed Select, Input, Textarea onChange handlers
+- src/App.jsx - Changed /feedback route to render FeedbackList directly
+- src/context/AppContext.jsx - Added URL path check on mount
+- src/types/feedback.js - Added formatting functions
+- src/components/feedback/FeedbackList.jsx - Use formatting functions
+- src/components/admin/AdminFeedbackManagement.jsx - Use formatting functions and improve error handling
+- src/components/layout/Header.jsx - Add /feedback to view mapping
+- src/context/AdminAuthContext.jsx - Improved token validation logic
+- server.js - Added withRetry and logging to admin endpoints
+- src/lib/api.js - Added feedbackAPI functions
+
 ## [3.2.1] - 2026-08-05
 
 ### Bug Fixes
