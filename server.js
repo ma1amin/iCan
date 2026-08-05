@@ -770,6 +770,10 @@ app.post('/api/tasks', authenticateToken, async (req, res) => {
 // Update task
 app.put('/api/tasks/:id', authenticateToken, async (req, res) => {
   try {
+    console.log('Update task request body:', req.body);
+    console.log('Task ID:', req.params.id);
+    console.log('User tenantId:', req.user.tenantId);
+    
     const task = await prisma.task.update({
       where: { 
         id: req.params.id,
@@ -779,10 +783,13 @@ app.put('/api/tasks/:id', authenticateToken, async (req, res) => {
       include: { contact: true, user: true }
     });
 
+    console.log('Task updated successfully:', task);
     res.json({ task });
   } catch (error) {
     console.error('Update task error:', error);
-    res.status(500).json({ error: 'Failed to update task' });
+    console.error('Error details:', error.message);
+    console.error('Error code:', error.code);
+    res.status(500).json({ error: 'Failed to update task', details: error.message });
   }
 });
 
@@ -843,6 +850,10 @@ app.post('/api/deals', authenticateToken, async (req, res) => {
 // Update deal
 app.put('/api/deals/:id', authenticateToken, async (req, res) => {
   try {
+    console.log('Update deal request body:', req.body);
+    console.log('Deal ID:', req.params.id);
+    console.log('User tenantId:', req.user.tenantId);
+    
     const deal = await prisma.deal.update({
       where: { 
         id: req.params.id,
@@ -852,10 +863,13 @@ app.put('/api/deals/:id', authenticateToken, async (req, res) => {
       include: { contact: true, user: true }
     });
 
+    console.log('Deal updated successfully:', deal);
     res.json({ deal });
   } catch (error) {
     console.error('Update deal error:', error);
-    res.status(500).json({ error: 'Failed to update deal' });
+    console.error('Error details:', error.message);
+    console.error('Error code:', error.code);
+    res.status(500).json({ error: 'Failed to update deal', details: error.message });
   }
 });
 
