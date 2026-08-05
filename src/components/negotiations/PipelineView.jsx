@@ -217,6 +217,7 @@ const PipelineView = ({ deals, onDealUpdate, onDealDelete }) => {
                                   <select
                                     className="deal-stage-select"
                                     value={deal.stage}
+                                    onClick={(e) => e.stopPropagation()}
                                     onChange={(e) => {
                                       e.stopPropagation();
                                       handleStageChange(deal.id, e.target.value);
