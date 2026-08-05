@@ -304,8 +304,9 @@ const LandingPage = () => {
                 <h3 className="landing-faq-question">Can I import my existing contacts?</h3>
                 <p className="landing-faq-answer">
                   Absolutely! iCan supports CSV import for contacts, making it easy to migrate your existing data. We also provide export functionality.
-              </p>
-            </div>
+                </p>
+              </div>
+            </ScrollReveal>
             
             <ScrollReveal animation="fadeInSlideUp" delay={0.4} className="stagger-4">
               <div className="landing-faq-item">
