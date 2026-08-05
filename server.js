@@ -956,6 +956,7 @@ app.post('/api/admin/login', async (req, res) => {
 app.get('/api/admin/verify', authenticateAdminToken, async (req, res) => {
   try {
     console.log('Admin verification request for adminId:', req.admin.adminId);
+    
     const admin = await withRetry(() => prisma.admin.findUnique({
       where: { id: req.admin.adminId }
     }));
