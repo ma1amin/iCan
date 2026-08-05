@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { PrismaClient } = require('@prisma/client');
 const { hashPassword, comparePassword, generateToken, verifyToken, generateVerificationToken } = require('./src/lib/auth');
+const { generateAdminToken, verifyAdminToken, authenticateAdminToken } = require('./src/lib/adminAuth');
 
 const app = express();
 
@@ -895,6 +896,93 @@ app.delete('/api/deals/:id', authenticateToken, async (req, res) => {
 const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`iCan API server running on port ${PORT}`);
   console.log(`Health check: http://localhost:${PORT}/api/health`);
+});
+
+// Admin Authentication Routes
+
+// Admin login
+app.post('/api/admin/login', async (req, res) => {
+  try {
+    console.log('Admin login request received:', { username: req.body.username });
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({ error: 'Username and password are required' });
+    }
+
+    // Find admin by username
+    const admin = await withRetry(() => prisma.admin.findUnique({
+      where: { username }
+    }));
+
+    if (!admin) {
+      console.log('Admin not found:', username);
+      return res.status(401).json({ error: 'Invalid username or password' });
+    }
+
+    // Verify password
+    const isValidPassword = await comparePassword(password, admin.passwordHash);
+    if (!isValidPassword) {
+      console.log('Invalid password for admin:', username);
+      return res.status(401).json({ error: 'Invalid username or password' });
+    }
+
+    // Generate admin JWT token
+    const token = generateAdminToken({
+      adminId: admin.id,
+      username: admin.username,
+      email: admin.email
+    });
+
+    console.log('Admin login successful:', username);
+
+    res.json({
+      success: true,
+      admin: {
+        id: admin.id,
+        username: admin.username,
+        email: admin.email,
+        name: admin.name
+      },
+      token
+    });
+  } catch (error) {
+    console.error('Admin login error:', error);
+    res.status(500).json({ error: 'Admin login failed', details: error.message });
+  }
+});
+
+// Verify admin token
+app.get('/api/admin/verify', authenticateAdminToken, async (req, res) => {
+  try {
+    const admin = await prisma.admin.findUnique({
+      where: { id: req.admin.adminId }
+    });
+
+    if (!admin) {
+      return res.status(404).json({ error: 'Admin not found' });
+    }
+
+    res.json({
+      success: true,
+      admin: {
+        id: admin.id,
+        username: admin.username,
+        email: admin.email,
+        name: admin.name
+      }
+    });
+  } catch (error) {
+    console.error('Admin verify error:', error);
+    res.status(500).json({ error: 'Admin verification failed' });
+  }
+});
+
+// Admin logout
+app.post('/api/admin/logout', authenticateAdminToken, (req, res) => {
+  // In a real implementation, you might want to blacklist tokens
+  // For now, client will simply remove the token
+  res.json({ success: true, message: 'Admin logged out successfully' });
 });
 
 // Keep server running

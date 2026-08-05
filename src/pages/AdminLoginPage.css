@@ -1,0 +1,125 @@
+.admin-login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1f2e 0%, #2d3548 100%);
+  padding: 20px;
+}
+
+.admin-login-container {
+  background: #141821;
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid #232838;
+}
+
+.admin-login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.admin-login-header h1 {
+  color: #E6E9F0;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.admin-login-header p {
+  color: #8B92A8;
+  font-size: 14px;
+  margin: 0;
+}
+
+.admin-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-login-error {
+  background: rgba(224, 97, 102, 0.1);
+  border: 1px solid #E06166;
+  color: #E06166;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.admin-login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-login-field label {
+  color: #8B92A8;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.admin-login-field input {
+  background: #0E1119;
+  border: 1px solid #232838;
+  border-radius: 6px;
+  padding: 12px 16px;
+  color: #E6E9F0;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.admin-login-field input:focus {
+  outline: none;
+  border-color: #5B8DEF;
+}
+
+.admin-login-field input::placeholder {
+  color: #545B70;
+}
+
+.admin-login-button {
+  background: #5B8DEF;
+  color: #E6E9F0;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-top: 8px;
+}
+
+.admin-login-button:hover:not(:disabled) {
+  background: #4A7BE0;
+}
+
+.admin-login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-login-footer {
+  margin-top: 24px;
+  text-align: center;
+  padding-top: 24px;
+  border-top: 1px solid #232838;
+}
+
+.admin-login-footer a {
+  color: #5B8DEF;
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s ease;
+}
+
+.admin-login-footer a:hover {
+  color: #4A7BE0;
+  text-decoration: underline;
+}
