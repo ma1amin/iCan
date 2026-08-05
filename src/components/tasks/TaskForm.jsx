@@ -80,10 +80,16 @@ const TaskForm = ({ task, contactId, onClose, onSave, onDelete }) => {
     }
 
     const taskData = {
-      ...form,
-      tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean),
+      title: form.title,
+      description: form.description || '',
+      status: form.status || 'todo',
+      priority: form.priority || 'medium',
+      contactId: form.contactId || null,
+      userId: form.userId || null,
       dueDate: form.dueDate ? new Date(form.dueDate).toISOString() : null,
       estimatedTime: form.estimatedTime ? parseInt(form.estimatedTime) : null,
+      category: form.category || null,
+      tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean),
       linkedItems: {
         appointments: form.linkedAppointmentId ? [form.linkedAppointmentId] : [],
         interactions: form.linkedInteractionId ? [form.linkedInteractionId] : [],

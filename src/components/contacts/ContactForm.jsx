@@ -78,8 +78,16 @@ const ContactForm = ({ contact, onClose, onSave, onDelete }) => {
     }
 
     const contactData = {
-      ...form,
-      tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean)
+      name: form.name,
+      phone: form.phone || null,
+      email: form.email || null,
+      companyName: form.companyName || null,
+      location: form.location || null,
+      industry: form.industry || null,
+      source: form.source || 'whatsapp',
+      stage: form.stage || 'new',
+      tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean),
+      notes: form.notes || ''
     };
 
     // Only include id when editing (for update operations)

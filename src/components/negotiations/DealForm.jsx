@@ -99,10 +99,16 @@ const DealForm = ({ deal, contactId, onClose, onSave, onDelete }) => {
     }
 
     const dealData = {
-      ...form,
-      value: parseFloat(form.value),
-      probability: parseInt(form.probability),
+      name: form.name,
+      contactId: form.contactId || null,
+      userId: form.userId || null,
+      company: form.company || null,
+      value: form.value ? parseFloat(form.value) : null,
+      currency: form.currency || 'USD',
+      probability: form.probability ? parseInt(form.probability) : 50,
       expectedCloseDate: form.expectedCloseDate ? new Date(form.expectedCloseDate).toISOString() : null,
+      stage: form.stage || 'prospecting',
+      source: form.source || null,
       tags: form.tags.split(',').map(tag => tag.trim()).filter(Boolean),
       nextSteps: form.nextSteps.split('\n').map(step => step.trim()).filter(Boolean).map(action => ({
         id: Date.now().toString(36) + Math.random(),

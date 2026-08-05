@@ -84,10 +84,15 @@ const AppointmentForm = ({ appointment, contactId, onClose, onSave, onDelete }) 
     }
 
     const appointmentData = {
-      ...form,
+      title: form.title,
+      description: form.description || '',
       contactId: contactId || appointment?.contactId || null,
+      userId: form.userId || null,
       startTime: new Date(form.startTime).toISOString(),
-      endTime: new Date(form.endTime).toISOString()
+      endTime: new Date(form.endTime).toISOString(),
+      location: form.location || null,
+      type: form.type || null,
+      status: form.status || 'scheduled'
     };
 
     // Only include id when editing
