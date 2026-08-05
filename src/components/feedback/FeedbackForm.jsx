@@ -72,7 +72,7 @@ const FeedbackForm = ({ onSubmit, onCancel }) => {
             <Input
               id="customSubject"
               value={formData.customSubject}
-              onChange={(e) => handleChange('customSubject', e.target.value)}
+              onChange={(value) => handleChange('customSubject', value)}
               placeholder="Enter custom subject"
               required
             />
@@ -116,7 +116,7 @@ const FeedbackForm = ({ onSubmit, onCancel }) => {
           <Textarea
             id="content"
             value={formData.content}
-            onChange={(e) => handleChange('content', e.target.value)}
+            onChange={(value) => handleChange('content', value)}
             placeholder="Please describe your feedback in detail..."
             rows={5}
             required
