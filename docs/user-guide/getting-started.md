@@ -66,11 +66,14 @@ To access the iCan platform:
    - Name (required)
    - Phone number
    - Email address
-   - Company
+   - Company (manual text entry)
+   - Industry (dropdown selection)
    - Source (LinkedIn, WhatsApp, Other)
-   - Initial stage (New, Contacted, etc.)
+   - Initial stage (new, contacted, meeting, negotiating, collaborating, archived)
    - Notes
 4. Click "Save" to create the contact
+
+**Note**: Company names are now entered as simple text fields rather than creating separate company records. This simplifies data management while maintaining organization capabilities.
 
 ### Import Existing Contacts
 
@@ -121,9 +124,10 @@ The sidebar provides access to all main features:
 - **Interactions**: Log and view interaction history
 - **Tasks**: Manage your task list and workflow
 - **Pipeline**: Track deals and negotiations
-- **Companies**: View contacts grouped by company
 - **Profile**: Manage your account settings and profile
 - **Logout**: Sign out of your account
+
+**Note**: Company management has been simplified. Company names are now entered directly in Contact and Deal forms as text fields with industry dropdowns for categorization.
 
 ### Dashboard
 

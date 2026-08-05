@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 3.0.9** (Platform enhancements and UI improvements - 2026-08-04)
+**Current Version: 3.1.0** (Bug fixes and UI improvements - 2026-08-05)
 
 ## Vision
 
@@ -166,15 +166,66 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Deal tags for organization
   - Sales funnel visualization with stage totals
   - Deal statistics dashboard (total deals, pipeline value, won deals, won value, avg probability)
-- **Companies View**: Company grouping and management
-  - Company creation and editing with comprehensive form
-  - Company information (name, industry, size, location, website, founded year, revenue, employee count)
-  - Company cards with key information and stats
-  - Company detail view with associated contacts and deals
-  - Search and filter by name, industry, and size
-  - Company tags for organization
-  - Company overview with contact count, deal count, and pipeline value
-  - Contact and deal association tracking
+- **Companies View**: Simplified company management
+  - Removed complex Company model and relations
+  - Company names now entered as manual text fields in Contact and Deal forms
+  - Industry dropdown for better categorization
+  - Simplified data structure for better performance
+  - Disabled company management page with redirect guidance
+- **Form Data Persistence**: Fixed all form saving issues
+  - Removed client-generated fields (id, createdAt, updatedAt) that conflicted with Prisma
+  - Explicit field mapping to match database schema
+  - Fixed required field validation for all forms
+  - Enhanced error handling and user feedback
+  - All forms now save correctly to database
+- **UI Cleanup**: Enhanced user interface
+  - Removed duplicate navbar buttons from Header
+  - Redesigned sidebar footer with user profile section
+  - Added profile/logout buttons in footer
+  - Better visual hierarchy and navigation
+- **Calendar Enhancements**: Professional calendar improvements
+  - Appointment time indicators without clicking
+  - Color-coded appointment display
+  - Hover effects for better UX
+  - Enhanced appointment visibility
+- **Pipeline Drag-and-Drop**: Full drag-and-drop for deal management
+  - Deals can be dragged between pipeline stages
+  - Stage automatically updates when dropped
+  - Visual feedback during drag operations
+  - Stage dropdown with automatic probability updates
+  - "Won" and "Lost" deals cannot be moved back
+  - Terminal state badges for completed deals
+- **Task Drag-and-Drop**: Enhanced kanban board
+  - Tasks can be dragged between status columns
+  - Status automatically updates when dropped
+  - "Done" tasks cannot be moved back to other columns
+  - Terminal state badge for completed tasks
+  - Fixed dropdown menu to prevent card opening
+- **Onboarding Improvements**: New user onboarding only
+  - Onboarding flow only shows for new registered users
+  - Existing users can login without seeing onboarding
+  - Uses isNewRegistration flag instead of localStorage
+  - Better user experience for returning users
+- **Prop Type Fixes**: Fixed React prop type warnings
+  - Added datetime-local to Input component types
+  - Fixed number field handling in forms
+  - Added fallback labels for Select components
+  - Better error prevention and debugging
+- **Export Enhancements**: Improved data export functionality
+  - Enhanced JSON export with metadata
+  - Enhanced CSV export with BOM for proper encoding
+  - Confirmation dialogs for export operations
+  - Better formatting and data integrity
+- **Email Change**: Account security enhancements
+  - Email change functionality in Profile security section
+  - Password verification for email changes
+  - Replaced logout with email change in security section
+- **Database Schema**: Simplified data structure
+  - Removed Company model relations
+  - Contact.companyName (manual text field)
+  - Deal.company (manual text field)
+  - Removed foreign key constraints for companies
+  - Better performance and simpler maintenance
 - **Dashboard**: Real-time statistics for contacts, appointments, tasks, and deals
 - **Responsive Design**: Mobile-friendly interface with adaptive layouts
 - **Data Persistence**: LocalStorage for offline data persistence

@@ -83,13 +83,16 @@ When you log an interaction with "Follow-up Required" outcome:
 ### Viewing Tasks
 
 **Kanban Board**: Shows tasks organized by status
-- Four columns for different statuses
+- Four columns for different statuses (To Do, In Progress, Review, Done)
 - Task cards with key information
 - Priority indicators (colored dots)
 - Due date with relative formatting
 - Contact name if linked
 - Tags display
+- **Drag and drop** tasks between columns to change status
+- **Status dropdown** on task cards for quick status changes
 - Click to edit/view details
+- **"Done" tasks** cannot be moved back to other columns (terminal state)
 
 **Task Statistics**: Dashboard at top of Tasks view
 - Total tasks count

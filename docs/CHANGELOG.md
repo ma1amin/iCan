@@ -2,6 +2,75 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [3.1.0] - 2026-08-05
+
+### Bug Fixes and UI Improvements
+
+**Form Data Persistence Fixes:**
+- ✅ Fixed all form saving failures by removing client-generated fields (id, createdAt, updatedAt)
+- ✅ Changed all forms from spread operator to explicit field mapping
+- ✅ Fixed required field validation for Contact, Interaction, Deal, Task, Appointment forms
+- ✅ Enhanced error handling with detailed server logging
+- ✅ All forms now save correctly to database without 500 errors
+
+**UI Component Fixes:**
+- ✅ Fixed React prop type warnings for Input component (added datetime-local type)
+- ✅ Fixed number field handling in forms (string/number conversion)
+- ✅ Added fallback labels for Select components to prevent undefined label errors
+- ✅ Fixed datetime-local input prop type warnings
+
+**Pipeline Drag-and-Drop:**
+- ✅ Added full drag-and-drop functionality to Pipeline view
+- ✅ Deals can be dragged between pipeline stages
+- ✅ Stage automatically updates when dropped with probability calculation
+- ✅ "Won" and "Lost" deals cannot be moved back to other columns
+- ✅ Terminal state badges for completed deals (green for Won, red for Lost)
+- ✅ Fixed dropdown menu to prevent card opening when changing stages
+- ✅ Visual feedback during drag operations
+
+**Task Drag-and-Drop Enhancements:**
+- ✅ Fixed drag-and-drop functionality with proper field updates
+- ✅ "Done" tasks cannot be moved back to other columns
+- ✅ Terminal state badge for completed tasks
+- ✅ Fixed dropdown menu to prevent card opening when changing status
+- ✅ Enhanced visual feedback during drag operations
+
+**Onboarding Improvements:**
+- ✅ Onboarding flow only shows for new registered users
+- ✅ Existing users can login without seeing onboarding
+- ✅ Uses isNewRegistration flag instead of localStorage check
+- ✅ Better user experience for returning users
+
+**Database Schema Simplification:**
+- ✅ Removed Company model and complex relations
+- ✅ Contact.companyName (manual text field instead of relation)
+- ✅ Deal.company (manual text field instead of relation)
+- ✅ Removed foreign key constraints for companies
+- ✅ Better performance and simpler data structure
+- ✅ Disabled company management page with user guidance
+
+**Technical Implementation:**
+- ContactForm.jsx: Explicit field mapping, removed client-generated fields
+- InteractionForm.jsx: Explicit field mapping, fixed number handling
+- DealForm.jsx: Explicit field mapping, fixed number handling
+- TaskForm.jsx: Explicit field mapping, fixed number handling
+- AppointmentForm.jsx: Explicit field mapping, fixed datetime handling
+- PipelineView.jsx: Added drag-and-drop, terminal state handling
+- KanbanBoard.jsx: Enhanced drag-and-drop, terminal state handling
+- Form.jsx: Added datetime-local to Input types, fixed number prop types
+- AuthContext.jsx: Changed onboarding to use isNewRegistration flag
+- server.js: Added isNewRegistration flag to registration response
+- server.js: Added detailed logging to task and deal update endpoints
+- CompaniesView.jsx: Simplified to show disabled message
+- All forms: Added fallback labels for Select options
+
+**Database Changes:**
+- Removed Company model from schema
+- Contact.company -> Contact.companyName (String field)
+- Deal.companyId -> Deal.company (String field)
+- Removed foreign key relations for companies
+- Database reset and migration applied
+
 ## [3.0.9] - 2026-08-04
 
 ### Platform Enhancements

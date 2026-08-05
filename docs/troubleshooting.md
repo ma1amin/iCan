@@ -7,6 +7,7 @@ Common issues and solutions for the iCan platform.
 - [Installation Issues](#installation-issues)
 - [Database & API Issues](#database--api-issues)
 - [Data Issues](#data-issues)
+- [Form Issues](#form-issues)
 - [Performance Issues](#performance-issues)
 - [UI/UX Issues](#uiux-issues)
 - [Sync Issues](#sync-issues)
@@ -212,6 +213,45 @@ npx prisma generate
 ```bash
 npx prisma validate
 ```
+
+## Form Issues
+
+### Forms Not Saving Data
+
+**Problem**: Forms (contacts, appointments, tasks, deals) fail to save with 500 Internal Server Error.
+
+**Solution**:
+1. Check server logs for specific error messages
+2. Ensure form fields match database schema
+3. Verify required fields are being sent
+4. Check for client-generated fields (id, createdAt, updatedAt) conflicts
+5. Verify field names match between form and database (e.g., companyName vs company)
+
+**Common Causes**:
+- Sending client-generated fields that conflict with Prisma auto-generated fields
+- Field name mismatches (company vs companyName)
+- Missing required fields
+- Invalid data types
+
+### Drag and Drop Not Working
+
+**Problem**: Drag and drop functionality in Kanban board or Pipeline view not working.
+
+**Solution**:
+1. Check if @hello-pangea/dnd library is installed
+2. Verify proper nesting of DragDropContext, Droppable, and Draggable components
+3. Check for nested scroll container conflicts
+4. Ensure unique draggableId for each item
+5. Verify proper index assignment for draggable items
+
+### Dropdown Menu Opens Card Form
+
+**Problem**: Clicking dropdown menu on task/deal cards opens the detail form instead of changing status.
+
+**Solution**:
+1. Ensure onClick event has e.stopPropagation() on dropdown
+2. Check event propagation is properly stopped
+3. Verify dropdown is inside card click boundary
 
 ## Data Issues
 

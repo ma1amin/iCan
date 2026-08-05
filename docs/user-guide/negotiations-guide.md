@@ -85,6 +85,7 @@ Deals progress through these stages:
 3. Fill in required fields:
    - Deal name
    - Contact (select from existing)
+   - Company (manual text entry)
    - Initial stage
    - Estimated value
 4. Add optional details:
@@ -93,6 +94,8 @@ Deals progress through these stages:
    - Description
    - Competitors
 5. Click "Save"
+
+**Note**: Company names are now entered as simple text fields rather than selecting from existing company records.
 
 ### Deal from Contact
 
@@ -121,11 +124,14 @@ Create deals from interaction outcomes:
 
 Visual kanban-style pipeline:
 
-- **Columns**: Each pipeline stage
+- **Columns**: Each pipeline stage (Prospecting, Qualification, Proposal, Negotiation, Closing, Won, Lost)
 - **Cards**: Deal cards with key info
-- **Drag and Drop**: Move deals between stages
+- **Drag and Drop**: Move deals between stages with automatic probability updates
+- **Stage Dropdown**: Quick stage changes with automatic probability calculation
 - **Value Display**: Deal values visible on cards
 - **Probability Indicators**: Color-coded by likelihood
+- **Terminal States**: "Won" and "Lost" deals cannot be moved back to other columns
+- **Terminal Badges**: Visual indicators for completed deals (green for Won, red for Lost)
 
 ### Moving Deals
 
