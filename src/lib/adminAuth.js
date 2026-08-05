@@ -30,15 +30,20 @@ const authenticateAdminToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
+  console.log('Admin authentication attempt:', { hasAuthHeader: !!authHeader, hasToken: !!token });
+
   if (!token) {
+    console.log('Admin authentication failed: No token provided');
     return res.status(401).json({ error: 'Admin token required' });
   }
 
   const decoded = verifyAdminToken(token);
   if (!decoded) {
+    console.log('Admin authentication failed: Invalid or expired token');
     return res.status(403).json({ error: 'Invalid or expired admin token' });
   }
 
+  console.log('Admin authentication successful for adminId:', decoded.adminId);
   req.admin = decoded;
   next();
 };
