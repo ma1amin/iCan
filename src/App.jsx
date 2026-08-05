@@ -151,7 +151,7 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <AppShell>
-                      <AppContent />
+                      <FeedbackList />
                     </AppShell>
                   </ProtectedRoute>
                 }
