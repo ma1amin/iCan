@@ -1,0 +1,27 @@
+.star-rating {
+  display: flex;
+  gap: 4px;
+}
+
+.star {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #545B70;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s ease, transform 0.1s ease;
+  line-height: 1;
+}
+
+.star:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+
+.star.filled {
+  color: #F0B429;
+}
+
+.star:disabled {
+  cursor: not-allowed;
+}

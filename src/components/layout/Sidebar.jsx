@@ -24,6 +24,7 @@ const NAV_ITEMS = [
   { id: 'interactions', label: 'Interactions', icon: '💬', path: '/interactions' },
   { id: 'tasks', label: 'Tasks', icon: '✅', path: '/tasks' },
   { id: 'pipeline', label: 'Pipeline', icon: '🌿', path: '/pipeline' },
+  { id: 'feedback', label: 'Feedback', icon: '📝', path: '/feedback' },
   { id: 'profile', label: 'Profile', icon: '👤', path: '/profile' }
 ];
 
@@ -51,6 +52,7 @@ const Sidebar = () => {
     if (path === '/interactions') return 'interactions';
     if (path === '/tasks') return 'tasks';
     if (path === '/pipeline') return 'pipeline';
+    if (path === '/feedback') return 'feedback';
     if (path === '/companies') return 'companies';
     if (path === '/profile') return 'profile';
     return 'dashboard';

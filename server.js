@@ -1191,6 +1191,220 @@ app.delete('/api/admin/users/:id', authenticateAdminToken, async (req, res) => {
   }
 });
 
+// Feedback API Endpoints
+
+// Submit feedback
+app.post('/api/feedback', authenticateToken, async (req, res) => {
+  try {
+    const { subject, category, content, rating, priority } = req.body;
+
+    if (!subject || !category || !content || !rating) {
+      return res.status(400).json({ error: 'Subject, category, content, and rating are required' });
+    }
+
+    const feedback = await withRetry(() => prisma.feedback.create({
+      data: {
+        userId: req.user.userId,
+        tenantId: req.user.tenantId,
+        subject,
+        category,
+        content,
+        rating: parseInt(rating),
+        priority: priority || 'medium',
+        status: 'open'
+      }
+    }));
+
+    // Create notification for admin
+    await withRetry(() => prisma.notification.create({
+      data: {
+        adminId: (await prisma.admin.findFirst())?.id,
+        type: 'feedback',
+        message: `New feedback submitted: ${subject} - ${category}`,
+        read: false
+      }
+    }));
+
+    res.json({ success: true, feedback });
+  } catch (error) {
+    console.error('Feedback submission error:', error);
+    res.status(500).json({ error: 'Failed to submit feedback' });
+  }
+});
+
+// Get user's feedback
+app.get('/api/feedback', authenticateToken, async (req, res) => {
+  try {
+    const feedback = await withRetry(() => prisma.feedback.findMany({
+      where: {
+        userId: req.user.userId,
+        tenantId: req.user.tenantId
+      },
+      orderBy: { createdAt: 'desc' }
+    }));
+
+    res.json({ success: true, feedback });
+  } catch (error) {
+    console.error('Get feedback error:', error);
+    res.status(500).json({ error: 'Failed to fetch feedback' });
+  }
+});
+
+// Get feedback details
+app.get('/api/feedback/:id', authenticateToken, async (req, res) => {
+  try {
+    const feedback = await withRetry(() => prisma.feedback.findUnique({
+      where: { id: req.params.id }
+    }));
+
+    if (!feedback) {
+      return res.status(404).json({ error: 'Feedback not found' });
+    }
+
+    // Check if user owns this feedback
+    if (feedback.userId !== req.user.userId) {
+      return res.status(403).json({ error: 'Access denied' });
+    }
+
+    res.json({ success: true, feedback });
+  } catch (error) {
+    console.error('Get feedback details error:', error);
+    res.status(500).json({ error: 'Failed to fetch feedback details' });
+  }
+});
+
+// Admin: Get all feedback
+app.get('/api/admin/feedback', authenticateAdminToken, async (req, res) => {
+  try {
+    const { status, priority, page = 1, limit = 20 } = req.query;
+    const skip = (page - 1) * limit;
+
+    const where = {};
+    if (status) where.status = status;
+    if (priority) where.priority = priority;
+
+    const [feedback, total] = await Promise.all([
+      withRetry(() => prisma.feedback.findMany({
+        where,
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true
+            }
+          },
+          tenant: {
+            select: {
+              id: true,
+              name: true
+            }
+          }
+        },
+        skip,
+        take: parseInt(limit),
+        orderBy: { createdAt: 'desc' }
+      })),
+      withRetry(() => prisma.feedback.count({ where }))
+    ]);
+
+    res.json({
+      success: true,
+      feedback,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    });
+  } catch (error) {
+    console.error('Admin get feedback error:', error);
+    res.status(500).json({ error: 'Failed to fetch feedback' });
+  }
+});
+
+// Admin: Reply to feedback
+app.put('/api/admin/feedback/:id/reply', authenticateAdminToken, async (req, res) => {
+  try {
+    const { reply } = req.body;
+
+    if (!reply) {
+      return res.status(400).json({ error: 'Reply content is required' });
+    }
+
+    const feedback = await withRetry(() => prisma.feedback.update({
+      where: { id: req.params.id },
+      data: {
+        adminReply: reply,
+        replyDate: new Date(),
+        status: 'in_progress'
+      }
+    }));
+
+    res.json({ success: true, feedback });
+  } catch (error) {
+    console.error('Admin reply to feedback error:', error);
+    res.status(500).json({ error: 'Failed to reply to feedback' });
+  }
+});
+
+// Admin: Update feedback status
+app.put('/api/admin/feedback/:id/status', authenticateAdminToken, async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    if (!status || !['open', 'in_progress', 'resolved', 'closed', 'archived'].includes(status)) {
+      return res.status(400).json({ error: 'Invalid status' });
+    }
+
+    const feedback = await withRetry(() => prisma.feedback.update({
+      where: { id: req.params.id },
+      data: { status }
+    }));
+
+    res.json({ success: true, feedback });
+  } catch (error) {
+    console.error('Admin update feedback status error:', error);
+    res.status(500).json({ error: 'Failed to update feedback status' });
+  }
+});
+
+// Admin: Update feedback priority
+app.put('/api/admin/feedback/:id/priority', authenticateAdminToken, async (req, res) => {
+  try {
+    const { priority } = req.body;
+
+    if (!priority || !['high', 'medium', 'low'].includes(priority)) {
+      return res.status(400).json({ error: 'Invalid priority' });
+    }
+
+    const feedback = await withRetry(() => prisma.feedback.update({
+      where: { id: req.params.id },
+      data: { priority }
+    }));
+
+    res.json({ success: true, feedback });
+  } catch (error) {
+    console.error('Admin update feedback priority error:', error);
+    res.status(500).json({ error: 'Failed to update feedback priority' });
+  }
+});
+
+// Admin: Delete feedback
+app.delete('/api/admin/feedback/:id', authenticateAdminToken, async (req, res) => {
+  try {
+    await withRetry(() => prisma.feedback.delete({
+      where: { id: req.params.id }
+    }));
+
+    res.json({ success: true, message: 'Feedback deleted successfully' });
+  } catch (error) {
+    console.error('Admin delete feedback error:', error);
+    res.status(500).json({ error: 'Failed to delete feedback' });
+  }
+});
+
 // Keep server running
 server.on('error', (err) => {
   console.error('Server error:', err);

@@ -22,6 +22,8 @@ import DealsView from './components/negotiations/DealsView';
 import AdminShell from './components/admin/AdminShell';
 import AdminDashboard from './components/admin/AdminDashboard';
 import UserManagement from './components/admin/UserManagement';
+import AdminFeedbackManagement from './components/admin/AdminFeedbackManagement';
+import FeedbackList from './components/feedback/FeedbackList';
 
 function AppContent() {
   const { currentView, loading } = useAppContext();
@@ -41,6 +43,7 @@ function AppContent() {
     interactions: <InteractionsView />,
     tasks: <TasksView />,
     pipeline: <DealsView />,
+    feedback: <FeedbackList />,
     profile: <ProfilePage />
   };
 
@@ -142,6 +145,16 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/feedback"
+                element={
+                  <ProtectedRoute>
+                    <AppShell>
+                      <AppContent />
+                    </AppShell>
+                  </ProtectedRoute>
+                }
+              />
 
               {/* Admin Protected Routes */}
               <Route
@@ -160,6 +173,16 @@ function App() {
                   <AdminProtectedRoute>
                     <AdminShell>
                       <UserManagement />
+                    </AdminShell>
+                  </AdminProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/feedback"
+                element={
+                  <AdminProtectedRoute>
+                    <AdminShell>
+                      <AdminFeedbackManagement />
                     </AdminShell>
                   </AdminProtectedRoute>
                 }
