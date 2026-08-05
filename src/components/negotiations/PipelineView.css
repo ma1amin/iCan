@@ -217,6 +217,27 @@
   border-color: #5B8DEF;
 }
 
+.deal-stage-completed {
+  flex: 1;
+  padding: 6px 8px;
+  background: #0E1119;
+  border-radius: 4px;
+  color: #E6E9F0;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.deal-stage-completed.won {
+  border: 1px solid #34D399;
+  color: #34D399;
+}
+
+.deal-stage-completed.lost {
+  border: 1px solid #E06166;
+  color: #E06166;
+}
+
 /* Responsive */
 @media (max-width: 1400px) {
   .pipeline-view {

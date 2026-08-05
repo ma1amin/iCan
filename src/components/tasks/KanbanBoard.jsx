@@ -36,14 +36,16 @@ const KanbanBoard = ({ tasks, onTaskUpdate, onTaskDelete }) => {
       return;
     }
 
-    // Get the task
+    // Prevent moving "done" tasks to other columns
     const task = tasks.find(t => t.id === draggableId);
-    if (task) {
-      // Update task status to match the destination column
-      const updateResult = await onTaskUpdate(draggableId, { status: destination.droppableId });
-      if (!updateResult.success) {
-        alert(`Failed to update task status: ${updateResult.error}`);
-      }
+    if (task && task.status === 'done') {
+      return;
+    }
+
+    // Update task status to match the destination column
+    const updateResult = await onTaskUpdate(draggableId, { status: destination.droppableId });
+    if (!updateResult.success) {
+      alert(`Failed to update task status: ${updateResult.error}`);
     }
   };
 
@@ -125,7 +127,7 @@ const KanbanBoard = ({ tasks, onTaskUpdate, onTaskDelete }) => {
                         statusTasks.map((task, index) => {
                           const contact = getContact(task.contactId);
                           return (
-                            <Draggable key={task.id} draggableId={task.id} index={index}>
+                            <Draggable key={task.id} draggableId={task.id} index={index} isDragDisabled={task.status === 'done'}>
                               {(provided, snapshot) => (
                                 <div
                                   ref={provided.innerRef}
@@ -171,19 +173,24 @@ const KanbanBoard = ({ tasks, onTaskUpdate, onTaskDelete }) => {
                                     </div>
                                   )}
                                   <div className="task-card-actions">
-                                    <select
-                                      className="task-status-select"
-                                      value={task.status}
-                                      onClick={(e) => e.stopPropagation()}
-                                      onChange={(e) => {
-                                        e.stopPropagation();
-                                        handleStatusChange(task.id, e.target.value);
-                                      }}
-                                    >
-                                      {TASK_STATUS.map(s => (
-                                        <option key={s} value={s}>{TASK_STATUS_LABELS[s]}</option>
-                                      ))}
-                                    </select>
+                                    {task.status !== 'done' && (
+                                      <select
+                                        className="task-status-select"
+                                        value={task.status}
+                                        onClick={(e) => e.stopPropagation()}
+                                        onChange={(e) => {
+                                          e.stopPropagation();
+                                          handleStatusChange(task.id, e.target.value);
+                                        }}
+                                      >
+                                        {TASK_STATUS.map(s => (
+                                          <option key={s} value={s}>{TASK_STATUS_LABELS[s]}</option>
+                                        ))}
+                                      </select>
+                                    )}
+                                    {task.status === 'done' && (
+                                      <div className="task-status-completed">Completed</div>
+                                    )}
                                   </div>
                                 </div>
                               )}

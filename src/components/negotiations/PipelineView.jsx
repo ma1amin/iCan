@@ -48,6 +48,12 @@ const PipelineView = ({ deals, onDealUpdate, onDealDelete }) => {
       return;
     }
 
+    // Prevent moving "won" or "lost" deals to other columns
+    const deal = deals.find(d => d.id === draggableId);
+    if (deal && (deal.stage === 'won' || deal.stage === 'lost')) {
+      return;
+    }
+
     // Update deal stage to match the destination column
     const stageProbabilities = {
       'prospecting': 20,
@@ -156,7 +162,7 @@ const PipelineView = ({ deals, onDealUpdate, onDealDelete }) => {
                       stageDeals.map((deal, index) => {
                         const contact = getContact(deal.contactId);
                         return (
-                          <Draggable key={deal.id} draggableId={deal.id} index={index}>
+                          <Draggable key={deal.id} draggableId={deal.id} index={index} isDragDisabled={deal.stage === 'won' || deal.stage === 'lost'}>
                             {(provided, snapshot) => (
                               <div
                                 ref={provided.innerRef}
@@ -214,19 +220,26 @@ const PipelineView = ({ deals, onDealUpdate, onDealDelete }) => {
                                   </div>
                                 )}
                                 <div className="deal-card-actions">
-                                  <select
-                                    className="deal-stage-select"
-                                    value={deal.stage}
-                                    onClick={(e) => e.stopPropagation()}
-                                    onChange={(e) => {
-                                      e.stopPropagation();
-                                      handleStageChange(deal.id, e.target.value);
-                                    }}
-                                  >
-                                    {DEAL_STAGES.map(s => (
-                                      <option key={s} value={s}>{DEAL_STAGE_LABELS[s]}</option>
-                                    ))}
-                                  </select>
+                                  {deal.stage !== 'won' && deal.stage !== 'lost' && (
+                                    <select
+                                      className="deal-stage-select"
+                                      value={deal.stage}
+                                      onClick={(e) => e.stopPropagation()}
+                                      onChange={(e) => {
+                                        e.stopPropagation();
+                                        handleStageChange(deal.id, e.target.value);
+                                      }}
+                                    >
+                                      {DEAL_STAGES.map(s => (
+                                        <option key={s} value={s}>{DEAL_STAGE_LABELS[s]}</option>
+                                      ))}
+                                    </select>
+                                  )}
+                                  {(deal.stage === 'won' || deal.stage === 'lost') && (
+                                    <div className={`deal-stage-completed ${deal.stage}`}>
+                                      {DEAL_STAGE_LABELS[deal.stage]}
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             )}
