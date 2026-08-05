@@ -3,17 +3,33 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background: #1B2130;
-  border-bottom: 1px solid #232838;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .admin-header-left {
   display: flex;
   align-items: center;
+  gap: 12px;
+}
+
+.admin-header-menu-toggle {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.admin-header-menu-toggle:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 .admin-header-title {
-  color: #E6E9F0;
+  color: var(--text-primary);
   font-size: 20px;
   font-weight: 600;
   margin: 0;
@@ -33,18 +49,18 @@
 }
 
 .admin-header-username {
-  color: #E6E9F0;
+  color: var(--text-primary);
   font-size: 14px;
   font-weight: 600;
 }
 
 .admin-header-email {
-  color: #8B92A8;
+  color: var(--text-secondary);
   font-size: 12px;
 }
 
 .admin-header-logout {
-  background: #E06166;
+  background: var(--accent-danger);
   color: #E6E9F0;
   border: none;
   border-radius: 6px;
@@ -56,5 +72,52 @@
 }
 
 .admin-header-logout:hover {
-  background: #C9555A;
+  filter: brightness(1.08);
+}
+
+/* Hamburger menu icon */
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 24px;
+  height: 20px;
+  justify-content: center;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 2px;
+  background: var(--text-secondary);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger-icon.open .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-icon.open .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.hamburger-icon.open .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-header {
+    padding: 12px 16px;
+  }
+
+  .admin-header-title {
+    font-size: 16px;
+  }
+
+  .admin-header-user {
+    display: none;
+  }
 }

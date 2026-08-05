@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
 import Sidebar from './Sidebar';
 import Header from './Header';
@@ -7,12 +7,13 @@ import './AppShell.css';
 
 const AppShell = ({ children }) => {
   const { currentView } = useAppContext();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
     <div className="app-shell">
-      <Sidebar />
+      <Sidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
       <div className="app-main">
-        <Header />
+        <Header onMenuToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
         <main className="app-content">
           {children}
         </main>

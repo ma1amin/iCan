@@ -4,6 +4,15 @@ import './AdminSidebar.css';
 
 const SimpleIcon = ({ icon }) => <span className="admin-nav-icon">{icon}</span>;
 
+// Hamburger menu icon component
+const HamburgerIcon = ({ isOpen }) => (
+  <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
+    <span className="hamburger-line"></span>
+    <span className="hamburger-line"></span>
+    <span className="hamburger-line"></span>
+  </div>
+);
+
 const ADMIN_NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: '📊', path: '/admin/dashboard' },
   { id: 'users', label: 'Users', icon: '👥', path: '/admin/users' },
@@ -11,9 +20,11 @@ const ADMIN_NAV_ITEMS = [
   { id: 'notifications', label: 'Notifications', icon: '🔔', path: '/admin/notifications' }
 ];
 
-const AdminSidebar = () => {
+const AdminSidebar = ({ isOpen, onToggle }) => {
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const actualIsOpen = isOpen !== undefined ? isOpen : internalIsOpen;
+  const actualOnToggle = onToggle || (() => setInternalIsOpen(!internalIsOpen));
 
   const getActiveView = () => {
     const path = location.pathname;
@@ -27,18 +38,19 @@ const AdminSidebar = () => {
   const activeView = getActiveView();
 
   const handleNavClick = () => {
-    setIsOpen(false);
+    actualOnToggle();
   };
 
   return (
-    <aside className={`admin-sidebar ${isOpen ? 'open' : ''}`}>
+    <aside className={`admin-sidebar ${actualIsOpen ? 'open' : ''}`}>
       <div className="admin-sidebar-header">
         <h2 className="admin-sidebar-title">Admin Panel</h2>
         <button 
           className="admin-sidebar-toggle"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={actualOnToggle}
+          aria-label={actualIsOpen ? 'Close menu' : 'Open menu'}
         >
-          {isOpen ? '✕' : '☰'}
+          <HamburgerIcon isOpen={actualIsOpen} />
         </button>
       </div>
 

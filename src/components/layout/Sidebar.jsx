@@ -17,6 +17,15 @@ const X = () => <span>✕</span>;
 const Menu = () => <span>☰</span>;
 const LogOut = () => <span>🚪</span>;
 
+// Hamburger menu icon component
+const HamburgerIcon = ({ isOpen }) => (
+  <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
+    <span className="hamburger-line"></span>
+    <span className="hamburger-line"></span>
+    <span className="hamburger-line"></span>
+  </div>
+);
+
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: '📊', path: '/dashboard' },
   { id: 'contacts', label: 'Contacts', icon: '👥', path: '/contacts' },
@@ -28,23 +37,25 @@ const NAV_ITEMS = [
   { id: 'profile', label: 'Profile', icon: '👤', path: '/profile' }
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onToggle }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { contacts } = useAppContext();
   const { logout, user } = useAuthContext();
   const { setCurrentView } = useAppContext();
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const actualIsOpen = isOpen !== undefined ? isOpen : internalIsOpen;
+  const actualOnToggle = onToggle || (() => setInternalIsOpen(!internalIsOpen));
 
   const handleNavClick = (viewId, path) => {
     setCurrentView(viewId);
-    setIsOpen(false);
+    actualOnToggle();
     navigate(path);
   };
 
   const handleLogout = () => {
     logout();
-    setIsOpen(false);
+    actualOnToggle();
   };
 
   const getActiveView = () => {
@@ -67,21 +78,21 @@ const Sidebar = () => {
     <>
       {/* Mobile backdrop */}
       <div 
-        className={`sidebar-backdrop ${isOpen ? 'show' : ''}`}
-        onClick={() => setIsOpen(false)}
+        className={`sidebar-backdrop ${actualIsOpen ? 'show' : ''}`}
+        onClick={actualOnToggle}
       />
       
       {/* Mobile menu button */}
       <button 
         className="sidebar-toggle mobile-only"
-        onClick={() => setIsOpen(true)}
+        onClick={actualOnToggle}
         aria-label="Open menu"
       >
-        <span className="sidebar-toggle-icon">☰</span>
+        <HamburgerIcon isOpen={false} />
       </button>
 
       {/* Sidebar */}
-      <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
+      <aside className={`sidebar ${actualIsOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <div>
             <Link to="/dashboard" className="sidebar-brand-link">
@@ -91,10 +102,10 @@ const Sidebar = () => {
           </div>
           <button 
             className="sidebar-close mobile-only"
-            onClick={() => setIsOpen(false)}
+            onClick={actualOnToggle}
             aria-label="Close menu"
           >
-            <span className="sidebar-close-icon">✕</span>
+            <HamburgerIcon isOpen={true} />
           </button>
         </div>
 
@@ -133,7 +144,7 @@ const Sidebar = () => {
                 className="sidebar-user-action"
                 onClick={() => {
                   navigate('/profile');
-                  setIsOpen(false);
+                  actualOnToggle();
                 }}
                 title="Profile"
               >
