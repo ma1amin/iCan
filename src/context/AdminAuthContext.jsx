@@ -49,7 +49,7 @@ export const AdminAuthProvider = ({ children }) => {
                 isAuthenticated: true,
                 isLoading: false
               }));
-            } else {
+            } else if (response.status === 401) {
               // Token invalid, clear auth state
               localStorage.removeItem(ADMIN_STORAGE_KEY);
               localStorage.removeItem('ican-admin-token');
@@ -59,15 +59,23 @@ export const AdminAuthProvider = ({ children }) => {
                 isAuthenticated: false,
                 isLoading: false
               }));
+            } else {
+              // Other error, keep user logged in but show error
+              console.error('Admin verification failed:', response.status);
+              setState(prev => ({
+                ...prev,
+                admin: parsed.admin,
+                isAuthenticated: true,
+                isLoading: false
+              }));
             }
           } catch (error) {
-            console.log('Admin token validation failed, clearing auth state');
-            localStorage.removeItem(ADMIN_STORAGE_KEY);
-            localStorage.removeItem('ican-admin-token');
+            console.log('Admin token validation failed, using cached data');
+            // Network error, keep user logged in with cached data
             setState(prev => ({
               ...prev,
-              admin: null,
-              isAuthenticated: false,
+              admin: parsed.admin,
+              isAuthenticated: true,
               isLoading: false
             }));
           }

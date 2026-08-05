@@ -1286,6 +1286,8 @@ app.get('/api/admin/feedback', authenticateAdminToken, async (req, res) => {
     if (status) where.status = status;
     if (priority) where.priority = priority;
 
+    console.log('Admin fetching feedback with filters:', where);
+
     const [feedback, total] = await Promise.all([
       withRetry(() => prisma.feedback.findMany({
         where,
@@ -1311,6 +1313,8 @@ app.get('/api/admin/feedback', authenticateAdminToken, async (req, res) => {
       withRetry(() => prisma.feedback.count({ where }))
     ]);
 
+    console.log('Admin feedback fetched successfully, count:', feedback.length);
+
     res.json({
       success: true,
       feedback,
@@ -1323,7 +1327,7 @@ app.get('/api/admin/feedback', authenticateAdminToken, async (req, res) => {
     });
   } catch (error) {
     console.error('Admin get feedback error:', error);
-    res.status(500).json({ error: 'Failed to fetch feedback' });
+    res.status(500).json({ error: 'Failed to fetch feedback', details: error.message });
   }
 });
 
