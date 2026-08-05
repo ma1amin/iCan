@@ -1,0 +1,121 @@
+.admin-notifications-loading,
+.admin-notifications-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #8B92A8;
+  font-size: 16px;
+}
+
+.admin-notifications-list {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-notifications-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.admin-notifications-header h1 {
+  color: #E6E9F0;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.mark-all-read-button {
+  background: #5B8DEF;
+  color: #E6E9F0;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.mark-all-read-button:hover {
+  background: #4A7BE0;
+}
+
+.admin-notifications-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-notification-card {
+  background: #1B2130;
+  border: 1px solid #232838;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.2s ease;
+}
+
+.admin-notification-card.unread {
+  background: rgba(91, 141, 239, 0.1);
+  border-left: 4px solid #5B8DEF;
+}
+
+.admin-notification-card:hover {
+  border-color: #2D3548;
+}
+
+.admin-notification-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.admin-notification-card-type {
+  color: #5B8DEF;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.admin-notification-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.notification-card-action {
+  background: #232838;
+  border: 1px solid #2D3548;
+  border-radius: 4px;
+  padding: 6px 12px;
+  color: #E6E9F0;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.notification-card-action:hover {
+  background: #2D3548;
+  border-color: #5B8DEF;
+}
+
+.notification-card-action.delete:hover {
+  background: #E06166;
+  border-color: #E06166;
+}
+
+.admin-notification-card-message {
+  color: #E6E9F0;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.admin-notification-card-time {
+  color: #545B70;
+  font-size: 12px;
+}

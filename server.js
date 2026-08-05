@@ -1405,6 +1405,77 @@ app.delete('/api/admin/feedback/:id', authenticateAdminToken, async (req, res) =
   }
 });
 
+// Admin Notifications API
+
+// Get admin notifications
+app.get('/api/admin/notifications', authenticateAdminToken, async (req, res) => {
+  try {
+    const notifications = await withRetry(() => prisma.notification.findMany({
+      where: { adminId: req.admin.adminId },
+      orderBy: { createdAt: 'desc' },
+      take: 50
+    }));
+
+    const unreadCount = notifications.filter(n => !n.read).length;
+
+    res.json({
+      success: true,
+      notifications,
+      unreadCount
+    });
+  } catch (error) {
+    console.error('Get admin notifications error:', error);
+    res.status(500).json({ error: 'Failed to fetch notifications' });
+  }
+});
+
+// Mark notification as read
+app.put('/api/admin/notifications/:id/read', authenticateAdminToken, async (req, res) => {
+  try {
+    await withRetry(() => prisma.notification.update({
+      where: { id: req.params.id },
+      data: { read: true }
+    }));
+
+    res.json({ success: true, message: 'Notification marked as read' });
+  } catch (error) {
+    console.error('Mark notification as read error:', error);
+    res.status(500).json({ error: 'Failed to mark notification as read' });
+  }
+});
+
+// Mark all notifications as read
+app.put('/api/admin/notifications/read-all', authenticateAdminToken, async (req, res) => {
+  try {
+    await withRetry(() => prisma.notification.updateMany({
+      where: { 
+        adminId: req.admin.adminId,
+        read: false
+      },
+      data: { read: true }
+    }));
+
+    res.json({ success: true, message: 'All notifications marked as read' });
+  } catch (error) {
+    console.error('Mark all notifications as read error:', error);
+    res.status(500).json({ error: 'Failed to mark all notifications as read' });
+  }
+});
+
+// Delete notification
+app.delete('/api/admin/notifications/:id', authenticateAdminToken, async (req, res) => {
+  try {
+    await withRetry(() => prisma.notification.delete({
+      where: { id: req.params.id }
+    }));
+
+    res.json({ success: true, message: 'Notification deleted successfully' });
+  } catch (error) {
+    console.error('Delete notification error:', error);
+    res.status(500).json({ error: 'Failed to delete notification' });
+  }
+});
+
 // Keep server running
 server.on('error', (err) => {
   console.error('Server error:', err);

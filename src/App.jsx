@@ -23,6 +23,7 @@ import AdminShell from './components/admin/AdminShell';
 import AdminDashboard from './components/admin/AdminDashboard';
 import UserManagement from './components/admin/UserManagement';
 import AdminFeedbackManagement from './components/admin/AdminFeedbackManagement';
+import AdminNotificationsList from './components/admin/AdminNotificationsList';
 import FeedbackList from './components/feedback/FeedbackList';
 
 function AppContent() {
@@ -183,6 +184,16 @@ function App() {
                   <AdminProtectedRoute>
                     <AdminShell>
                       <AdminFeedbackManagement />
+                    </AdminShell>
+                  </AdminProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/notifications"
+                element={
+                  <AdminProtectedRoute>
+                    <AdminShell>
+                      <AdminNotificationsList />
                     </AdminShell>
                   </AdminProtectedRoute>
                 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAdminAuthContext } from '../../context/AdminAuthContext';
+import AdminNotification from './AdminNotification';
 import './AdminHeader.css';
 
 const AdminHeader = () => {
@@ -15,6 +16,7 @@ const AdminHeader = () => {
         <h1 className="admin-header-title">iCan Admin Dashboard</h1>
       </div>
       <div className="admin-header-right">
+        <AdminNotification />
         <div className="admin-header-user">
           <span className="admin-header-username">{admin?.name}</span>
           <span className="admin-header-email">{admin?.email}</span>
