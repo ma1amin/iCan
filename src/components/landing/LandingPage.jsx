@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ThemeToggle from '../common/ThemeToggle';
 import Footer from '../common/Footer';
 import './LandingPage.css';
 
 const LandingPage = () => {
+  const [theme, setTheme] = useState(() => {
+    // Get theme from localStorage or system preference
+    const savedTheme = localStorage.getItem('ican-theme');
+    if (savedTheme) return savedTheme;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
+
+  // Sync theme with DOM on mount and when theme changes
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('ican-theme', newTheme);
+  };
+
   return (
     <div className="landing-page">
       {/* Header */}
@@ -15,7 +33,7 @@ const LandingPage = () => {
             <span className="landing-brand-tagline">Interact · Contact · Arrange · Negotiate</span>
           </div>
           <div className="landing-header-actions">
-            <ThemeToggle />
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
             <Link to="/login" className="btn btn-ghost">Login</Link>
             <Link to="/register" className="btn btn-primary">Sign Up</Link>
           </div>

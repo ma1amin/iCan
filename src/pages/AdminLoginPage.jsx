@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAdminAuthContext } from '../context/AdminAuthContext';
 import { useNavigate } from 'react-router-dom';
+import ThemeToggle from '../components/common/ThemeToggle';
 import './AdminLoginPage.css';
 
 const AdminLoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('ican-theme');
+    if (savedTheme) return savedTheme;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
   const { adminLogin, isLoading } = useAdminAuthContext();
   const navigate = useNavigate();
+
+  // Sync theme with DOM
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('ican-theme', newTheme);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +42,9 @@ const AdminLoginPage = () => {
 
   return (
     <div className="admin-login-page">
+      <div className="admin-login-theme-toggle">
+        <ThemeToggle theme={theme} onToggle={toggleTheme} />
+      </div>
       <div className="admin-login-container">
         <div className="admin-login-header">
           <h1>iCan Admin</h1>

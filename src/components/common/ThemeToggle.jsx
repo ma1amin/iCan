@@ -2,14 +2,15 @@ import React from 'react';
 import { useAppContext } from '../../context/AppContext';
 import './ThemeToggle.css';
 
-const ThemeToggle = () => {
+const ThemeToggle = ({ theme: propTheme, onToggle: propOnToggle }) => {
   const { settings, toggleTheme } = useAppContext();
-  const isDark = settings.theme === 'dark';
+  const isDark = propTheme ? propTheme === 'dark' : settings.theme === 'dark';
+  const handleToggle = propOnToggle || toggleTheme;
 
   return (
     <button 
       className="theme-toggle"
-      onClick={toggleTheme}
+      onClick={handleToggle}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >

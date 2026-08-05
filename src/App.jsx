@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider, useAppContext } from './context/AppContext';
 import { AuthProvider } from './context/AuthContext';
@@ -27,7 +27,14 @@ import AdminNotificationsList from './components/admin/AdminNotificationsList';
 import FeedbackList from './components/feedback/FeedbackList';
 
 function AppContent() {
-  const { currentView, loading } = useAppContext();
+  const { currentView, loading, settings } = useAppContext();
+
+  // Sync theme with DOM
+  useEffect(() => {
+    if (settings?.theme) {
+      document.documentElement.setAttribute('data-theme', settings.theme);
+    }
+  }, [settings?.theme]);
 
   if (loading) {
     return (

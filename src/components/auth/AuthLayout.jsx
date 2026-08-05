@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ThemeToggle from '../common/ThemeToggle';
 import Footer from '../common/Footer';
 import './AuthLayout.css';
 
 const AuthLayout = ({ children, title, subtitle }) => {
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('ican-theme');
+    if (savedTheme) return savedTheme;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
+
+  // Sync theme with DOM
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    localStorage.setItem('ican-theme', newTheme);
+  };
+
   return (
     <div className="auth-layout">
       {/* Header */}
@@ -14,7 +31,7 @@ const AuthLayout = ({ children, title, subtitle }) => {
             <span className="auth-brand-name">iCan</span>
             <span className="auth-brand-tagline">Interact · Contact · Arrange · Negotiate</span>
           </Link>
-          <ThemeToggle />
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
         </div>
       </header>
 

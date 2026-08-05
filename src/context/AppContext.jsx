@@ -5,7 +5,8 @@ import { contactsAPI, appointmentsAPI, interactionsAPI, tasksAPI, dealsAPI } fro
 const AppContext = createContext(null);
 
 const defaultSettings = {
-  theme: 'dark',
+  theme: localStorage.getItem('ican-theme') || 
+         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
   currency: 'USD',
   dateFormat: 'YYYY-MM-DD',
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -328,14 +329,17 @@ export const AppProvider = ({ children }) => {
 
   // Theme toggle
   const toggleTheme = useCallback(() => {
+    const newTheme = state.settings.theme === 'dark' ? 'light' : 'dark';
     setState(prev => ({
       ...prev,
       settings: {
         ...prev.settings,
-        theme: prev.settings.theme === 'dark' ? 'light' : 'dark'
+        theme: newTheme
       }
     }));
-  }, []);
+    // Save to localStorage
+    localStorage.setItem('ican-theme', newTheme);
+  }, [state.settings.theme]);
 
   // View management
   const setCurrentView = useCallback((view) => {
