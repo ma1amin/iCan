@@ -955,14 +955,17 @@ app.post('/api/admin/login', async (req, res) => {
 // Verify admin token
 app.get('/api/admin/verify', authenticateAdminToken, async (req, res) => {
   try {
-    const admin = await prisma.admin.findUnique({
+    console.log('Admin verification request for adminId:', req.admin.adminId);
+    const admin = await withRetry(() => prisma.admin.findUnique({
       where: { id: req.admin.adminId }
-    });
+    }));
 
     if (!admin) {
+      console.log('Admin not found for id:', req.admin.adminId);
       return res.status(404).json({ error: 'Admin not found' });
     }
 
+    console.log('Admin verified successfully:', admin.username);
     res.json({
       success: true,
       admin: {
@@ -974,7 +977,7 @@ app.get('/api/admin/verify', authenticateAdminToken, async (req, res) => {
     });
   } catch (error) {
     console.error('Admin verify error:', error);
-    res.status(500).json({ error: 'Admin verification failed' });
+    res.status(500).json({ error: 'Admin verification failed', details: error.message });
   }
 });
 
