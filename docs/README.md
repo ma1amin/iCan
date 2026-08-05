@@ -4,7 +4,7 @@ A comprehensive digital life and networking organization platform where the acro
 
 ## Version
 
-**Current Version: 3.2.0** (Admin dashboard and feedback system - 2026-08-05)
+**Current Version: 3.2.1** (Admin dashboard and feedback system - 2026-08-05)
 
 ## Vision
 
@@ -208,19 +208,31 @@ The iCan platform helps professionals manage their relationships, appointments, 
   - Better user experience for returning users
 - **Admin Dashboard**: Platform management system
   - Separate admin authentication system (/admin route)
-  - Platform statistics (users, subscription tiers, feedback metrics)
+  - Platform statistics dashboard with real-time data
   - User management with basic profile viewing only
   - Admin cannot access user data counts or actual data
+  - Subscription tier management (Free/Pro/Enterprise)
+  - User deletion with cascade
   - In-app notifications for new feedback
   - Secure admin account with dedicated credentials
+  - Separate JWT authentication for admin
+  - Admin login page with professional UI
+  - Professional admin UI with dark theme
+  - Responsive design for mobile devices
 - **Feedback System**: User feedback and support
   - User feedback submission with subject/category dropdowns
+  - Dynamic categories based on subject selection
   - 5-star rating system
   - Priority levels (High, Medium, Low) for admin triage
   - Admin can view, reply, delete, and close/archive feedback
   - Feedback privacy (only submitter and admin can see)
   - Unlimited feedback submissions per user
   - In-app admin notifications for new feedback
+  - Real-time notification badge with unread count
+  - Notification dropdown in admin header
+  - Full notifications page with management
+  - Professional feedback UI with dark theme
+  - Feedback list with admin reply display
 - **Prop Type Fixes**: Fixed React prop type warnings
   - Added datetime-local to Input component types
   - Fixed number field handling in forms
