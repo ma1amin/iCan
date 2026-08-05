@@ -39,6 +39,14 @@ export const AppProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const { user, tenant, isAuthenticated } = useAuthContext();
 
+  // Check URL path on mount to set correct currentView
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path === '/feedback') {
+      setState(prev => ({ ...prev, currentView: 'feedback' }));
+    }
+  }, []);
+
   // Load data from API
   const loadData = useCallback(async () => {
     if (!isAuthenticated || !tenant) {
