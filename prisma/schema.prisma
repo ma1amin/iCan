@@ -24,6 +24,7 @@ model Tenant {
   users     User[]
   contacts  Contact[]
   companies Company[]
+  feedback  Feedback[]
   
   @@index([slug])
   @@index([plan])
@@ -46,6 +47,7 @@ model User {
   interactions   Interaction[]
   tasks          Task[]
   deals          Deal[]
+  feedback       Feedback[]
   
   @@index([tenantId])
   @@index([email])
@@ -299,6 +301,9 @@ model Feedback {
   replyDate    DateTime?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([tenantId])
