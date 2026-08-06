@@ -4,6 +4,7 @@ import { useAppContext } from '../../context/AppContext';
 import { useAuthContext } from '../../context/AuthContext';
 import Button from '../common/Button';
 import ScrollReveal from '../common/ScrollReveal';
+import { Rocket, Users, Calendar, CheckSquare, GitBranch, Target, Check } from 'lucide-react';
 import './OnboardingFlow.css';
 
 const OnboardingFlow = () => {
@@ -18,7 +19,7 @@ const OnboardingFlow = () => {
     {
       title: 'Welcome to iCan!',
       description: 'Your comprehensive platform for managing relationships, appointments, tasks, and business negotiations.',
-      icon: '🚀',
+      icon: Rocket,
       content: (
         <div className="onboarding-welcome">
           <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
@@ -53,7 +54,7 @@ const OnboardingFlow = () => {
     {
       title: 'Contact Management',
       description: 'Build and maintain your professional network with comprehensive contact profiles.',
-      icon: '👥',
+      icon: Users,
       content: (
         <div className="onboarding-feature">
           <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
@@ -74,7 +75,7 @@ const OnboardingFlow = () => {
     {
       title: 'Calendar & Appointments',
       description: 'Never miss an important meeting or deadline with smart scheduling.',
-      icon: '📅',
+      icon: Calendar,
       content: (
         <div className="onboarding-feature">
           <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
@@ -95,7 +96,7 @@ const OnboardingFlow = () => {
     {
       title: 'Task Management',
       description: 'Stay organized and productive with Kanban-style task boards.',
-      icon: '✅',
+      icon: CheckSquare,
       content: (
         <div className="onboarding-feature">
           <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
@@ -116,7 +117,7 @@ const OnboardingFlow = () => {
     {
       title: 'Pipeline & Negotiations',
       description: 'Track your business deals and negotiations through the sales pipeline.',
-      icon: '💼',
+      icon: GitBranch,
       content: (
         <div className="onboarding-feature">
           <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
@@ -137,7 +138,7 @@ const OnboardingFlow = () => {
     {
       title: 'Get Started',
       description: 'Choose how you want to begin your journey with iCan.',
-      icon: '🎯',
+      icon: Target,
       content: (
         <div className="onboarding-setup">
           <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
@@ -277,7 +278,7 @@ const OnboardingFlow = () => {
                     index === currentStep ? 'active' : ''
                   } ${index < currentStep ? 'completed' : ''}`}
                 >
-                  {index < currentStep ? '✓' : index + 1}
+                  {index < currentStep ? <Check size={16} /> : index + 1}
                 </div>
               ))}
             </div>
@@ -286,7 +287,7 @@ const OnboardingFlow = () => {
 
         <ScrollReveal animation="fadeInSlideUp" delay={0.1}>
           <div className="onboarding-content">
-            <div className="onboarding-icon animate-pulse">{step.icon}</div>
+            <step.icon className="onboarding-icon animate-pulse" size={48} />
             <h1 className="onboarding-title">{step.title}</h1>
             <p className="onboarding-description">{step.description}</p>
             <div className="onboarding-body">

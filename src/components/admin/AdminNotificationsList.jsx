@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { MessageSquare, Bell } from 'lucide-react';
 import './AdminNotificationsList.css';
 
 const AdminNotificationsList = () => {
@@ -112,7 +113,11 @@ const AdminNotificationsList = () => {
             >
               <div className="admin-notification-card-header">
                 <div className="admin-notification-card-type">
-                  {notification.type === 'feedback' ? '💬 Feedback' : '📢 System'}
+                  {notification.type === 'feedback' ? (
+                    <><MessageSquare size={16} /> Feedback</>
+                  ) : (
+                    <><Bell size={16} /> System</>
+                  )}
                 </div>
                 <div className="admin-notification-card-actions">
                   {!notification.read && (

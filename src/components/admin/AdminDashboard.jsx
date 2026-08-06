@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Users, MessageSquare, Gift, Star, Building2, Inbox } from 'lucide-react';
 import './AdminDashboard.css';
 
-const StatCard = ({ title, value, icon, color }) => (
+const StatCard = ({ title, value, icon: Icon, color }) => (
   <div className="admin-stat-card">
     <div className="admin-stat-icon" style={{ color }}>
-      {icon}
+      <Icon size={24} />
     </div>
     <div className="admin-stat-content">
       <div className="admin-stat-title">{title}</div>
@@ -72,37 +73,37 @@ const AdminDashboard = () => {
         <StatCard
           title="Total Users"
           value={stats?.totalUsers || 0}
-          icon="👥"
+          icon={Users}
           color="#5B8DEF"
         />
         <StatCard
           title="Total Feedback"
           value={stats?.totalFeedback || 0}
-          icon="💬"
+          icon={MessageSquare}
           color="#34D399"
         />
         <StatCard
           title="Free Plan"
           value={usersByPlan.free || 0}
-          icon="🆓"
+          icon={Gift}
           color="#8B92A8"
         />
         <StatCard
           title="Pro Plan"
           value={usersByPlan.pro || 0}
-          icon="⭐"
+          icon={Star}
           color="#F0B429"
         />
         <StatCard
           title="Enterprise Plan"
           value={usersByPlan.enterprise || 0}
-          icon="🏢"
+          icon={Building2}
           color="#8B5CF6"
         />
         <StatCard
           title="Open Feedback"
           value={feedbackByStatus.open || 0}
-          icon="📬"
+          icon={Inbox}
           color="#34D399"
         />
       </div>

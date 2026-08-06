@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { MessageSquare, Bell, Check, X } from 'lucide-react';
 import './AdminNotification.css';
 
 const AdminNotification = () => {
@@ -106,7 +107,7 @@ const AdminNotification = () => {
         className="admin-notification-button"
         onClick={() => setIsOpen(!isOpen)}
       >
-        🔔
+        <Bell size={20} />
         {unreadCount > 0 && (
           <span className="admin-notification-badge">{unreadCount}</span>
         )}
@@ -139,7 +140,7 @@ const AdminNotification = () => {
                 >
                   <div className="admin-notification-content">
                     <span className="admin-notification-type">
-                      {notification.type === 'feedback' ? '💬' : '📢'}
+                      {notification.type === 'feedback' ? <MessageSquare size={16} /> : <Bell size={16} />}
                     </span>
                     <span className="admin-notification-message">
                       {notification.message}
@@ -151,7 +152,7 @@ const AdminNotification = () => {
                       onClick={() => markAsRead(notification.id)}
                       title="Mark as read"
                     >
-                      ✓
+                      <Check size={16} />
                     </button>
                   )}
                   <div className="admin-notification-time">
