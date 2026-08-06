@@ -328,7 +328,7 @@ The API server will run on `http://localhost:3001` and the frontend on `http://l
 The platform uses a full-stack architecture with:
 - **Frontend**: React (port 3000)
 - **Backend**: Express.js API (port 3001)
-- **Database**: PostgreSQL with Prisma ORM
+- **Database**: MySQL with Prisma ORM
 
 To run components separately:
 ```bash
@@ -408,16 +408,17 @@ Comprehensive documentation is available in the `docs/` folder:
 
 ## Technology Stack
 
-- **Frontend**: React 18 with modern hooks
-- **Routing**: React Router DOM for client-side routing
-- **State Management**: React Context API (AppContext, AuthContext)
-- **Authentication**: Custom auth system with multi-tenant support and JWT tokens
-- **Database**: PostgreSQL with Prisma ORM
-- **API**: Express.js RESTful API
-- **Security**: bcryptjs for password hashing, jsonwebtoken for JWT
-- **Styling**: CSS with custom design system and CSS variables for theming
-- **Date Handling**: Custom date utilities
-- **Type Safety**: Type definitions for all data structures
+- **Frontend**: ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) React 18 with modern hooks
+- **Routing**: ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white) React Router DOM for client-side routing
+- **State Management**: ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) React Context API (AppContext, AuthContext)
+- **Authentication**: ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white) Custom auth system with multi-tenant support and JWT tokens
+- **Database**: ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white) MySQL with Prisma ORM
+- **API**: ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white) Express.js RESTful API
+- **Security**: ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white) bcryptjs for password hashing, jsonwebtoken for JWT
+- **Styling**: ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) CSS with custom design system and CSS variables for theming
+- **Icons**: ![Lucide](https://img.shields.io/badge/Lucide-000000?style=for-the-badge&logo=lucide&logoColor=white) Lucide-react icons throughout the application
+- **Date Handling**: ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) Custom date utilities
+- **Type Safety**: ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) Type definitions for all data structures
 
 ## Color Scheme
 
