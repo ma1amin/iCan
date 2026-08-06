@@ -2,6 +2,34 @@
 
 Complete reference for all reusable UI components in the iCan platform.
 
+## Animation Best Practices (v3.5.0+)
+
+As of version 3.5.0, the platform follows these animation guidelines to eliminate blur effects:
+
+### No CSS Filters
+- No `filter: brightness()` or other CSS filters
+- Use color variables for theme-aware effects instead
+
+### No Transform Animations
+- No `transform: scale()`, `translateY()`, `rotate()` on interactive elements
+- Use opacity transitions for smooth effects
+- Prevents blur during state changes
+
+### Opacity-Only Animations
+- ScrollReveal uses opacity transitions only
+- Modal uses fadeIn animation instead of slideUp
+- Loading spinners use simple color changes, not transforms
+
+### Theme Consistency
+- All components use CSS variables for colors
+- Loading screens respect theme preferences
+- No hardcoded colors in any component
+
+### Performance
+- Reduced CSS animations improve performance
+- Smoother user experience without visual artifacts
+- Better accessibility with reduced motion support
+
 ## Component Categories
 
 ### Common Components
@@ -14,6 +42,37 @@ Structural components for application layout.
 Domain-specific components for each feature area.
 
 ## Common Components
+
+### AnimatedCounter
+
+Animated number counter component for statistics and metrics.
+
+#### Props
+
+```typescript
+interface AnimatedCounterProps {
+  value: number;
+  duration?: number;
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+}
+```
+
+#### Notes
+
+- Animates numbers from 0 to target value
+- Configurable animation duration
+- Supports prefixes and suffixes
+- Uses requestAnimationFrame for smooth animation
+- Performance optimized for large numbers
+
+#### Examples
+
+```jsx
+<AnimatedCounter value={1234} prefix="$" />
+<AnimatedCounter value={99.9} suffix="%" decimals={1} />
+```
 
 ### Button
 
@@ -40,6 +99,13 @@ interface ButtonProps {
 - **secondary**: Secondary action, gray background
 - **ghost**: Transparent background, visible on hover
 - **danger**: Destructive action, red background
+
+#### Notes
+
+- All button animations use smooth transitions without blur effects
+- No CSS filters or transform animations are used (v3.5.0+)
+- Loading state shows spinner overlay
+- Disabled state shows reduced opacity
 
 #### Sizes
 
@@ -96,6 +162,14 @@ interface ModalProps {
 - **medium**: 600px max width
 - **large**: 800px max width
 
+#### Notes
+
+- Modal uses fadeIn animation for smooth appearance (v3.5.0+)
+- No transform animations to avoid blur effects
+- Supports overlay click and escape key closing
+- Theme-aware colors using CSS variables
+- Backdrop has semi-transparent overlay
+
 #### Examples
 
 ```jsx
@@ -109,45 +183,180 @@ interface ModalProps {
 </Modal>
 ```
 
-### Card
+### ScrollReveal
 
-Card container component for grouping content.
+Scroll-triggered animation component for revealing content as users scroll.
 
 #### Props
 
 ```typescript
-interface CardProps {
+interface ScrollRevealProps {
   children: React.ReactNode;
-  title?: string;
-  actions?: React.ReactNode;
-  padding?: 'none' | 'small' | 'medium' | 'large';
-  hoverable?: boolean;
-  onClick?: () => void;
-  border?: boolean;
+  threshold?: number;
+  delay?: number;
+  animation?: 'fadeInSlideUp' | 'fadeIn' | 'slideUp' | 'scaleIn' | 'slideIn';
+  className?: string;
 }
 ```
+
+#### Animation Types
+
+- **fadeInSlideUp**: Fade in with slide up effect (default)
+- **fadeIn**: Simple fade in
+- **slideUp**: Slide up only
+- **scaleIn**: Scale in effect
+- **slideIn**: Slide in from side
+
+#### Notes
+
+- Uses Intersection Observer for performance
+- Animations only trigger once per element
+- All animations use opacity transitions only (v3.5.0+)
+- No transform animations to avoid blur effects
+- Respects prefers-reduced-motion media query
 
 #### Examples
 
 ```jsx
-// Basic card
-<Card>
-  <p>Card content here</p>
-</Card>
+// Basic scroll reveal
+<ScrollReveal>
+  <h2>Section Title</h2>
+  <p>Content that reveals on scroll</p>
+</ScrollReveal>
 
-// Card with title and actions
-<Card
-  title="Contact Information"
-  actions={<Button onClick={handleEdit}>Edit</Button>}
->
-  <ContactDetails contact={contact} />
-</Card>
+// With custom animation and delay
+<ScrollReveal animation="fadeIn" delay={200}>
+  <div>Delayed fade in content</div>
+</ScrollReveal>
 
-// Hoverable card
-<Card hoverable onClick={handleCardClick}>
-  <ContactSummary contact={contact} />
-</Card>
+// Staggered animations
+{items.map((item, index) => (
+  <ScrollReveal key={item.id} delay={index * 100}>
+    <Card>{item.content}</Card>
+  </ScrollReveal>
+))}
 ```
+
+### ShimmerBorder
+
+Animated gradient border component for visual emphasis.
+
+#### Props
+
+```typescript
+interface ShimmerBorderProps {
+  children: React.ReactNode;
+  color?: string;
+  speed?: number;
+  className?: string;
+}
+```
+
+#### Notes
+
+- Creates animated gradient border effect
+- Configurable color and animation speed
+- Used for highlighting important elements
+- Performance optimized with CSS animations
+- Theme-aware colors
+
+#### Examples
+
+```jsx
+<ShimmerBorder color="#5B8DEF">
+  <Card>Featured content</Card>
+</ShimmerBorder>
+```
+
+### ThemeToggle
+
+Theme switcher component for light/dark mode.
+
+#### Props
+
+```typescript
+interface ThemeToggleProps {
+  className?: string;
+}
+```
+
+#### Notes
+
+- Toggles between light and dark themes
+- Persists theme preference in localStorage
+- Syncs with system preference on first visit
+- Uses Sun/Moon icons from lucide-react
+- Works across all pages
+- No blur effects during theme switching (v3.5.0+)
+
+#### Examples
+
+```jsx
+<ThemeToggle />
+```
+
+## Layout Components
+
+### Header
+
+Application header component with navigation and actions.
+
+#### Props
+
+```typescript
+interface HeaderProps {
+  className?: string;
+}
+```
+
+#### Notes
+
+- Contains logo, navigation, and user actions
+- Responsive design with mobile menu
+- Theme toggle integration
+- Profile button for user settings
+- Logout functionality
+
+### Sidebar
+
+Navigation sidebar component with collapsible functionality.
+
+#### Props
+
+```typescript
+interface SidebarProps {
+  className?: string;
+}
+```
+
+#### Notes
+
+- Collapsible sidebar (desktop)
+- Mobile hamburger menu
+- Navigation to all main sections
+- Collapsed state persisted in localStorage
+- Smooth transitions (no blur effects in v3.5.0+)
+
+### Footer
+
+Application footer component with branding.
+
+#### Props
+
+```typescript
+interface FooterProps {
+  className?: string;
+}
+```
+
+#### Notes
+
+- "Made with ❤️ By InfoLogix" branding
+- Copyright notice
+- Consistent across all authenticated pages
+- Responsive design
+
+## Feature Components
 
 ### Badge
 

@@ -399,6 +399,34 @@ console.log('Appointments:', data.appointments.length)
 4. Ensure modal state is properly managed
 5. Test keyboard escape key
 
+### Blur Effects After Login
+
+**Problem**: Blur effects appear after login or during page transitions.
+
+**Solution**:
+1. Clear browser cache and reload
+2. Check for CSS filter effects in components
+3. Verify transform animations are not causing blur
+4. Ensure loading screens use CSS variables
+5. Check for backdrop-filter properties (removed in v3.5.0)
+6. Disable hardware acceleration in browser settings if persistent
+
+**Note**: As of version 3.5.0, all blur-causing CSS effects have been eliminated from the platform.
+
+### Theme Not Applying After Login
+
+**Problem**: Theme doesn't switch or persist after login.
+
+**Solution**:
+1. Check localStorage for 'ican-theme' key
+2. Verify theme toggle is properly connected to AppContext
+3. Ensure CSS variables are defined for both themes
+4. Check for hardcoded colors in component CSS files
+5. Verify theme synchronization across browser tabs
+6. Clear localStorage and reset theme preference
+
+**Note**: As of version 3.5.0, all loading screens and components use CSS variables for theme consistency.
+
 ## Sync Issues
 
 ### Cloud Sync Not Working
