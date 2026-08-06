@@ -231,13 +231,13 @@ button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #0B0E14;
+  background: var(--bg-primary);
 }
 
 .loading-spinner {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 16px;
-  color: #8B92A8;
+  color: var(--text-secondary);
 }
 
 /* Mobile utilities */

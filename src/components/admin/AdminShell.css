@@ -14,7 +14,7 @@
 
 .admin-backdrop.show {
   display: block;
-  animation: fadeIn 0.2s ease;
+  /* Removed animation to avoid blur effects */
 }
 
 .admin-main {

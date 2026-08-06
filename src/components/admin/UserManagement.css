@@ -9,12 +9,12 @@
   align-items: center;
   justify-content: center;
   min-height: 400px;
-  color: #8B92A8;
+  color: var(--text-secondary);
   font-size: 16px;
 }
 
 .user-management-error {
-  color: #E06166;
+  color: var(--accent-danger);
 }
 
 .user-management-header {
@@ -26,7 +26,7 @@
 }
 
 .user-management-title {
-  color: #E6E9F0;
+  color: var(--text-primary);
   font-size: 28px;
   font-weight: 700;
   margin: 0;

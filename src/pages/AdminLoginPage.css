@@ -104,7 +104,7 @@
 }
 
 .admin-login-button:hover:not(:disabled) {
-  filter: brightness(1.1);
+  /* No filter to avoid blur effects */
 }
 
 .admin-login-button:disabled {

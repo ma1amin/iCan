@@ -32,12 +32,11 @@
 }
 
 .btn-primary:hover:not(:disabled) {
-  filter: brightness(1.08);
   box-shadow: 0 0 20px rgba(91, 141, 239, 0.4);
 }
 
 .btn-primary:active:not(:disabled) {
-  transform: scale(0.97);
+  /* No transform to avoid blur effects */
 }
 
 .btn-secondary {
@@ -52,7 +51,7 @@
 }
 
 .btn-secondary:active:not(:disabled) {
-  transform: scale(0.97);
+  /* No transform to avoid blur effects */
 }
 
 .btn-ghost {
@@ -66,6 +65,10 @@
   color: var(--text-primary);
 }
 
+.btn-ghost:active:not(:disabled) {
+  /* No transform to avoid blur effects */
+}
+
 .btn-danger {
   background: var(--accent-danger);
   color: #08101F;
@@ -73,11 +76,11 @@
 }
 
 .btn-danger:hover:not(:disabled) {
-  filter: brightness(1.08);
+  /* No filter to avoid blur effects */
 }
 
 .btn-danger:active:not(:disabled) {
-  transform: scale(0.97);
+  /* No transform to avoid blur effects */
 }
 
 /* Sizes */

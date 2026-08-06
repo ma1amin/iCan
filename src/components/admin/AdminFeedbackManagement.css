@@ -9,12 +9,12 @@
   align-items: center;
   justify-content: center;
   min-height: 400px;
-  color: #8B92A8;
+  color: var(--text-secondary);
   font-size: 16px;
 }
 
 .admin-feedback-error {
-  color: #E06166;
+  color: var(--accent-danger);
 }
 
 .admin-feedback-header {

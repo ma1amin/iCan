@@ -3,20 +3,11 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: #141821;
-  color: #E6E9F0;
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .admin-loading .loading-spinner {
   font-size: 16px;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
+  /* Disabled pulse animation to avoid blur effects */
 }
