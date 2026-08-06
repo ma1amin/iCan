@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Phone, Mail, MessageSquare, Users, Calendar, CheckSquare, ClipboardList } from 'lucide-react';
 import { useAppContext } from '../../context/AppContext';
 import Modal from '../common/Modal';
 import Button from '../common/Button';
@@ -128,16 +129,16 @@ const ContactDetail = ({ contact, onClose, onEdit, onDelete }) => {
         <div className="contact-detail-section">
           <h3 className="contact-detail-section-title">Quick Log Interaction</h3>
           <div className="quick-log-buttons">
-            <Button variant="ghost" onClick={() => handleQuickLog('call')} icon="📞">
+            <Button variant="ghost" onClick={() => handleQuickLog('call')} icon={<Phone size={16} />}>
               Log Call
             </Button>
-            <Button variant="ghost" onClick={() => handleQuickLog('email')} icon="📧">
+            <Button variant="ghost" onClick={() => handleQuickLog('email')} icon={<Mail size={16} />}>
               Log Email
             </Button>
-            <Button variant="ghost" onClick={() => handleQuickLog('message')} icon="💬">
+            <Button variant="ghost" onClick={() => handleQuickLog('message')} icon={<MessageSquare size={16} />}>
               Log Message
             </Button>
-            <Button variant="ghost" onClick={() => handleQuickLog('meeting')} icon="👥">
+            <Button variant="ghost" onClick={() => handleQuickLog('meeting')} icon={<Users size={16} />}>
               Log Meeting
             </Button>
           </div>
@@ -156,7 +157,7 @@ const ContactDetail = ({ contact, onClose, onEdit, onDelete }) => {
               {/* Appointments */}
               {contactAppointments.map(appointment => (
                 <div key={appointment.id} className="activity-item appointment">
-                  <div className="activity-icon">📅</div>
+                  <div className="activity-icon"><Calendar size={16} /></div>
                   <div className="activity-content">
                     <div className="activity-title">{appointment.title}</div>
                     <div className="activity-meta">
@@ -170,7 +171,7 @@ const ContactDetail = ({ contact, onClose, onEdit, onDelete }) => {
               {/* Interactions */}
               {contactInteractions.map(interaction => (
                 <div key={interaction.id} className="activity-item interaction">
-                  <div className="activity-icon">💬</div>
+                  <div className="activity-icon"><MessageSquare size={16} /></div>
                   <div className="activity-content">
                     <div className="activity-title">{interaction.subject || interaction.type}</div>
                     <div className="activity-meta">
@@ -184,7 +185,9 @@ const ContactDetail = ({ contact, onClose, onEdit, onDelete }) => {
               {/* Tasks */}
               {contactTasks.map(task => (
                 <div key={task.id} className="activity-item task">
-                  <div className="activity-icon">{task.status === 'done' ? '✅' : '📋'}</div>
+                  <div className="activity-icon">
+                    {task.status === 'done' ? <CheckSquare size={16} /> : <ClipboardList size={16} />}
+                  </div>
                   <div className="activity-content">
                     <div className="activity-title">{task.title}</div>
                     <div className="activity-meta">

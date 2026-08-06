@@ -111,7 +111,7 @@
 }
 
 .activity-icon {
-  font-size: 18px;
+  color: var(--accent-primary);
   line-height: 1;
   flex-shrink: 0;
 }
