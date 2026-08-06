@@ -25,7 +25,7 @@
 
 .stat-label {
   font-size: 12px;
-  color: #8B92A8;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
@@ -33,19 +33,19 @@
   font-family: 'Space Grotesk', sans-serif;
   font-size: 20px;
   font-weight: 700;
-  color: #E6E9F0;
+  color: var(--text-primary);
 }
 
 .stat-in-progress {
-  color: #5B8DEF;
+  color: var(--accent-primary);
 }
 
 .stat-done {
-  color: #34D399;
+  color: var(--accent-success);
 }
 
 .stat-overdue {
-  color: #E06166;
+  color: var(--accent-danger);
 }
 
 .tasks-filters {
@@ -64,13 +64,13 @@
   font-family: 'Space Grotesk', sans-serif;
   font-size: 20px;
   font-weight: 600;
-  color: #E6E9F0;
+  color: var(--text-primary);
   margin: 0 0 8px 0;
 }
 
 .empty-state p {
   font-size: 14px;
-  color: #8B92A8;
+  color: var(--text-secondary);
   margin: 0;
 }
 

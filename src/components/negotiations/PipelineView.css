@@ -11,7 +11,7 @@
 .pipeline-column {
   display: flex;
   flex-direction: column;
-  background: #141821;
+  background: var(--bg-secondary);
   border-radius: 8px;
   min-height: 400px;
   height: 100%;
@@ -67,24 +67,23 @@
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
-  color: #545B70;
+  color: var(--text-muted);
   font-size: 14px;
   font-style: italic;
 }
 
 .pipeline-deal-card {
-  background: #1B2130;
+  background: var(--bg-tertiary);
   border-radius: 8px;
   padding: 16px;
   cursor: pointer;
-  transition: background 0.15s ease, transform 0.15s ease;
-  border: 1px solid #232838;
+  border: 1px solid var(--border-color);
 }
 
 .pipeline-deal-card:hover {
-  background: #232838;
+  background: var(--bg-hover);
   transform: translateY(-2px);
-  border-color: #2D3548;
+  border-color: var(--border-hover);
 }
 
 .deal-card-header {
@@ -98,7 +97,7 @@
 .deal-card-title {
   font-size: 14px;
   font-weight: 600;
-  color: #E6E9F0;
+  color: var(--text-primary);
   margin: 0;
   line-height: 1.4;
   flex: 1;
@@ -108,19 +107,19 @@
   font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
   font-weight: 700;
-  color: #34D399;
+  color: var(--accent-success);
 }
 
 .deal-card-contact {
   font-size: 12px;
-  color: #5B8DEF;
+  color: var(--accent-primary);
   font-weight: 500;
   margin-bottom: 4px;
 }
 
 .deal-card-company {
   font-size: 12px;
-  color: #8B92A8;
+  color: var(--text-secondary);
   margin-bottom: 8px;
 }
 
@@ -139,23 +138,23 @@
 
 .probability-label {
   font-size: 11px;
-  color: #8B92A8;
+  color: var(--text-secondary);
 }
 
 .probability-value {
   font-size: 12px;
   font-weight: 600;
-  color: #E6E9F0;
+  color: var(--text-primary);
 }
 
 .deal-card-close-date {
   font-size: 12px;
-  color: #8B92A8;
+  color: var(--text-secondary);
   font-family: 'JetBrains Mono', monospace;
 }
 
 .deal-card-close-date.overdue {
-  color: #E06166;
+  color: var(--accent-danger);
   font-weight: 600;
 }
 
@@ -168,11 +167,11 @@
 }
 
 .competitors-label {
-  color: #8B92A8;
+  color: var(--text-secondary);
 }
 
 .competitors-value {
-  color: #E6E9F0;
+  color: var(--text-primary);
 }
 
 .deal-card-tags {
@@ -184,8 +183,8 @@
 
 .deal-tag {
   font-size: 11px;
-  color: #8B92A8;
-  background: #0E1119;
+  color: var(--text-secondary);
+  background: var(--bg-tertiary);
   padding: 2px 8px;
   border-radius: 4px;
 }
@@ -194,48 +193,48 @@
   display: flex;
   gap: 8px;
   padding-top: 12px;
-  border-top: 1px solid #232838;
+  border-top: 1px solid var(--border-color);
 }
 
 .deal-stage-select {
   flex: 1;
   padding: 6px 8px;
-  background: #0E1119;
-  border: 1px solid #232838;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
   border-radius: 4px;
-  color: #E6E9F0;
+  color: var(--text-primary);
   font-size: 12px;
   cursor: pointer;
 }
 
 .deal-stage-select:hover {
-  border-color: #2D3548;
+  border-color: var(--border-hover);
 }
 
 .deal-stage-select:focus {
   outline: none;
-  border-color: #5B8DEF;
+  border-color: var(--accent-primary);
 }
 
 .deal-stage-completed {
   flex: 1;
   padding: 6px 8px;
-  background: #0E1119;
+  background: var(--bg-tertiary);
   border-radius: 4px;
-  color: #E6E9F0;
+  color: var(--text-primary);
   font-size: 12px;
   font-weight: 600;
   text-align: center;
 }
 
 .deal-stage-completed.won {
-  border: 1px solid #34D399;
-  color: #34D399;
+  border: 1px solid var(--accent-success);
+  color: var(--accent-success);
 }
 
 .deal-stage-completed.lost {
-  border: 1px solid #E06166;
-  color: #E06166;
+  border: 1px solid var(--accent-danger);
+  color: var(--accent-danger);
 }
 
 /* Responsive */
