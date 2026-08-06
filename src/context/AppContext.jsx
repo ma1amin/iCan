@@ -40,6 +40,23 @@ export const AppProvider = ({ children }) => {
   const [state, setState] = useState(initialState);
   const { user, tenant, isAuthenticated } = useAuthContext();
 
+  // Apply theme immediately on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('ican-theme');
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const effectiveTheme = savedTheme || systemTheme;
+    document.documentElement.setAttribute('data-theme', effectiveTheme);
+    
+    // Update settings with the effective theme
+    setState(prev => ({
+      ...prev,
+      settings: {
+        ...prev.settings,
+        theme: effectiveTheme
+      }
+    }));
+  }, []);
+
   // Check URL path on mount to set correct currentView
   useEffect(() => {
     const path = window.location.pathname;
