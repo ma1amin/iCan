@@ -71,7 +71,7 @@
 
 .admin-nav-item.active {
   background: var(--accent-primary);
-  color: #E6E9F0;
+  color: var(--text-primary);
 }
 
 .admin-nav-icon {
