@@ -3,12 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useAdminAuthContext } from '../../context/AdminAuthContext';
 import AdminNotification from './AdminNotification';
 import ThemeToggle from '../common/ThemeToggle';
-import { Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import './AdminHeader.css';
 
 const AdminHeader = ({ onMenuToggle }) => {
-  const { admin, adminLogout } = useAdminAuthContext();
-  const navigate = useNavigate();
+  const { admin } = useAdminAuthContext();
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem('ican-theme');
     if (savedTheme) return savedTheme;
@@ -26,11 +25,6 @@ const AdminHeader = ({ onMenuToggle }) => {
     localStorage.setItem('ican-theme', newTheme);
   };
 
-  const handleLogout = () => {
-    adminLogout();
-    navigate('/admin/login');
-  };
-
   return (
     <header className="admin-header">
       <div className="admin-header-left">
@@ -46,16 +40,6 @@ const AdminHeader = ({ onMenuToggle }) => {
       <div className="admin-header-right">
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
         <AdminNotification />
-        <div className="admin-header-user">
-          <span className="admin-header-username">{admin?.name}</span>
-          <span className="admin-header-email">{admin?.email}</span>
-        </div>
-        <button 
-          className="admin-header-logout"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
       </div>
     </header>
   );

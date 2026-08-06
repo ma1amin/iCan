@@ -26,7 +26,7 @@ import AdminFeedbackManagement from './components/admin/AdminFeedbackManagement'
 import AdminNotificationsList from './components/admin/AdminNotificationsList';
 import FeedbackList from './components/feedback/FeedbackList';
 
-// Apply theme immediately to prevent flash
+// Apply theme immediately to prevent flash and ensure consistency
 const applyTheme = () => {
   const savedTheme = localStorage.getItem('ican-theme');
   const theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -34,6 +34,13 @@ const applyTheme = () => {
 };
 
 applyTheme();
+
+// Listen for theme changes from other tabs/windows
+window.addEventListener('storage', (e) => {
+  if (e.key === 'ican-theme') {
+    applyTheme();
+  }
+});
 
 function AppContent() {
   const { currentView, loading, settings } = useAppContext();

@@ -85,6 +85,9 @@
 .admin-sidebar-footer {
   padding: 20px;
   border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .admin-sidebar-brand {
@@ -103,6 +106,54 @@
 .admin-sidebar-version {
   color: var(--text-muted);
   font-size: 11px;
+}
+
+.admin-sidebar-user-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-sidebar-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.admin-sidebar-user-name {
+  color: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-sidebar-user-email {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.admin-sidebar-logout {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.admin-sidebar-logout:hover {
+  background: var(--bg-hover);
+  color: var(--accent-danger);
+}
+
+.admin-sidebar-logout:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
 }
 
 @media (max-width: 768px) {

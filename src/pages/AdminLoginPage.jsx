@@ -4,6 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import ThemeToggle from '../components/common/ThemeToggle';
 import './AdminLoginPage.css';
 
+// Apply theme immediately to prevent flash
+const applyTheme = () => {
+  const savedTheme = localStorage.getItem('ican-theme');
+  const theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.setAttribute('data-theme', theme);
+};
+
+applyTheme();
+
 const AdminLoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -16,15 +25,20 @@ const AdminLoginPage = () => {
   const { adminLogin, isLoading } = useAdminAuthContext();
   const navigate = useNavigate();
 
-  // Sync theme with DOM
+  // Sync theme with DOM and localStorage
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
+    const savedTheme = localStorage.getItem('ican-theme');
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const effectiveTheme = savedTheme || systemTheme;
+    document.documentElement.setAttribute('data-theme', effectiveTheme);
+    setTheme(effectiveTheme);
+  }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
     localStorage.setItem('ican-theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
   };
 
   const handleSubmit = async (e) => {

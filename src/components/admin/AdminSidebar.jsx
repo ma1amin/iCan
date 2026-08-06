@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, MessageSquare, Bell, Menu, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAdminAuthContext } from '../../context/AdminAuthContext';
+import { LayoutDashboard, Users, MessageSquare, Bell, Menu, X, LogOut } from 'lucide-react';
 import './AdminSidebar.css';
 
 const ADMIN_NAV_ITEMS = [
@@ -12,6 +14,8 @@ const ADMIN_NAV_ITEMS = [
 
 const AdminSidebar = ({ isOpen, onToggle }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { admin, adminLogout } = useAdminAuthContext();
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const actualIsOpen = isOpen !== undefined ? isOpen : internalIsOpen;
   const actualOnToggle = onToggle || (() => setInternalIsOpen(!internalIsOpen));
@@ -29,6 +33,11 @@ const AdminSidebar = ({ isOpen, onToggle }) => {
 
   const handleNavClick = () => {
     actualOnToggle();
+  };
+
+  const handleLogout = () => {
+    adminLogout();
+    navigate('/admin/login');
   };
 
   return (
@@ -61,7 +70,21 @@ const AdminSidebar = ({ isOpen, onToggle }) => {
       <div className="admin-sidebar-footer">
         <div className="admin-sidebar-brand">
           <span className="admin-sidebar-logo">iCan</span>
-          <span className="admin-sidebar-version">v3.2.0</span>
+          <span className="admin-sidebar-version">v3.3.0</span>
+        </div>
+        <div className="admin-sidebar-user-section">
+          <div className="admin-sidebar-user-info">
+            <span className="admin-sidebar-user-name">{admin?.name || 'Admin'}</span>
+            <span className="admin-sidebar-user-email">{admin?.email || ''}</span>
+          </div>
+          <button 
+            className="admin-sidebar-logout"
+            onClick={handleLogout}
+            title="Logout"
+          >
+            <LogOut size={20} />
+            <span>Logout</span>
+          </button>
         </div>
       </div>
     </aside>

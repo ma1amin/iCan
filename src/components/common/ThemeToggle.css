@@ -17,8 +17,7 @@
 }
 
 .theme-toggle-icon {
-  font-size: 18px;
-  line-height: 1;
+  color: var(--text-primary);
 }
 
 [data-theme="light"] .theme-toggle {

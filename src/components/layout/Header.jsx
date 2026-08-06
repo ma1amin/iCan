@@ -1,19 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../context/AppContext';
 import { useAuthContext } from '../../context/AuthContext';
 import Button from '../common/Button';
 import ThemeToggle from '../common/ThemeToggle';
+import { Menu } from 'lucide-react';
 import './Header.css';
-
-// Hamburger menu icon component
-const HamburgerIcon = ({ isOpen }) => (
-  <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
-    <span className="hamburger-line"></span>
-    <span className="hamburger-line"></span>
-    <span className="hamburger-line"></span>
-  </div>
-);
 
 const Header = ({ onMenuToggle }) => {
   const location = useLocation();
@@ -27,7 +19,7 @@ const Header = ({ onMenuToggle }) => {
   });
 
   // Sync theme with DOM
-  React.useEffect(() => {
+  useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
@@ -58,7 +50,7 @@ const Header = ({ onMenuToggle }) => {
   };
 
   // Update currentView based on route
-  React.useEffect(() => {
+  useEffect(() => {
     const path = location.pathname;
     const viewMap = {
       '/dashboard': 'dashboard',
@@ -82,7 +74,7 @@ const Header = ({ onMenuToggle }) => {
           onClick={onMenuToggle}
           aria-label="Toggle menu"
         >
-          <HamburgerIcon isOpen={false} />
+          <Menu size={24} />
         </button>
         <h1 className="header-title">{getViewTitle()}</h1>
       </div>
