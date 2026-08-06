@@ -3,16 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAdminAuthContext } from '../../context/AdminAuthContext';
 import AdminNotification from './AdminNotification';
 import ThemeToggle from '../common/ThemeToggle';
+import { Menu, X } from 'lucide-react';
 import './AdminHeader.css';
-
-// Hamburger menu icon component
-const HamburgerIcon = ({ isOpen }) => (
-  <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
-    <span className="hamburger-line"></span>
-    <span className="hamburger-line"></span>
-    <span className="hamburger-line"></span>
-  </div>
-);
 
 const AdminHeader = ({ onMenuToggle }) => {
   const { admin, adminLogout } = useAdminAuthContext();
@@ -47,7 +39,7 @@ const AdminHeader = ({ onMenuToggle }) => {
           onClick={onMenuToggle}
           aria-label="Toggle menu"
         >
-          <HamburgerIcon isOpen={false} />
+          <Menu size={24} />
         </button>
         <h1 className="admin-header-title">iCan Admin Dashboard</h1>
       </div>

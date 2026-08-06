@@ -37,9 +37,9 @@
 }
 
 .stat-icon {
-  font-size: 24px;
   margin-bottom: 8px;
   display: inline-block;
+  color: var(--accent-primary);
 }
 
 .stat-label {

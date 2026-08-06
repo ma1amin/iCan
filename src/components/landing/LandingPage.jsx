@@ -5,6 +5,7 @@ import Footer from '../common/Footer';
 import ScrollReveal from '../common/ScrollReveal';
 import AnimatedCounter from '../common/AnimatedCounter';
 import ShimmerBorder from '../common/ShimmerBorder';
+import { Users, Calendar, MessageSquare, CheckSquare, GitBranch, Building2, Rocket, Target } from 'lucide-react';
 import './LandingPage.css';
 
 const LandingPage = () => {
@@ -80,7 +81,7 @@ const LandingPage = () => {
           <div className="landing-features-grid">
             <ScrollReveal animation="fadeInSlideUp" delay={0.1} className="stagger-1">
               <div className="landing-feature-card">
-                <div className="landing-feature-icon animate-pulse">👥</div>
+                <Users className="landing-feature-icon animate-pulse" size={40} />
                 <h3 className="landing-feature-title">Contact Management</h3>
                 <p className="landing-feature-description">
                   Comprehensive contact profiles with activity timelines, tags, and advanced search capabilities.
@@ -90,7 +91,7 @@ const LandingPage = () => {
             
             <ScrollReveal animation="fadeInSlideUp" delay={0.2} className="stagger-2">
               <div className="landing-feature-card">
-                <div className="landing-feature-icon animate-pulse">📅</div>
+                <Calendar className="landing-feature-icon animate-pulse" size={40} />
                 <h3 className="landing-feature-title">Calendar & Appointments</h3>
                 <p className="landing-feature-description">
                   Full calendar with multiple views, recurring events, reminders, and contact integration.
@@ -100,7 +101,7 @@ const LandingPage = () => {
             
             <ScrollReveal animation="fadeInSlideUp" delay={0.3} className="stagger-3">
               <div className="landing-feature-card">
-                <div className="landing-feature-icon animate-pulse">💬</div>
+                <MessageSquare className="landing-feature-icon animate-pulse" size={40} />
                 <h3 className="landing-feature-title">Interaction History</h3>
                 <p className="landing-feature-description">
                   Track every interaction with contacts - calls, emails, meetings, and messages in one place.
@@ -110,7 +111,7 @@ const LandingPage = () => {
             
             <ScrollReveal animation="fadeInSlideUp" delay={0.4} className="stagger-4">
               <div className="landing-feature-card">
-                <div className="landing-feature-icon animate-pulse">✅</div>
+                <CheckSquare className="landing-feature-icon animate-pulse" size={40} />
                 <h3 className="landing-feature-title">Task Management</h3>
                 <p className="landing-feature-description">
                   Kanban-style task board with priorities, due dates, and task linking to contacts and deals.
@@ -120,7 +121,7 @@ const LandingPage = () => {
             
             <ScrollReveal animation="fadeInSlideUp" delay={0.5} className="stagger-5">
               <div className="landing-feature-card">
-                <div className="landing-feature-icon animate-pulse">🌿</div>
+                <GitBranch className="landing-feature-icon animate-pulse" size={40} />
                 <h3 className="landing-feature-title">Pipeline & Negotiations</h3>
                 <p className="landing-feature-description">
                   Visual sales pipeline with deal tracking, probability management, and competitor analysis.
@@ -130,7 +131,7 @@ const LandingPage = () => {
             
             <ScrollReveal animation="fadeInSlideUp" delay={0.6} className="stagger-6">
               <div className="landing-feature-card">
-                <div className="landing-feature-icon animate-pulse">🏢</div>
+                <Building2 className="landing-feature-icon animate-pulse" size={40} />
                 <h3 className="landing-feature-title">Company Management</h3>
                 <p className="landing-feature-description">
                   Organize contacts by company, track company-level metrics, and manage business relationships.

@@ -3,6 +3,7 @@ import { useAppContext } from '../../context/AppContext';
 import Card from '../common/Card';
 import ScrollReveal from '../common/ScrollReveal';
 import AnimatedCounter from '../common/AnimatedCounter';
+import { Users, Calendar, CheckSquare, GitBranch } from 'lucide-react';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -32,7 +33,7 @@ const Dashboard = () => {
         <ScrollReveal animation="fadeInSlideUp" delay={0.1} className="stagger-1">
           <Card padding="medium">
             <div className="stat-card">
-              <div className="stat-icon animate-pulse">👥</div>
+              <Users className="stat-icon animate-pulse" size={24} />
               <div className="stat-label">Total Contacts</div>
               <div className="stat-value">
                 <AnimatedCounter end={stats.totalContacts} duration={1000} />
@@ -45,7 +46,7 @@ const Dashboard = () => {
         <ScrollReveal animation="fadeInSlideUp" delay={0.2} className="stagger-2">
           <Card padding="medium">
             <div className="stat-card">
-              <div className="stat-icon animate-pulse">📅</div>
+              <Calendar className="stat-icon animate-pulse" size={24} />
               <div className="stat-label">Appointments</div>
               <div className="stat-value">
                 <AnimatedCounter end={stats.totalAppointments} duration={1000} />
@@ -58,7 +59,7 @@ const Dashboard = () => {
         <ScrollReveal animation="fadeInSlideUp" delay={0.3} className="stagger-3">
           <Card padding="medium">
             <div className="stat-card">
-              <div className="stat-icon animate-pulse">✅</div>
+              <CheckSquare className="stat-icon animate-pulse" size={24} />
               <div className="stat-label">Tasks</div>
               <div className="stat-value">
                 <AnimatedCounter end={stats.totalTasks} duration={1000} />
@@ -71,7 +72,7 @@ const Dashboard = () => {
         <ScrollReveal animation="fadeInSlideUp" delay={0.4} className="stagger-4">
           <Card padding="medium">
             <div className="stat-card">
-              <div className="stat-icon animate-pulse">🌿</div>
+              <GitBranch className="stat-icon animate-pulse" size={24} />
               <div className="stat-label">Active Deals</div>
               <div className="stat-value">
                 <AnimatedCounter end={stats.activeDeals} duration={1000} />

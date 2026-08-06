@@ -1,23 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { LayoutDashboard, Users, MessageSquare, Bell, Menu, X } from 'lucide-react';
 import './AdminSidebar.css';
 
-const SimpleIcon = ({ icon }) => <span className="admin-nav-icon">{icon}</span>;
-
-// Hamburger menu icon component
-const HamburgerIcon = ({ isOpen }) => (
-  <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
-    <span className="hamburger-line"></span>
-    <span className="hamburger-line"></span>
-    <span className="hamburger-line"></span>
-  </div>
-);
-
 const ADMIN_NAV_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: '📊', path: '/admin/dashboard' },
-  { id: 'users', label: 'Users', icon: '👥', path: '/admin/users' },
-  { id: 'feedback', label: 'Feedback', icon: '💬', path: '/admin/feedback' },
-  { id: 'notifications', label: 'Notifications', icon: '🔔', path: '/admin/notifications' }
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard' },
+  { id: 'users', label: 'Users', icon: Users, path: '/admin/users' },
+  { id: 'feedback', label: 'Feedback', icon: MessageSquare, path: '/admin/feedback' },
+  { id: 'notifications', label: 'Notifications', icon: Bell, path: '/admin/notifications' }
 ];
 
 const AdminSidebar = ({ isOpen, onToggle }) => {
@@ -50,7 +40,7 @@ const AdminSidebar = ({ isOpen, onToggle }) => {
           onClick={actualOnToggle}
           aria-label={actualIsOpen ? 'Close menu' : 'Open menu'}
         >
-          <HamburgerIcon isOpen={actualIsOpen} />
+          {actualIsOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
@@ -62,7 +52,7 @@ const AdminSidebar = ({ isOpen, onToggle }) => {
             className={`admin-nav-item ${activeView === item.id ? 'active' : ''}`}
             onClick={handleNavClick}
           >
-            <SimpleIcon icon={item.icon} />
+            <item.icon className="admin-nav-icon" size={20} />
             <span className="admin-nav-label">{item.label}</span>
           </Link>
         ))}
