@@ -2,6 +2,148 @@
 
 All notable changes to the iCan platform will be documented in this file.
 
+## [3.4.0] - 2026-08-06
+
+### Theme System Fixes and Icon Modernization
+
+**Summary:**
+Comprehensive theme system improvements including icon modernization, blur effect removal, and theme consistency fixes across all pages.
+
+**Icon Modernization ✅**
+- Replaced all emoji icons with modern lucide-react icons throughout the application
+- Updated layout components (Sidebar, Header) with lucide-react icons (Menu, X, ChevronLeft, ChevronRight, LayoutDashboard, Users, Calendar, MessageSquare, CheckSquare, GitBranch, Building2, User, LogOut)
+- Updated admin components (AdminHeader, AdminSidebar) with lucide-react icons
+- Updated Dashboard stat icons with lucide-react components
+- Updated Landing Page feature icons with lucide-react icons
+- Updated Onboarding Flow step icons with lucide-react components
+- Updated Admin Dashboard stat icons with lucide-react components
+- Updated Admin Notification icons with lucide-react components
+- Updated Contact Detail activity icons with lucide-react components
+- Removed SimpleIcon component and hamburger icon CSS animations
+- Added lucide-react import across all components
+
+**Theme Switching Fixes ✅**
+- Fixed theme switching on user pages (blur effect and light mode issues)
+- Fixed onboarding flow for new user registration
+- Added theme toggle to admin pages
+- Fixed theme switching in all admin pages (login and internal)
+- Updated ThemeToggle component to work independently without AppContext
+- ThemeToggle now uses localStorage directly for consistency
+- Replaced emoji icons with Sun/Moon lucide-react icons in ThemeToggle
+- Added immediate theme application in AppContext on mount
+- Added storage event listener in App.jsx for cross-tab theme sync
+- Ensured user's theme choice before login is preserved after login
+
+**Admin Layout Improvements ✅**
+- Moved admin name and logout button from header to sidebar footer
+- Added admin user section with name and email at bottom of sidebar
+- Added logout button with LogOut icon in sidebar footer
+- Removed user info and logout from admin header
+- Admin header now only contains title, theme toggle, and notifications
+- Updated version to v3.4.0
+
+**Blur Effect Removal ✅**
+- Removed backdrop-filter blur from landing page header
+- Removed backdrop-filter blur from admin sidebar backdrop
+- Removed backdrop-filter blur from modal overlay
+- Removed box-shadow blur from mobile sidebar
+- Disabled ScrollReveal animations (set opacity to 1, transforms to 0)
+- Removed all 0.3s CSS transitions that were causing blur-like effects
+- Removed slide and scale animations that could cause blur-like effects
+- Sidebar on mobile no longer has shadow blur
+
+**Light Mode Consistency Fixes ✅**
+- Updated Modal component to use CSS variables for all colors
+- Modal background now uses var(--bg-secondary)
+- Modal borders use var(--border-color)
+- Modal text uses var(--text-primary) and var(--text-secondary)
+- Modal close button uses theme-aware colors
+- Modal scrollbar uses theme-aware colors
+- Updated Form component to use CSS variables for all colors
+- Form labels now use var(--text-secondary)
+- Form icons now use var(--text-muted)
+- Form inputs now use var(--bg-tertiary) for background
+- Form inputs now use var(--border-color) for borders
+- Form inputs now use var(--text-primary) for text color
+- Form placeholders now use var(--text-muted)
+- Form focus states now use var(--accent-primary)
+- Form checkboxes now use theme-aware colors
+- Form error states now use var(--accent-danger)
+- Form disabled states now use var(--bg-primary)
+- Updated Admin Login Page to use CSS variables
+- Removed hardcoded gradient background
+- All text colors use theme-aware variables
+- Input fields use var(--bg-tertiary) and var(--border-color)
+
+**Page-Specific Theme Fixes ✅**
+- Updated Calendar View to use CSS variables for all colors
+- Updated Tasks View to use CSS variables for all colors
+- Updated Pipeline View to use CSS variables for all colors
+- Updated Feedback List to use CSS variables for all colors
+- Removed transitions causing blur effects from all pages
+- Updated backgrounds to use var(--bg-secondary), var(--bg-tertiary)
+- Updated borders to use var(--border-color)
+- Removed box-shadow blur from interactive elements
+
+**Admin Notification Improvements ✅**
+- Removed delete (x) button from notification items
+- Made notifications disappear when marked as read
+- Added auto-close on screen click
+- Enhanced notification UI with lucide-react icons
+
+**Files Modified:**
+- src/components/layout/Sidebar.jsx - Replaced all icons with lucide-react
+- src/components/layout/Sidebar.css - Removed hamburger CSS, updated styling
+- src/components/layout/Header.jsx - Replaced hamburger with lucide-react icon
+- src/components/layout/Header.css - Removed hamburger CSS
+- src/components/admin/AdminHeader.jsx - Replaced icons with lucide-react, removed user/logout
+- src/components/admin/AdminHeader.css - Removed user/logout styles
+- src/components/admin/AdminSidebar.jsx - Added user section, replaced icons
+- src/components/admin/AdminSidebar.css - Added user section styles
+- src/components/dashboard/Dashboard.jsx - Replaced stat icons with lucide-react
+- src/components/dashboard/Dashboard.css - Updated icon styling
+- src/components/landing/LandingPage.jsx - Replaced feature icons with lucide-react
+- src/components/landing/LandingPage.css - Updated icon styling, removed blur
+- src/components/onboarding/OnboardingFlow.jsx - Replaced step icons with lucide-react
+- src/components/onboarding/OnboardingFlow.css - Updated icon styling
+- src/components/admin/AdminDashboard.jsx - Replaced stat icons with lucide-react
+- src/components/admin/AdminNotification.jsx - Replaced notification icons
+- src/components/admin/AdminNotification.css - Updated icon styling
+- src/components/admin/AdminNotificationsList.jsx - Replaced type icons
+- src/components/contacts/ContactDetail.jsx - Replaced activity icons
+- src/components/contacts/ContactDetail.css - Updated icon styling
+- src/components/common/ThemeToggle.jsx - Made independent, added lucide-react icons
+- src/components/common/ThemeToggle.css - Updated icon styling
+- src/components/common/Modal.css - Updated to use CSS variables, removed blur
+- src/App.jsx - Added storage event listener
+- src/context/AppContext.jsx - Added immediate theme application
+- src/pages/AdminLoginPage.css - Updated to use CSS variables
+- src/components/common/Form.css - Updated to use CSS variables
+- src/components/common/Form.jsx - No changes needed
+- src/styles/global.css - Removed body transitions
+- src/components/layout/AppShell.css - Removed transitions
+- src/components/auth/AuthLayout.css - Removed transitions
+- src/components/common/Footer.css - Removed transitions
+- src/components/user/UserProfile.css - Removed transitions
+- src/components/layout/Sidebar.css - Updated transitions, removed shadow
+- src/components/admin/AdminSidebar.css - Updated transitions
+- src/components/onboarding/OnboardingFlow.css - Updated transitions
+- src/components/common/ScrollReveal.css - Disabled animations
+- src/components/calendar/CalendarView.css - Full theme variable update
+- src/components/tasks/TasksView.css - Updated colors to CSS variables
+- src/components/negotiations/PipelineView.css - Full theme variable update
+- src/components/feedback/FeedbackList.css - Full theme variable update
+
+**Technical Improvements:**
+- Improved theme system consistency across all pages
+- Eliminated blur effects that were causing visual issues
+- Enhanced accessibility with modern icon system
+- Better performance with reduced CSS transitions
+- Improved light mode support throughout the application
+- Enhanced user experience with instant theme switching
+
+---
+
 ## [3.3.0] - 2026-08-05
 
 ### Comprehensive UI/UX Enhancement - Complete Implementation
