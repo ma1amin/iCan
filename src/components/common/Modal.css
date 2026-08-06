@@ -7,7 +7,6 @@
   justify-content: center;
   z-index: 1000;
   padding: 16px;
-  backdrop-filter: blur(2px);
   animation: fadeIn 0.2s ease;
 }
 
@@ -21,8 +20,8 @@
 }
 
 .modal-box {
-  background: #141821;
-  border: 1px solid #232838;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 14px;
   width: 100%;
   max-height: 90vh;
@@ -61,7 +60,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
-  border-bottom: 1px solid #1B1F2B;
+  border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
 }
 
@@ -69,14 +68,14 @@
   font-family: 'Space Grotesk', sans-serif;
   font-size: 18px;
   font-weight: 700;
-  color: #E6E9F0;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .modal-close {
   background: none;
   border: none;
-  color: #8B92A8;
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -87,12 +86,12 @@
 }
 
 .modal-close:hover {
-  background: #1B2130;
-  color: #E6E9F0;
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 .modal-close:focus-visible {
-  outline: 2px solid #5B8DEF;
+  outline: 2px solid var(--accent-primary);
   outline-offset: 2px;
 }
 
@@ -108,10 +107,10 @@
 }
 
 .modal-box::-webkit-scrollbar-thumb {
-  background: #232838;
+  background: var(--border-color);
   border-radius: 3px;
 }
 
 .modal-box::-webkit-scrollbar-thumb:hover {
-  background: #2C3348;
+  background: var(--border-hover);
 }

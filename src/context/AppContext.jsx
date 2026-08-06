@@ -92,6 +92,11 @@ export const AppProvider = ({ children }) => {
     loadData();
   }, [loadData]);
 
+  // Apply theme to DOM immediately when it changes
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', state.settings.theme);
+  }, [state.settings.theme]);
+
   // Reload data when storage event occurs (for tenant changes)
   useEffect(() => {
     const handleStorageChange = () => {
@@ -337,8 +342,9 @@ export const AppProvider = ({ children }) => {
         theme: newTheme
       }
     }));
-    // Save to localStorage
+    // Save to localStorage and apply to DOM immediately
     localStorage.setItem('ican-theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
   }, [state.settings.theme]);
 
   // View management
