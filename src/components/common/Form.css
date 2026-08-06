@@ -11,13 +11,13 @@
 .form-label {
   display: block;
   font-size: 12px;
-  color: #8B92A8;
+  color: var(--text-secondary);
   margin-bottom: 6px;
   font-weight: 500;
 }
 
 .form-required {
-  color: #E06166;
+  color: var(--accent-danger);
   margin-left: 2px;
 }
 
@@ -31,7 +31,7 @@
 .form-input-icon {
   position: absolute;
   left: 12px;
-  color: #545B70;
+  color: var(--text-muted);
   pointer-events: none;
   display: flex;
   align-items: center;
@@ -42,12 +42,12 @@
 .form-select,
 .form-textarea {
   width: 100%;
-  background: #0E1119;
-  border: 1px solid #232838;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 8px 12px;
   font-size: 14px;
-  color: #E6E9F0;
+  color: var(--text-primary);
   font-family: 'Inter', sans-serif;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -61,13 +61,13 @@
 .form-select:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: #5B8DEF;
+  border-color: var(--accent-primary);
   box-shadow: 0 0 0 3px rgba(91, 141, 239, 0.1);
 }
 
 .form-input::placeholder,
 .form-textarea::placeholder {
-  color: #545B70;
+  color: var(--text-muted);
 }
 
 /* Input with icon */
@@ -79,13 +79,13 @@
 .form-input-error,
 .form-select.form-input-error,
 .form-textarea.form-input-error {
-  border-color: #E06166;
+  border-color: var(--accent-danger);
 }
 
 .form-input-error:focus,
 .form-select.form-input-error:focus,
 .form-textarea.form-input-error:focus {
-  border-color: #E06166;
+  border-color: var(--accent-danger);
   box-shadow: 0 0 0 3px rgba(224, 97, 102, 0.1);
 }
 
@@ -95,7 +95,7 @@
 .form-textarea.form-input-disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #0B0E14;
+  background: var(--bg-primary);
 }
 
 /* Full width */
@@ -138,15 +138,15 @@
 .form-checkbox {
   width: 16px;
   height: 16px;
-  border: 1px solid #232838;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
-  background: #0E1119;
+  background: var(--bg-tertiary);
   cursor: pointer;
-  accent-color: #5B8DEF;
+  accent-color: var(--accent-primary);
 }
 
 .form-checkbox:focus {
-  outline: 2px solid #5B8DEF;
+  outline: 2px solid var(--accent-primary);
   outline-offset: 2px;
 }
 
@@ -157,14 +157,14 @@
 
 .form-checkbox-text {
   font-size: 14px;
-  color: #E6E9F0;
+  color: var(--text-primary);
 }
 
 /* Error message */
 .form-error {
   display: block;
   font-size: 12px;
-  color: #E06166;
+  color: var(--accent-danger);
   margin-top: 4px;
 }
 
