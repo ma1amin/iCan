@@ -4,7 +4,7 @@
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease;
+  transition: width 0.2s ease;
 }
 
 .admin-sidebar-header {

@@ -58,7 +58,7 @@
   flex-direction: column;
   padding: 20px 16px;
   z-index: 70;
-  transition: width 0.3s ease, transform 0.2s ease, background 0.3s ease;
+  transition: width 0.2s ease;
 }
 
 .sidebar.collapsed {

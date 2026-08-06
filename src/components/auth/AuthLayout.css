@@ -4,7 +4,6 @@
   color: var(--text-primary);
   display: flex;
   flex-direction: column;
-  transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Header */
@@ -16,7 +15,6 @@
   background: var(--bg-primary);
   border-bottom: 1px solid var(--border-color);
   z-index: 100;
-  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .auth-header-content {
@@ -71,7 +69,6 @@
   border-radius: 12px;
   padding: 40px;
   box-shadow: var(--shadow-lg);
-  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .auth-card-header {

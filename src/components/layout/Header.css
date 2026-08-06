@@ -7,7 +7,6 @@
   border-bottom: 1px solid var(--border-color);
   background: var(--bg-primary);
   flex-wrap: wrap;
-  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .header-left {
